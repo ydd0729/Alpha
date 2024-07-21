@@ -12,6 +12,7 @@ namespace MyFirstAARPG
         None,
         Stand,
         Walk,
+        Run,
         RandomIndex,
         LastIndex,
         StepLeft,

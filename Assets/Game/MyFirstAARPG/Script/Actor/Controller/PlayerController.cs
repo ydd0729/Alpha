@@ -9,6 +9,12 @@ namespace MyFirstAARPG
     {
         // [SerializeField] private PlayerActions playerActions;
         [SerializeField] private Vector2 rotationEulerAngleXLimit;
+        
+        private void OnValidate()
+        {
+            rotationEulerAngleXLimit.x = Math.Clamp(rotationEulerAngleXLimit.x, -90, 0);
+            rotationEulerAngleXLimit.y = Math.Clamp(rotationEulerAngleXLimit.y, 0, 90);
+        }
 
         public PlayerActions PlayerActions { private get; set; }
 
@@ -20,15 +26,21 @@ namespace MyFirstAARPG
             
             PlayerActions.Move += PlayerActionsOnMove;
             PlayerActions.LookAround += PlayerActionsOnLookAround;
+            PlayerActions.ToggleWalkRun += PlayerActionsOnToggleWalkRun;
             
             followCamera.Target = new CameraTarget() { TrackingTarget = transform, CustomLookAtTarget = false };
         }
 
-        private void PlayerActionsOnMove(object sender, Vector2 moveVector)
+        private void PlayerActionsOnToggleWalkRun(object sender, EventArgs e)
         {
-            LocalMoveDirection = new Vector3(moveVector.x, 0, moveVector.y);
+            MoveState = MoveState switch
+            {
+                MoveState.Walk => MoveState.Run,
+                MoveState.Run => MoveState.Walk,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
-
+        
         private void PlayerActionsOnLookAround(object sender, Vector2 delta)
         {
             var rotation = transform.rotation.eulerAngles;
@@ -41,10 +53,9 @@ namespace MyFirstAARPG
             transform.rotation = Quaternion.Euler(rotation);
         }
 
-        private void OnValidate()
+        private void PlayerActionsOnMove(object sender, Vector2 moveVector)
         {
-            rotationEulerAngleXLimit.x = Math.Clamp(rotationEulerAngleXLimit.x, -90, 0);
-            rotationEulerAngleXLimit.y = Math.Clamp(rotationEulerAngleXLimit.y, 0, 90);
+            LocalMoveDirection = new Vector3(moveVector.x, 0, moveVector.y);
         }
     }
 }

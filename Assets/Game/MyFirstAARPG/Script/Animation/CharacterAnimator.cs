@@ -41,6 +41,11 @@ namespace MyFirstAARPG
         {
             TransitionTo(WalkState);
         }
+        
+        public void Run()
+        {
+            TransitionTo(RunState);
+        }
 
         public void Stand()
         {
@@ -70,9 +75,11 @@ namespace MyFirstAARPG
         }
         
         private WalkState walkState;
+        private RunState runState;
         private StandState standState;
 
         private WalkState WalkState => walkState ??= new(this);
+        private RunState RunState => runState ??= new(this);
         private StandState StandState => standState ??= new(this);
         
         private void OnAnimationStateChanged(AnimationStateChangedEventArgs e)
@@ -86,28 +93,24 @@ namespace MyFirstAARPG
             {
                 case AnimationClipEventType.StepLeft:
                 {
-                    // Debug.Log("StepLeft");
                     animator.SetBool(AnimatorParameterName.StepLeft.GetId(), true); 
                     animator.SetBool(AnimatorParameterName.StepRight.GetId(), false); 
                     break;
                 }
                 case AnimationClipEventType.StepRight:
                 {
-                    // Debug.Log("StepRight");
                     animator.SetBool(AnimatorParameterName.StepLeft.GetId(), false); 
                     animator.SetBool(AnimatorParameterName.StepRight.GetId(), true);
                     break;
                 }
                 case AnimationClipEventType.StepLeftMiddle:
                 {
-                    // Debug.Log("StepLeftMiddle");
                     animator.SetBool(AnimatorParameterName.StepLeftMiddle.GetId(), true); 
                     animator.SetBool(AnimatorParameterName.StepRightMiddle.GetId(), false);
                     break;
                 }
                 case AnimationClipEventType.StepRightMiddle:
                 {
-                    // Debug.Log("StepRightMiddle");
                     animator.SetBool(AnimatorParameterName.StepLeftMiddle.GetId(), false); 
                     animator.SetBool(AnimatorParameterName.StepRightMiddle.GetId(), true);
                     break;

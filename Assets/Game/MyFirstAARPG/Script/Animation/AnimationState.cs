@@ -16,6 +16,9 @@ namespace MyFirstAARPG
         {
             characterAnimator.Animator.SetBool(StateParameterName.GetId(), true);
             // characterAnimator.Animator.applyRootMotion = ApplyRootMotion;
+            
+            characterAnimator.Animator.SetInteger(AnimatorParameterName.RandomIndex.GetId(), 0);
+            characterAnimator.Animator.SetInteger(AnimatorParameterName.LastIndex.GetId(), 0);
         }
 
         public virtual void Exit()
@@ -25,7 +28,7 @@ namespace MyFirstAARPG
         }
         
         protected readonly CharacterAnimator characterAnimator;
-        protected abstract bool ApplyRootMotion { get; }
+        // protected abstract bool ApplyRootMotion { get; }
     }
     
     public class StandState : AnimationState
@@ -36,15 +39,7 @@ namespace MyFirstAARPG
         
         public override AnimatorParameterName StateParameterName => AnimatorParameterName.Stand;
 
-        public override void Enter()
-        {
-            base.Enter();
-            
-            characterAnimator.Animator.SetInteger(AnimatorParameterName.RandomIndex.GetId(), 0);
-            characterAnimator.Animator.SetInteger(AnimatorParameterName.LastIndex.GetId(), 0);
-        }
-
-        protected override bool ApplyRootMotion => false;
+        // protected override bool ApplyRootMotion => false;
     }
 
     public class WalkState : AnimationState
@@ -55,14 +50,17 @@ namespace MyFirstAARPG
         
         public override AnimatorParameterName StateParameterName => AnimatorParameterName.Walk;
 
-        public override void Enter()
+        // protected override bool ApplyRootMotion => true;
+    }
+    
+    public class RunState : AnimationState
+    {
+        public RunState(CharacterAnimator characterAnimator) : base(characterAnimator)
         {
-            base.Enter();
-            
-            characterAnimator.Animator.SetInteger(AnimatorParameterName.RandomIndex.GetId(), 0);            
-            characterAnimator.Animator.SetInteger(AnimatorParameterName.LastIndex.GetId(), 0);
         }
+        
+        public override AnimatorParameterName StateParameterName => AnimatorParameterName.Run;
 
-        protected override bool ApplyRootMotion => true;
+        // protected override bool ApplyRootMotion => true;
     }
 }

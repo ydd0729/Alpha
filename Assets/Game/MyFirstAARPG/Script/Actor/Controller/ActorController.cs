@@ -15,6 +15,8 @@ namespace MyFirstAARPG
             FollowCharacterVisualPosition();
         }
 
+        protected MoveState MoveState;
+
         protected virtual void Update()
         {
             FollowCharacterVisualPosition();
@@ -25,12 +27,23 @@ namespace MyFirstAARPG
                 {
                     rotationTask.SetTask(VisualObjectRotation, CharacterTargetRotation, timeToRotate);
                 }
-                else if (rotationTask.Executing)
+
+                if (rotationTask.Executing)
                 {
                     VisualObjectRotation = rotationTask.Execute(Time.deltaTime);
                 }
-                
-                Character.CharacterAnimator.Walk();
+
+                switch (MoveState)
+                {
+                    case MoveState.Walk:
+                        Character.CharacterAnimator.Walk();
+                        break;
+                    case MoveState.Run:
+                        Character.CharacterAnimator.Run();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             else
             {
@@ -39,9 +52,11 @@ namespace MyFirstAARPG
         }
 
         protected Character Character { get; private set; }
-        
+
         protected Vector3 LocalMoveDirection { get; set; } = Vector3.zero;
-        
+
+        private RotationTask rotationTask;
+
         private void FollowCharacterVisualPosition()
         {
             transform.position = Character.VisualObject.transform.position;
@@ -52,15 +67,14 @@ namespace MyFirstAARPG
             get => Character.VisualObject.transform.rotation;
             set => Character.VisualObject.transform.rotation = value;
         }
-        
+
         private Quaternion CharacterTargetRotation =>
             Quaternion.LookRotation(transform.TransformDirection(LocalMoveDirection).Ground());
-
-        private RotationTask rotationTask;
 
         private struct RotationTask
         {
             private Quaternion origin;
+
             // private float angle;
             private float rotationTime;
             private float timePassed;
@@ -86,8 +100,14 @@ namespace MyFirstAARPG
                     Executing = false;
                 }
 
-                return Quaternion.Slerp(origin,Target, Math.Min(timePassed / rotationTime, 1));
+                return Quaternion.Slerp(origin, Target, Math.Min(timePassed / rotationTime, 1));
             }
         }
+    }
+
+    public enum MoveState
+    {
+        Walk,
+        Run
     }
 }

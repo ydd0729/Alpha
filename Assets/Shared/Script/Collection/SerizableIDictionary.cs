@@ -303,6 +303,11 @@ namespace Shared.Collections
 
         protected override void GenerateWarningText()
         {
+            if (list == null)
+            {
+                return;
+            }
+            
             Dictionary<TKey, List<int>> keyIndex = new();
             StringBuilder warningTextBuilder = new();
 

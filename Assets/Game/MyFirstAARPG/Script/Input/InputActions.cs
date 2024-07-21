@@ -119,6 +119,15 @@ namespace MyFirstAARPG
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleWalkRun"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d554610-d0f6-43e2-9839-84aa6a1004a8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -515,6 +524,17 @@ namespace MyFirstAARPG
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""LookAround"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9e812de-b1b8-449a-945c-801c3bd5addc"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleWalkRun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1112,6 +1132,7 @@ namespace MyFirstAARPG
             m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
             m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
             m_Player_LookAround = m_Player.FindAction("LookAround", throwIfNotFound: true);
+            m_Player_ToggleWalkRun = m_Player.FindAction("ToggleWalkRun", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1201,6 +1222,7 @@ namespace MyFirstAARPG
         private readonly InputAction m_Player_Next;
         private readonly InputAction m_Player_Sprint;
         private readonly InputAction m_Player_LookAround;
+        private readonly InputAction m_Player_ToggleWalkRun;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
@@ -1215,6 +1237,7 @@ namespace MyFirstAARPG
             public InputAction @Next => m_Wrapper.m_Player_Next;
             public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
             public InputAction @LookAround => m_Wrapper.m_Player_LookAround;
+            public InputAction @ToggleWalkRun => m_Wrapper.m_Player_ToggleWalkRun;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1254,6 +1277,9 @@ namespace MyFirstAARPG
                 @LookAround.started += instance.OnLookAround;
                 @LookAround.performed += instance.OnLookAround;
                 @LookAround.canceled += instance.OnLookAround;
+                @ToggleWalkRun.started += instance.OnToggleWalkRun;
+                @ToggleWalkRun.performed += instance.OnToggleWalkRun;
+                @ToggleWalkRun.canceled += instance.OnToggleWalkRun;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1288,6 +1314,9 @@ namespace MyFirstAARPG
                 @LookAround.started -= instance.OnLookAround;
                 @LookAround.performed -= instance.OnLookAround;
                 @LookAround.canceled -= instance.OnLookAround;
+                @ToggleWalkRun.started -= instance.OnToggleWalkRun;
+                @ToggleWalkRun.performed -= instance.OnToggleWalkRun;
+                @ToggleWalkRun.canceled -= instance.OnToggleWalkRun;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1480,6 +1509,7 @@ namespace MyFirstAARPG
             void OnNext(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
             void OnLookAround(InputAction.CallbackContext context);
+            void OnToggleWalkRun(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

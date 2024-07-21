@@ -14,6 +14,8 @@ namespace MyFirstAARPG
         public event EventHandler<Vector2> Move;
         public event EventHandler<Vector2> LookAround;
 
+        public event EventHandler ToggleWalkRun;
+
         private void Awake()
         {
             inputActions = new();
@@ -99,6 +101,11 @@ namespace MyFirstAARPG
                     new Vector2(mouseDelta.x * horizontalRotationSensitivity,
                         mouseDelta.y * verticalRotationSensitivity));
             // }
+        }
+
+        public void OnToggleWalkRun(InputAction.CallbackContext context)
+        {
+            ToggleWalkRun?.Invoke(this, EventArgs.Empty);
         }
 
         private InputActions inputActions;
