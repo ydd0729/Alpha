@@ -9,7 +9,7 @@ namespace Shared.Collections
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            // Draw list of key/value pairs.
+            // Draw list of key / value pairs.
             var list = property.FindPropertyRelative("list");
             EditorGUI.PropertyField(position, list, label, true);
 

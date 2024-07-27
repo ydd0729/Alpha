@@ -7,31 +7,28 @@ namespace MyFirstAARPG
     public class PlayerActions : MonoBehaviour, InputActions.IPlayerActions
     {
         [SerializeField] private bool showCursor;
-        [SerializeField] private bool lockCursor;
         [SerializeField, Range(0, 1)] private float horizontalRotationSensitivity;
         [SerializeField, Range(0, 1)] private float verticalRotationSensitivity;
 
-        public event EventHandler<Vector2> Move;
-        public event EventHandler<Vector2> LookAround;
+        public event Action<Vector2> Move;
+        public event Action<Vector2> LookAround;
 
-        public event EventHandler ToggleWalkRun;
+        public event Action ToggleWalkRun;
 
-        private void Awake()
+        public void Initialize()
         {
-            inputActions = new();
-
 #if !UNITY_EDITOR
             Cursor.visible = showCursor;
 #endif
-        }
 
-        private void Start()
-        {
+            if (inputActions != null)
+            {
+                inputActions.Disable();
+                // inputActions.Dispose();
+            }
+            inputActions = new();
             inputActions.Enable();
             inputActions.Player.SetCallbacks(this);
-            
-            initialCursorPosition =
-                new Vector2(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue());
         }
 
         private void OnDestroy()
@@ -41,7 +38,9 @@ namespace MyFirstAARPG
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            Move?.Invoke(this, context.ReadValue<Vector2>());
+            Move?.Invoke(context.ReadValue<Vector2>());
+
+            // Debug.Log("Move");
         }
 
         public void OnLook(InputAction.CallbackContext context)
@@ -86,34 +85,16 @@ namespace MyFirstAARPG
 
         public void OnLookAround(InputAction.CallbackContext context)
         {
-            // if (context.performed)
-            // {
-                var mouseDelta = context.ReadValue<Vector2>();
+            var mouseDelta = context.ReadValue<Vector2>();
 
-#if !UNITY_EDITOR
-                if (lockCursor)
-                {
-                    Mouse.current.WarpCursorPosition(initialCursorPosition);
-                }
-#endif
-
-                LookAround?.Invoke(this,
-                    new Vector2(mouseDelta.x * horizontalRotationSensitivity,
-                        mouseDelta.y * verticalRotationSensitivity));
-            // }
+            LookAround?.Invoke(new Vector2(mouseDelta.x * horizontalRotationSensitivity, mouseDelta.y * verticalRotationSensitivity));
         }
 
         public void OnToggleWalkRun(InputAction.CallbackContext context)
         {
-            ToggleWalkRun?.Invoke(this, EventArgs.Empty);
+            ToggleWalkRun?.Invoke();
         }
 
         private InputActions inputActions;
-        private Vector2 initialCursorPosition;
-    }
-
-    public class PlayerActionEventArgs : EventArgs
-    {
-        private InputAction.CallbackContext context;
     }
 }

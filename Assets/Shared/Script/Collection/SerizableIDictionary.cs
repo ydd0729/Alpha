@@ -141,13 +141,13 @@ namespace Shared.Collections
             return ((IEnumerable)Dictionary).GetEnumerator();
         }
 
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        public ICollection<TKey> Keys
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => ((IDictionary<TKey, TValue>)Dictionary).Keys;
         }
 
-        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        public ICollection<TValue> Values
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => ((IDictionary<TKey, TValue>)Dictionary).Values;
@@ -297,6 +297,10 @@ namespace Shared.Collections
 
             foreach (var item in list)
             {
+                if (item.Key == null)
+                {
+                    continue;
+                }
                 Dictionary.TryAdd(item.Key, item.Value);
             }
         }
@@ -311,9 +315,23 @@ namespace Shared.Collections
             Dictionary<TKey, List<int>> keyIndex = new();
             StringBuilder warningTextBuilder = new();
 
-
+            var hasNullKeys = false;
             for (var i = 0; i < list.Count; i++)
             {
+                if (list[i].Key == null)
+                {
+                    if (hasNullKeys == false)
+                    {
+                        warningTextBuilder.Append($"Null Keys at: {i}");
+                        hasNullKeys = true;
+                    }
+                    else
+                    {
+                        warningTextBuilder.Append($", {i}");
+                    }
+                    continue;
+                }
+                
                 if (keyIndex.ContainsKey(list[i].Key))
                 {
                     keyIndex[list[i].Key].Add(i);
@@ -322,6 +340,11 @@ namespace Shared.Collections
                 {
                     keyIndex.Add(list[i].Key, new() { i });
                 }
+            }
+
+            if (hasNullKeys)
+            {
+                warningTextBuilder.Append('\n');
             }
 
             var hasDuplicates = false;

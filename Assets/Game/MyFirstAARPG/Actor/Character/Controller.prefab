@@ -45,9 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934ead52073f45959bc9cb4c646ef77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  timeToRotate: 0.1
-  playerActions: {fileID: 0}
+  timeToRotate: 0.2
+  applyGravity: 1
+  gravitationalAcceleration: {x: 0, y: -9.8, z: 0}
+  AirDrag: {x: 0.5, y: 0.005, z: 0.5}
+  maxFallSpeed: 15
+  jumpHeight: 1
+  jumpTime: 0.1
   rotationEulerAngleXLimit: {x: -70, y: 80}
 --- !u!114 &3763847709593679347
 MonoBehaviour:
@@ -61,5 +65,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8fe5b8de624ed0ab5143f253d9d532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
   timeToRotate: 0.1
+  applyGravity: 1
+  gravitationalAcceleration: {x: 0, y: -9.8, z: 0}
+  AirDrag: {x: 0.01, y: 0.003, z: 0.01}
+  maxFallSpeed: 15
+  jumpHeight: 1
+  jumpTime: 0.1

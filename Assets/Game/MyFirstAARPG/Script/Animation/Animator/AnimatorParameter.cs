@@ -10,11 +10,20 @@ namespace MyFirstAARPG
     public enum AnimatorParameterName
     {
         None,
+        
+        // States
         Stand,
         Walk,
         Run,
+        Jump,
+        Fall,
+        
+        // Random Selection Support
         RandomIndex,
         LastIndex,
+        
+        // Step
+        
         StepLeft,
         StepRight,
         StepLeftMiddle,
@@ -49,6 +58,12 @@ namespace MyFirstAARPG
 
     public static class AnimatorParameterExtension
     {
+        private static Dictionary<AnimatorParameterName, int> parameterId;
+        private static Dictionary<AnimatorParameterName, string> parameterStr;
+        
+        private static Dictionary<AnimatorParameterName, int> ParameterId => parameterId ??= new();
+        private static Dictionary<AnimatorParameterName, string> ParameterStr => parameterStr ??= new();
+        
         public static string GetString(this AnimatorParameterName parameterName)
         {
             if (!ParameterStr.ContainsKey(parameterName))
@@ -68,27 +83,5 @@ namespace MyFirstAARPG
 
             return ParameterId[parameterName];
         }
-
-        // public static AnimatorParameterType GetParameterType(this AnimatorParameterName parameterName)
-        // {
-        //     switch (parameterName)
-        //     {
-        //         case AnimatorParameterName.Stand:
-        //         case AnimatorParameterName.Walk:
-        //         case AnimatorParameterName.StepLeft:
-        //         case AnimatorParameterName.StepRight:
-        //             return AnimatorParameterType.Bool;
-        //         case AnimatorParameterName.RandomIndex:
-        //         case AnimatorParameterName.LastIndex:
-        //             return AnimatorParameterType.Integer;
-        //         default: return AnimatorParameterType.None;
-        //     }
-        // }
-
-        private static Dictionary<AnimatorParameterName, int> ParameterId => parameterId ??= new();
-        private static Dictionary<AnimatorParameterName, string> ParameterStr => parameterStr ??= new();
-
-        private static Dictionary<AnimatorParameterName, int> parameterId;
-        private static Dictionary<AnimatorParameterName, string> parameterStr;
     }
 }
