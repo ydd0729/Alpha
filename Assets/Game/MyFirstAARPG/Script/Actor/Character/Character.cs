@@ -9,13 +9,15 @@ namespace MyFirstAARPG
         
         [SerializeField] private GameObject followCameraPrefab; // Prefabs
         [SerializeField] private GameObject characterVisualPrefab;
-        [SerializeField] private GameObject controllerPrefab;
+        [SerializeField] private GameObject playerControllerPrefab;
+        [SerializeField] private GameObject aiControllerPrefab;
 
         [SerializeField] private bool isAI;
         
         private CharacterVisual characterVisual;
         private CharacterController characterController;
         private CharacterAnimation characterAnimation;
+        private PlayerActions playerActions;
         
         private GameObject followCameraObject; // Subobjects
         private GameObject characterVisualObject;
@@ -27,6 +29,7 @@ namespace MyFirstAARPG
         public CharacterAnimation CharacterAnimation => characterAnimation;
         public CharacterController CharacterController => characterController;
         public GameObject CharacterVisualObject => characterVisualObject;
+        public PlayerActions PlayerActions => playerActions;
         
         // Event Functions
 
@@ -58,37 +61,30 @@ namespace MyFirstAARPG
         private CharacterControllerBase SetupController()
         {
             Destroy(controllerObject);
-            controllerObject = Instantiate(controllerPrefab, transform);
-
-            var playerController = controllerObject.GetComponent<PlayerCharacterController>();
-            var aiController = controllerObject.GetComponent<AICharacterController>();
-
-            if (!isAI)
+            
+            if (isAI)
             {
-                SetupFollowCamera(playerController);
-                var playerActions = SetupPlayerInput();
-
-                playerController.Initialize(this, playerActions);
-                
-                playerController.enabled = true;
-                aiController.enabled = false;
-
-                return playerController;
+                controllerObject = Instantiate(aiControllerPrefab, transform);
+                var aiController = controllerObject.GetComponent<AICharacterController>();
+                aiController.Initialize(this);
+                return aiController;
             }
             else
             {
-                aiController.Initialize(this);
+                controllerObject = Instantiate(playerControllerPrefab, transform);
+                var playerController = controllerObject.GetComponent<PlayerCharacterController>();
                 
-                playerController.enabled = false;
-                aiController.enabled = true;
+                SetupFollowCamera(playerController);
+                playerActions = SetupPlayerInput();
 
-                return aiController;
+                playerController.Initialize(this);
+                return playerController;
             }
         }
 
         private PlayerActions SetupPlayerInput()
         {
-            var playerActions = GetComponent<PlayerActions>();
+            playerActions = GetComponent<PlayerActions>();
             playerActions.Initialize();
             return playerActions;
         }

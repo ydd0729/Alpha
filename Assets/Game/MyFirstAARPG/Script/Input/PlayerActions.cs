@@ -12,7 +12,7 @@ namespace MyFirstAARPG
 
         public event Action<Vector2> Move;
         public event Action<Vector2> LookAround;
-
+        public event Action Jump; 
         public event Action ToggleWalkRun;
 
         public void Initialize()
@@ -65,7 +65,7 @@ namespace MyFirstAARPG
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            // throw new System.NotImplementedException();
+            Jump?.Invoke();
         }
 
         public void OnPrevious(InputAction.CallbackContext context)

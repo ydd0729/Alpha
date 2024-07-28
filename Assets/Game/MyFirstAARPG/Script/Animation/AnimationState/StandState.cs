@@ -9,7 +9,15 @@ namespace MyFirstAARPG
         public StandState() : base(stateParameterName: AnimatorParameterName.Stand, rootMotionOnEnter: true /* TODO */)
         {
         }
-        
+
+        public override void Enter(ref AnimationStateTransitionContext context)
+        {
+            base.Enter(ref context);
+            
+            context.Animator.SetBool(AnimatorParameterName.StepLeft.GetId(), false);
+            context.Animator.SetBool(AnimatorParameterName.StepRight.GetId(), false);
+        }
+
         public override bool CanTransit(AnimationStateTransitionContext context)
         {
             if (!base.CanTransit(context))

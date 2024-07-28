@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Shared.Manager
 {
-    public class CoroutineTimer : Singleton<CoroutineTimer>
+    public class CoroutineTimer : MonoSingleton<CoroutineTimer>
     {
         public static Coroutine SetTimer(UnityAction callback,float time)
         {

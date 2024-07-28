@@ -3,31 +3,36 @@ using Shared.Extension;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace MyFirstAARPG
 {
     public class PlayerCharacterController : CharacterControllerBase
     {
-        [SerializeField] private Vector2 rotationEulerAngleXLimit;
-        public PlayerActions PlayerActions { private get; set; }
+        [FormerlySerializedAs("rotationEulerAngleXLimit")] [SerializeField] private Vector2 lookAroundAngleLimit;
         
         private void OnValidate()
         {
-            rotationEulerAngleXLimit.x = Math.Clamp(rotationEulerAngleXLimit.x, -90, 0);
-            rotationEulerAngleXLimit.y = Math.Clamp(rotationEulerAngleXLimit.y, 0, 90);
+            lookAroundAngleLimit.x = Math.Clamp(lookAroundAngleLimit.x, -90, 0);
+            lookAroundAngleLimit.y = Math.Clamp(lookAroundAngleLimit.y, 0, 90);
         }
 
-        public void Initialize(Character inCharacter, PlayerActions playerActions)
+        public override void Initialize(Character inCharacter)
         {
             base.Initialize(inCharacter);
 
-            PlayerActions = playerActions;
-
-            PlayerActions.Move += PlayerActionsOnMove;
-            PlayerActions.LookAround += PlayerActionsOnLookAround;
-            PlayerActions.ToggleWalkRun += PlayerActionsOnToggleWalkRun;
+            var playerActions = inCharacter.PlayerActions;
+            playerActions.Move += PlayerActionsOnMove;
+            playerActions.LookAround += PlayerActionsOnLookAround;
+            playerActions.ToggleWalkRun += PlayerActionsOnToggleWalkRun;
+            playerActions.Jump += PlayerActionsOnJump;
         }
-        
+
+        private void PlayerActionsOnJump()
+        {
+            AnimationState = AnimationState.Jump;
+        }
+
         private void PlayerActionsOnToggleWalkRun()
         {
             WalkRunToggle = WalkRunToggle switch
@@ -43,7 +48,7 @@ namespace MyFirstAARPG
             var rotation = transform.rotation.eulerAngles;
 
             rotation.x += -delta.y;
-            rotation.x = rotation.x <= 180 ? Math.Min(rotation.x, rotationEulerAngleXLimit.y) : Math.Max(rotation.x, 360 + rotationEulerAngleXLimit.x);
+            rotation.x = rotation.x <= 180 ? Math.Min(rotation.x, lookAroundAngleLimit.y) : Math.Max(rotation.x, 360 + lookAroundAngleLimit.x);
 
             rotation.y += delta.x;
 

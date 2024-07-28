@@ -1,8 +1,8 @@
-﻿namespace Shared.Pattern
-{
-    using UnityEngine;
+﻿using UnityEngine;
 
-    public class Singleton<T> : MonoBehaviour where T : Component
+namespace Shared.Pattern
+{
+    public class MonoSingleton<T> : MonoBehaviour where T : Component
     {
         public static T Instance
         {
@@ -12,7 +12,7 @@
                 {
                     var duplicates = FindObjectsByType(typeof(T), FindObjectsSortMode.None);
 
-                    if (duplicates.Length > 0) // 场景中有脚本，但没有执行 Awake ，可能是因为脚本是后添加的
+                    if (duplicates.Length > 0) // 场景中有脚本，但没有执行 Awake ，比如当脚本是后添加的时
                     {
                         _instance = (T)duplicates[0];
                         DontDestroyOnLoad(_instance.gameObject);
@@ -39,9 +39,6 @@
         {
             if (_instance == null)
             {
-                // 这里只能用 as ，不能用 (T)，因为不存在从 Singleton(T) 到 T 的 Explicit Conversion
-                // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#code-try-6
-                // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/conversions#103-explicit-conversions
                 _instance = this as T;
                 // _instance = GetComponent<T>();
                 DontDestroyOnLoad(gameObject);
@@ -50,7 +47,6 @@
             {
                 Destroy(gameObject);
             }
-
         }
 
         private static T _instance;
