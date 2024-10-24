@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b1acc89aa8486f043859218c4141f5e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 178646
+  packageName: Modular Fantasy Stylized Human Male
+  packageVersion: 2.3.1
+  assetPath: Assets/StylizedCharacter/Tools/ConvertMaterialsToURP.cs
+  uploadId: 658967

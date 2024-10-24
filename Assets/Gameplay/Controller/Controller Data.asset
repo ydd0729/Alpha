@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9b70af01cc3e842810f15041a3a184, type: 3}
+  m_Name: Controller Data
+  m_EditorClassIdentifier: 
+  controllerFollowOffset: {x: 0, y: 1, z: 0}
+  followCameraPrefab: {fileID: 6580881720493919164, guid: 291dd3ceb46e3f841be7b348ddf54963, type: 3}
+  cameraVerticalArmLength: 0.4
+  defaultCameraDistance: 4
+  cameraDistanceRange:
+    min: 1.5
+    max: 4.5
+  cameraZoomUnit: 0.05
+  timeToRotate: 0.1
+  lookAroundAngleLimit:
+    min: -70
+    max: 80
+  showCursor: 0
+  jumpForwardSpeed: 2
+  jumpUpSpeed: 5
+  gravitationalAcceleration: {x: 0, y: -9.8, z: 0}
+  airDrag: {x: 0.01, y: 0.001, z: 0.01}
+  groundTolerance: 0.2
+  lookAroundUnit:
+    min: 0.1
+    max: 0.05

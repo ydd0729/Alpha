@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: StoneFootStep
+  m_EditorClassIdentifier: 
+  volume: 1
+  volumeRandomRange:
+    start: -0.6
+    end: -0.2
+  pitch: 1
+  pitchRandomRange:
+    start: 0
+    end: 0
+  spatialBlend: 1
+  playbackMode: 2
+  avoidRepeatingLast: 5
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: 5685bc22cb636664f87dda120e4f05f0, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 236e4feba27038446a578853e9f7a97b, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 518c46ae969cb1c47bf1d6311159dae8, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: c8733c254a6b66f47a8c68668b4e4899, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 200b7c98fd6a3ad42a418a9998ab8a20, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 00632cf16fa86fd4b87082ec1cc5e117, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: adb0e857a115e6d4b82b63932493deaa, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: b91a9fc01168dcd438c1dcac8f1d5a68, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 4e287b9802f713446a00abb9ac1e201f, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 17627bd88effe794ca1569756ad5664f, type: 3}
+    volume: 0
+    pitch: 0
