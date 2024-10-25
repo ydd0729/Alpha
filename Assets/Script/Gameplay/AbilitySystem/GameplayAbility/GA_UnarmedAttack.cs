@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yd.Animation;
-using Yd.Manager;
 
 namespace Yd.Gameplay.AbilitySystem
 {
@@ -15,12 +14,17 @@ namespace Yd.Gameplay.AbilitySystem
         {
         }
 
-        protected override async Task<bool> Activate()
+        protected override async Task<bool> Execute()
         {
-            if (!await base.Activate())
+            Debug.LogWarning($"{nameof(GA_UnarmedAttack)} Starts.");
+
+            if (!await base.Execute())
             {
                 return false;
             }
+
+            AllowMovement = false;
+            AllowRotation = false;
 
             AnimationEventDispatcher.Gameplay += OnGameplayEvent;
             if (PlayerController)
@@ -36,15 +40,24 @@ namespace Yd.Gameplay.AbilitySystem
             return true;
         }
 
-        public override void OnDeactivate()
+        public override void StopExecution()
         {
-            base.OnDeactivate();
+            base.StopExecution();
 
             AnimationEventDispatcher.Gameplay -= OnGameplayEvent;
             if (PlayerController)
             {
                 PlayerController.GameplayEvent -= OnGameplayEvent;
             }
+
+            AllowMovement = true;
+            AllowRotation = true;
+        }
+
+        protected override void EndCooldown()
+        {
+            base.EndCooldown();
+            Owner.Deactivate(this);
         }
 
         private void OnGameplayEvent(GameplayEvent @event)
@@ -59,37 +72,26 @@ namespace Yd.Gameplay.AbilitySystem
                     StartComboDetection();
                     break;
                 case GameplayEvent.ComboDetectionEnd:
-                    EndComboDetection();
-                    
-                    // 等待最后一帧动画完成，TODO 改成用 GameplayEvent
-                    CoroutineTimer.SetTimer(_ => Owner.DeactivateAbility(this), 1f);
-                    break;
-                case GameplayEvent.Move:
+                    if (!ComboApproved)
+                    {
+                        StopExecution();
+                    }
+                    else
+                    {
+                        EndComboDetection();
+                    }
+
                     break;
                 case GameplayEvent.NormalAttack:
-                    if (ComboInterval && CanCombo)
+                    if (!ComboApproved && CanDetectCombo)
                     {
                         ComboWaiter.SetResult(true);
+                        ComboApproved = true;
                         ComboCounter += 1;
                     }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(@event), @event, null);
-            }
-        }
-        private void StartComboDetection()
-        {
-            Debug.LogWarning("ComboDetectionStarted");
-            ComboInterval = true;
-        }
-
-        private void EndComboDetection()
-        {
-            Debug.LogWarning("ComboDetectionEnd");
-            ComboInterval = false;
-            if (!ComboWaiter.Task.IsCompleted)
-            {
-                ComboWaiter.SetResult(false);
             }
         }
     }

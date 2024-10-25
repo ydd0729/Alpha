@@ -16,7 +16,7 @@ namespace Yd.Gameplay.AbilitySystem
             return new GA_UnarmedAttack(this, owner, source);
         }
 
-        public override void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
+        public override async void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
         {
             switch(type)
             {
@@ -32,10 +32,8 @@ namespace Yd.Gameplay.AbilitySystem
                     if (owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
                         owner.OwnerCharacter.Weapon == CharacterWeapon.None)
                     {
-                        owner.TryActivateAbility(this);
+                        await owner.TryActivateAbility(this);
                     }
-                    break;
-                case GameplayEvent.Move:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

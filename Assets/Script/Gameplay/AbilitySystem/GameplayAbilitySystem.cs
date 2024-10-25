@@ -10,6 +10,7 @@ namespace Yd.Gameplay.AbilitySystem
 {
     public class GameplayAbilitySystem : MonoBehaviour
     {
+        private readonly HashSet<GameplayAbility> AbilitiesWaitingForRemoval = new();
         public readonly HashSet<GameplayEffect> ActivePeriodicEffects = new();
         private readonly Dictionary<GEChannel, HashSet<TaskCompletionSource<GameplayEffect>>> gameplayEffectsToApply = new();
         private readonly HashSet<GameplayAbilityData> grantedAbilities = new();
@@ -17,7 +18,7 @@ namespace Yd.Gameplay.AbilitySystem
 
         private GEChannel MaxChannelToApply;
 
-        private bool shouldUpdateAttributes = false;
+        private bool shouldUpdateAttributes;
         public SortedDictionary<GEChannel, HashSet<GameplayEffect>> ActiveEffects { get; } = new();
 
         private Dictionary<GameplayAbilityData, HashSet<GameplayAbility>> ActiveAbilities { get; } = new();
@@ -65,6 +66,17 @@ namespace Yd.Gameplay.AbilitySystem
             AttributeSet = gameObject.GetComponent<GameplayAttributeSet>();
         }
 
+        private void Update()
+        {
+            foreach (var (_, abilities) in ActiveAbilities)
+            {
+                foreach (var ability in abilities)
+                {
+                    ability.Tick();
+                }
+            }
+        }
+
         private void LateUpdate()
         {
             if (gameplayEffectsToApply.Count != 0)
@@ -78,6 +90,16 @@ namespace Yd.Gameplay.AbilitySystem
                 shouldUpdateAttributes = false;
                 AttributeSet.ResetCurrentValues();
                 UpdateAttributes();
+            }
+
+            if (AbilitiesWaitingForRemoval.Count != 0)
+            {
+                foreach (var ability in AbilitiesWaitingForRemoval)
+                {
+                    ActiveAbilities[ability.Data].Remove(ability);
+                }
+
+                AbilitiesWaitingForRemoval.Clear();
             }
         }
 
@@ -153,7 +175,7 @@ namespace Yd.Gameplay.AbilitySystem
             for (var channel = (int)start; channel < (int)GEChannel.MAX; ++channel)
             {
                 Dictionary<GameplayAttributeType, float> mods = new();
-                
+
                 if (ActiveEffects.TryGetValue((GEChannel)channel, out var gameplayEffectSet))
                 {
                     foreach (var gameplayEffect in gameplayEffectSet)
@@ -161,7 +183,7 @@ namespace Yd.Gameplay.AbilitySystem
                         gameplayEffect.CalculateModifications(mods);
                     }
                 }
-                
+
                 foreach (var (type, mod) in mods)
                 {
                     AttributeSet[type].CurrentValue = type.Range.Clamp(mod);
@@ -206,10 +228,10 @@ namespace Yd.Gameplay.AbilitySystem
 
             ActiveAbilities[abilityData].Add(ability);
 
-            return await ability.OnActivate();
+            return await ability.TryExecute();
         }
 
-        public void DeactivateAbility(GameplayAbility ability)
+        public void Deactivate(GameplayAbility ability)
         {
             if (ability.Owner != this)
             {
@@ -226,8 +248,12 @@ namespace Yd.Gameplay.AbilitySystem
                 return;
             }
 
-            ability.OnDeactivate();
-            activeAbilities.Remove(ability);
+            if (ability.IsExecuting)
+            {
+                ability.StopExecution();
+            }
+
+            AbilitiesWaitingForRemoval.Add(ability);
         }
 
         public void Initialize(Actor owner)

@@ -3,17 +3,14 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yd.Animation;
+using Yd.Collection;
 using Yd.Gameplay.Object;
-using Yd.Manager;
 
 namespace Yd.Gameplay.AbilitySystem
 {
     public abstract class GameplayAbility
     {
         protected List<GameplayEffect> AppliedEffects = new();
-        private Coroutine cooldownTimer;
-        private bool isCoolingDown;
-        private float lastActivateTime;
 
         protected GameplayAbility(
             GameplayAbilityData data, GameplayAbilitySystem owner, [CanBeNull] GameplayAbilitySystem source
@@ -34,20 +31,23 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        public bool IsActive
+        public bool IsExecuting
         {
             get;
             protected set;
         }
 
-        public virtual bool AllowRotation => false;
-        public virtual bool AllowMovement => false;
+        public bool AllowRotation { get; protected set; }
+        public bool AllowMovement { get; protected set; }
 
         public GameplayAbilityData Data { get; }
         public GameplayAbilitySystem Owner { get; }
 
+        public SRangeFloat CooldownSpan { get; protected set; } = new();
+        public float CooldownRemainingTime => CooldownSpan.IsValid(Time.time) ? CooldownSpan.End - Time.time : 0;
+        public bool IsCoolingDown { get; protected set; }
+
         protected GameplayAbilitySystem Source { get; }
-        public float CooldownTime => Data.Cooldown - (Time.time - lastActivateTime);
         protected Character Character { get; }
         protected Animator Animator { get; private set; }
         protected CharacterControllerBase Controller { get; }
@@ -55,32 +55,52 @@ namespace Yd.Gameplay.AbilitySystem
         protected CharacterMovement CharacterMovement { get; private set; }
         protected AnimationEventDispatcher AnimationEventDispatcher { get; private set; }
 
-        public async Task<bool> OnActivate()
+        public virtual void Tick()
         {
-            if (!await CanActivate())
+            if (IsCoolingDown && !CooldownSpan.IsValid(Time.time))
+            {
+                EndCooldown();
+            }
+        }
+
+        public async Task<bool> TryExecute()
+        {
+            if (!await CanExecute())
             {
                 Debug.LogError("Activation Failed");
                 return false;
             }
 
-            IsActive = true;
-            StartCooldownTimer();
+            IsExecuting = true;
+            StartCooldown();
 
-            if (!await Activate())
+            if (!await Execute())
             {
-                Owner.DeactivateAbility(this);
+                StopExecution();
                 return false;
             }
 
             return true;
         }
 
-        protected virtual async Task<bool> CanActivate()
+        protected virtual async Task<bool> CanExecute()
         {
-            return !IsActive && !isCoolingDown && await TryApplyCost();
+            return !IsExecuting && !IsCoolingDown && await TryApplyCost();
         }
 
-        protected virtual async Task<bool> Activate()
+        protected virtual void StartCooldown(float? cooldown = null)
+        {
+            IsCoolingDown = true;
+            CooldownSpan.Start = Time.time;
+            CooldownSpan.End = CooldownSpan.Start + (cooldown ?? Data.Cooldown);
+        }
+
+        protected virtual void EndCooldown()
+        {
+            IsCoolingDown = false;
+        }
+
+        protected virtual async Task<bool> Execute()
         {
             foreach (var effectData in Data.EffectsToApply)
             {
@@ -100,14 +120,15 @@ namespace Yd.Gameplay.AbilitySystem
             return true;
         }
 
-        public virtual void OnDeactivate()
+        public virtual void StopExecution()
         {
-            IsActive = false;
+            IsExecuting = false;
 
-            foreach (var effect in AppliedEffects)
-            {
-                Owner.RemoveGameplayEffect(effect);
-            }
+            // TODO 感觉放在这里不合适
+            // foreach (var effect in AppliedEffects)
+            // {
+            //     Owner.RemoveGameplayEffect(effect);
+            // }
         }
 
         protected async Task<bool> TryApplyCost()
@@ -119,14 +140,6 @@ namespace Yd.Gameplay.AbilitySystem
 
             var gameplayEffect = await Owner.ApplyGameplayEffectAsync(Data.Cost, Owner);
             return gameplayEffect.AllModsValid;
-        }
-
-        protected void StartCooldownTimer()
-        {
-            isCoolingDown = true;
-            lastActivateTime = Time.time;
-            CoroutineTimer.Cancel(ref cooldownTimer);
-            cooldownTimer = CoroutineTimer.SetTimer(_ => { isCoolingDown = false; }, Data.Cooldown);
         }
     }
 }
