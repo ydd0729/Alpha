@@ -26,8 +26,10 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
         protected ComboAbilityData ComboAbilityData => (ComboAbilityData)Data;
-        protected bool CanCombo => ComboCounter < ComboAbilityData.MaxCombo;
-        protected bool ComboInterval { get; set; }
+        protected bool CanDetectCombo => ComboCounter < ComboAbilityData.MaxCombo && ComboInterval;
+        private bool ComboInterval { get; set; }
+        protected bool ComboApproved { get; set; }
+
         protected TaskCompletionSource<bool> ComboWaiter
         {
             get;
@@ -47,13 +49,32 @@ namespace Yd.Gameplay.AbilitySystem
             return ComboWaiter.Task;
         }
 
-        public override void OnDeactivate()
+        public override void StopExecution()
         {
-            base.OnDeactivate();
+            base.StopExecution();
 
             ComboInterval = false;
             ComboCounter = 0;
             ComboWaiter = null;
+            ComboApproved = false;
+        }
+
+        protected virtual void StartComboDetection()
+        {
+            Debug.LogWarning("Combo Detection Starts");
+            ComboInterval = true;
+            ComboApproved = false;
+        }
+
+        protected virtual void EndComboDetection()
+        {
+            Debug.LogWarning("Combo Detection Ends");
+            ComboInterval = false;
+            ComboApproved = false;
+            // if (!ComboWaiter.Task.IsCompleted)
+            // {
+            //     ComboWaiter.SetResult(false);
+            // }
         }
     }
 }

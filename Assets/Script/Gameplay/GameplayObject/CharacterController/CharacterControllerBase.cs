@@ -41,7 +41,7 @@ namespace Yd.Gameplay.Object
         private bool AllowRotation => Character.Movement.CurrentState.AllowRotation &&
                                       (AbilitySystem == null || AbilitySystem.AllowRotation);
 
-        public bool AllowMovement => AbilitySystem.AllowRotation;
+        public bool AllowMovement => AbilitySystem.AllowMovement;
 
         protected virtual void Update()
         {
