@@ -6,7 +6,7 @@ namespace Yd.Gameplay.Object
 {
     public class RunState : MovementState
     {
-        public RunState() : base(AnimatorParameterId.Run, true, true)
+        public RunState() : base(AnimatorParameterId.Run, true)
         {
         }
 
@@ -46,13 +46,6 @@ namespace Yd.Gameplay.Object
                 RunState => false,
                 _ => throw new NotImplementedException()
             };
-        }
-
-        public override void Enter(ref MovementStateTransitionContext context)
-        {
-            base.Enter(ref context);
-            
-            context.CharacterController.OnGameplayEvent(GameplayEvent.Move);
         }
     }
 }

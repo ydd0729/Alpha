@@ -6,7 +6,7 @@ namespace Yd.Gameplay.Object
 {
     public class WalkState : MovementState
     {
-        public WalkState() : base(AnimatorParameterId.Walk, true, true)
+        public WalkState() : base(AnimatorParameterId.Walk, true)
         {
         }
 
@@ -46,13 +46,6 @@ namespace Yd.Gameplay.Object
                 WalkState => false,
                 _ => throw new NotImplementedException()
             };
-        }
-
-        public override void Enter(ref MovementStateTransitionContext context)
-        {
-            base.Enter(ref context);
-            
-            context.CharacterController.OnGameplayEvent(GameplayEvent.Move);
         }
     }
 }
