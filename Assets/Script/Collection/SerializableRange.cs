@@ -20,8 +20,8 @@ namespace Yd.Collection
 
         public SRange(T min, T max)
         {
-            this.min = min;
-            this.max = max;
+            Min = min;
+            Max = max;
         }
 
         public T Min
@@ -32,7 +32,7 @@ namespace Yd.Collection
                 min = value;
                 if (min.CompareTo(max) > 0)
                 {
-                    min = max;
+                    max = min;
                 }
             }
         }
@@ -45,9 +45,22 @@ namespace Yd.Collection
                 max = value;
                 if (max.CompareTo(min) < 0)
                 {
-                    max = min;
+                    min = max;
                 }
             }
+        }
+
+        public T Start
+        {
+            get => Min;
+            set => Min = value;
+        }
+
+
+        public T End
+        {
+            get => Max;
+            set => Max = value;
         }
 
 
@@ -145,6 +158,9 @@ namespace Yd.Collection
     [Serializable]
     public class SRangeFloat : SRange<float>
     {
+        public SRangeFloat()
+        {
+        }
 
         public SRangeFloat(float min, float max) : base(min, max)
         {
