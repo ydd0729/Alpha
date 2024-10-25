@@ -28,13 +28,15 @@ namespace Yd.Extension
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
+            Debug.Log($"{nameof(InlineScriptableObjectPropertyDrawer)} Reset.");
+
             Foldout.Clear();
         }
 
         private static int GenerateUniqueKey(SerializedProperty property)
         {
-            return property.propertyPath.GetHashCode()
-                   ^ property.serializedObject.targetObject.GetHashCode(); // 生成一个唯一的键，结合属性路径和目标对象的哈希码
+            return property.propertyPath.GetHashCode() ^
+                   property.serializedObject.targetObject.GetHashCode(); // 生成一个唯一的键，结合属性路径和目标对象的哈希码
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

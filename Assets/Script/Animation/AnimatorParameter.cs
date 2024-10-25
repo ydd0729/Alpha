@@ -53,6 +53,14 @@ namespace Yd.Animation
         private static Dictionary<AnimatorParameterId, int> ParameterId =>
             parameterId ??= new Dictionary<AnimatorParameterId, int>();
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Init()
+        {
+            Debug.Log($"{nameof(AnimatorParameterExtension)} reset.");
+
+            ParameterId?.Clear();
+        }
+
         public static int GetAnimatorHash(this AnimatorParameterId parameter)
         {
             if (!ParameterId.TryGetValue(parameter, out var id))
