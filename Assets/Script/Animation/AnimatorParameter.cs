@@ -17,10 +17,13 @@ namespace Yd.Animation
         Run,
         Jump,
         Fall,
+        Hit,
+        Stun,
+        Die,
 
         // Random
         RandomIndex,
-        LastIndex,
+        RandomTransition,
 
         // Step
         StepLeft,
@@ -68,6 +71,8 @@ namespace Yd.Animation
                 id = Animator.StringToHash(parameter.GetString());
                 ParameterId.Add(parameter, id);
             }
+            
+            // Debug.Log($"hash({parameter}) = {id}");
 
             return id;
         }

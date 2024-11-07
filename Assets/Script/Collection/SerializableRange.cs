@@ -24,7 +24,7 @@ namespace Yd.Collection
             Max = max;
         }
 
-        public T Min
+        public virtual T Min
         {
             get => min;
             set
@@ -37,7 +37,7 @@ namespace Yd.Collection
             }
         }
 
-        public T Max
+        public virtual T Max
         {
             get => max;
             set
@@ -144,7 +144,6 @@ namespace Yd.Collection
 
         public static implicit operator Vector2Int(SRangeInt range)
         {
-
             return new Vector2Int(range.min, range.max);
         }
 
