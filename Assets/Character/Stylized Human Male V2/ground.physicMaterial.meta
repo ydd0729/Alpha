@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d727d6dfe6ed4e10bc6ffb30c9743394
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 13400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 178646
+  packageName: Modular Fantasy Stylized Human Male
+  packageVersion: 2.3.1
+  assetPath: Assets/StylizedCharacter/ground.physicMaterial
+  uploadId: 658967

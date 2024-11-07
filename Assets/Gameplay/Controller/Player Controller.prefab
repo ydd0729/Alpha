@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2024975278534404168, guid: 3f7764123245efe43b86113084ec8a84, type: 3}
       propertyPath: m_Name
-      value: Base Controller Variant
+      value: Player Controller
       objectReference: {fileID: 0}
     - target: {fileID: 4161695821722012194, guid: 3f7764123245efe43b86113084ec8a84, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78,4 +78,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useGravity: 1
-  data: {fileID: 11400000, guid: f7ef92ae6e54d3f45a598c59a1d1e7ce, type: 2}
+  data: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}
