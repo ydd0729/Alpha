@@ -7,6 +7,8 @@ namespace Yd.Gameplay.Object
 {
     public class PlayerCharacterController : CharacterControllerBase
     {
+        public PlayerControllerData PlayerControllerData => (PlayerControllerData)ControllerData;
+
         public PlayerActions PlayerActions
         {
             get;
@@ -27,7 +29,7 @@ namespace Yd.Gameplay.Object
             PlayerActions.GameplayEvent += OnGameplayEvent;
 
             var thirdPersonFollowCamera = Instantiate
-                (Data.followCameraPrefab, transform.parent).GetComponent<ThirdPersonFollowCamera>();
+                (PlayerControllerData.followCameraPrefab, transform.parent).GetComponent<ThirdPersonFollowCamera>();
             thirdPersonFollowCamera.Initialize(this);
         }
 
@@ -47,8 +49,8 @@ namespace Yd.Gameplay.Object
 
             rotation.x += -delta.y;
             rotation.x = rotation.x <= 180
-                ? Math.Min(rotation.x, Data.lookAroundAngleLimit.Max)
-                : Math.Max(rotation.x, 360 + Data.lookAroundAngleLimit.Min);
+                ? Math.Min(rotation.x, PlayerControllerData.lookAroundAngleLimit.Max)
+                : Math.Max(rotation.x, 360 + PlayerControllerData.lookAroundAngleLimit.Min);
 
             rotation.y += delta.x;
 

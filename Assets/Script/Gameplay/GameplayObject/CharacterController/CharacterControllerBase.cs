@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Yd.Extension;
 
@@ -10,17 +11,23 @@ namespace Yd.Gameplay.Object
         [FormerlySerializedAs("UseGravity")] [SerializeField]
         private bool useGravity = true;
 
-        [SerializeField] protected ControllerData data;
+        [FormerlySerializedAs("data")] [SerializeField] protected ControllerData controllerData;
         private readonly Vector3[] historyPosition = new Vector3[2];
         private Vector3 lastFrameVelocity;
         private RotationTask rotationTask;
-        public ControllerData Data => data;
+
+        protected NavMeshAgent NavMeshAgent { get; private set; }
+
+        public ControllerData ControllerData => controllerData;
 
         public Character Character { get; private set; }
 
         public EWalkRunToggle WalkRunToggle { get; protected set; }
 
         public Vector3 Velocity { get; private set; }
+
+        public bool IsNavigating => NavMeshAgent.isOnNavMesh && !NavMeshAgent.isStopped;
+
         public Vector3 GroundVelocity => Velocity.Ground();
 
         // 角色旋转
@@ -45,18 +52,16 @@ namespace Yd.Gameplay.Object
 
         protected virtual void Update()
         {
-            if (AllowRotation)
+            if (!ControllerData.useStrafeSet && !IsNavigating && AllowRotation)
             {
                 UpdateRotation();
             }
 
-            Move();
+            if (!ControllerData.useRootMotionMovement)
+            {
+                Move();
+            }
         }
-
-        // protected virtual void FixedUpdate()
-        // {
-        //     // 在这里 Move() 比较卡，想解决的话需要插值
-        // }
 
         protected virtual void LateUpdate()
         {
@@ -69,6 +74,12 @@ namespace Yd.Gameplay.Object
 
         public event Action<GameplayEvent> GameplayEvent;
 
+        public void NavigateTo(Vector3 position)
+        {
+            NavMeshAgent.enabled = true;
+            NavMeshAgent.destination = position;
+        }
+
         public void OnGameplayEvent(GameplayEvent obj)
         {
             GameplayEvent?.Invoke(obj);
@@ -77,6 +88,12 @@ namespace Yd.Gameplay.Object
         public virtual void Initialize(Character character)
         {
             Character = character;
+            NavMeshAgent = Character.GetComponent<NavMeshAgent>();
+            
+            if (ControllerData.useRootMotionMovement)
+            {
+                Character.AnimatorMoved += Move;
+            }
 
             Velocity = Vector3.zero;
             WalkRunToggle = EWalkRunToggle.Run;
@@ -95,34 +112,56 @@ namespace Yd.Gameplay.Object
 
         private void FollowCharacterPosition()
         {
-            transform.position = CharacterPosition + data.controllerFollowOffset;
+            transform.position = CharacterPosition + ControllerData.controllerFollowOffset;
         }
 
         private void Move()
         {
-            Character.Movement.DetectGround(lastFrameVelocity.Ground().normalized);
-            // DebugE.LogValue(nameof(Character.Movement.GroundDistance), Character.Movement.GroundDistance);
+            Character.Movement.DetectGround();
+
+            Character.UnityCharacterController.enabled = !IsNavigating;
+            NavMeshAgent.enabled = IsNavigating;
 
             var motion = Vector3.zero;
 
-            if (!Character.Movement.CurrentState.ShouldGrounded)
+            if (ControllerData.useRootMotionMovement)
             {
-                var v0 = Velocity;
+                if (IsNavigating)
+                {
+                    // TODO
+                }
+                else
+                {
+                    if (!Character.Movement.CurrentState.ShouldGrounded)
+                    {
+                        var v0 = Velocity;
 
-                // Acceleration isn't constant, just an approximation.
-                var acceleration = (useGravity ? Data.gravitationalAcceleration : Vector3.zero) +
-                                   Data.airDrag.Mult(Velocity.Pow(2)).Mult(-Velocity.Sign());
+                        var acceleration = (useGravity ? ControllerData.gravitationalAcceleration : Vector3.zero) +
+                                           ControllerData.airDrag.Mult(Velocity.Pow(2)).Mult(-Velocity.Sign());
 
-                Velocity += acceleration * Time.deltaTime;
-                motion = (v0 + Velocity) * Time.deltaTime / 2;
+                        Velocity += acceleration * Time.deltaTime;
+                        motion = (v0 + Velocity) * Time.deltaTime / 2;
+                    }
+                    else
+                    {
+                        Velocity = lastFrameVelocity; // 下落时使用
+                        motion = Vector3.down * Character.UnityCharacterController.stepOffset;
+                    }
+                }
             }
             else
             {
-                Velocity = lastFrameVelocity; // 下落时使用
-                motion = Vector3.down * Character.UnityCharacterController.stepOffset;
+                if (IsNavigating)
+                {
+                    Velocity = NavMeshAgent.velocity;
+                    LocalMoveDirection = Velocity.magnitude > 0.05f ? Velocity.normalized : Vector3.zero;
+                }
+                // ReSharper disable once RedundantIfElseBlock
+                else
+                {
+                    // TODO
+                }
             }
-
-            // DebugE.LogValue(nameof(motion), motion);
 
             if (motion != Vector3.zero)
             {
@@ -130,20 +169,20 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public void Jump()
+        protected void Jump()
         {
             Velocity = GroundVelocity + // 避免在斜坡上起跳时的影响
                        (Character.Movement.LastState is not StandState
-                           ? Character.transform.forward * Data.jumpForwardSpeed
+                           ? Character.transform.forward * ControllerData.jumpForwardSpeed
                            : Vector3.zero) + // 跳跃向前的速度
-                       Vector3.up * Data.jumpUpSpeed; // 跳跃向上的速度
+                       Vector3.up * ControllerData.jumpUpSpeed; // 跳跃向上的速度
         }
 
         private void UpdateRotation()
         {
             if (LocalMoveDirection != Vector3.zero && CharacterTargetRotation != rotationTask.Target)
             {
-                rotationTask.SetTask(CharacterRotation, CharacterTargetRotation, data.timeToRotate);
+                rotationTask.SetTask(CharacterRotation, CharacterTargetRotation, controllerData.timeToRotate);
             }
 
             if (rotationTask.Executing)
