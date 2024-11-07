@@ -43,8 +43,18 @@ namespace Yd.Gameplay.Object
             animationEventDispatcher = gameObject.GetOrAddComponent<AnimationEventDispatcher>();
             animationEventDispatcher.Step += OnStep;
 
-            var characterAnimationRandomizer = gameObject.AddComponent<CharacterAnimationRandomizer>();
-            characterAnimationRandomizer.Initialize(Character);
+            character.AnimatorMoved += OnAnimatorMoved;
+
+            // var characterAnimationRandomizer = gameObject.AddComponent<CharacterAnimationRandomizer>();
+            // characterAnimationRandomizer.Initialize(Character);
+        }
+
+        private void OnAnimatorMoved()
+        {
+            if (Character.Animator.applyRootMotion)
+            {
+                Character.Animator.ApplyBuiltinRootMotion();
+            }
         }
 
         private void TransitTo(MovementState nextState)
@@ -84,10 +94,10 @@ namespace Yd.Gameplay.Object
             return false;
         }
 
-        public void DetectGround(Vector3 moveDir)
+        public void DetectGround()
         {
             var radius = Character.UnityCharacterController.radius;
-            var origin = Character.transform.position + Vector3.up * radius + Vector3.up * 0.1f + moveDir * 0.1f;
+            var origin = Character.transform.position + Vector3.up * radius;
 
             if (PhysicsE.SphereCast(origin, 0.1f, Vector3.down, out var hitInfo, true, Color.red, Color.blue, 32))
             {
@@ -103,17 +113,29 @@ namespace Yd.Gameplay.Object
 
         private void OnStep(AnimationEvent @event)
         {
+            var humanoidCharacter = Character as HumanoidCharacter;
+
             switch(@event)
             {
                 case AnimationEvent.StepLeft:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, true);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, false);
-                    Character.AudioManager.PlayOneShot(AudioId.StoneFootstep, AudioChannel.FootStep, Character.LeftFoot);
+
+                    if (humanoidCharacter != null)
+                    {
+                        humanoidCharacter.AudioManager.PlayOneShot
+                            (AudioId.StoneFootstep, AudioChannel.FootStep, humanoidCharacter.LeftFoot);
+                    }
                     break;
                 case AnimationEvent.StepRight:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, false);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, true);
-                    Character.AudioManager.PlayOneShot(AudioId.StoneFootstep, AudioChannel.FootStep, Character.RightFoot);
+
+                    if (humanoidCharacter != null)
+                    {
+                        humanoidCharacter.AudioManager.PlayOneShot
+                            (AudioId.StoneFootstep, AudioChannel.FootStep, humanoidCharacter.RightFoot);
+                    }
                     break;
                 case AnimationEvent.StepLeftMiddle:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, true);
