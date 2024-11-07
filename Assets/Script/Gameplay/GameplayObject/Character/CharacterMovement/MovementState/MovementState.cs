@@ -37,10 +37,9 @@ namespace Yd.Gameplay.Object
         {
             var animator = context.Character.Animator;
 
-            animator.SetBool(StateParameterName.GetAnimatorHash(), true);
+            animator.SetValue(StateParameterName, true);
 
             animator.SetValue(AnimatorParameterId.RandomIndex, 0);
-            animator.SetValue(AnimatorParameterId.LastIndex, 0);
         }
 
         public virtual void Tick(ref MovementStateTransitionContext context)
@@ -52,7 +51,7 @@ namespace Yd.Gameplay.Object
             var animator = context.Character.Animator;
 
             animator.SetValue(StateParameterName, false);
-            
+
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using Yd.Extension;
 using Yd.Gameplay;
 
@@ -8,7 +7,7 @@ namespace Yd.Animation
 {
     public sealed class AnimationEventDispatcher : MonoBehaviour
     {
-        public event UnityAction<AnimationEvent> Step;
+        public event Action<AnimationEvent> Step;
         public event Action<GameplayEvent> Gameplay;
 
         // binding functions

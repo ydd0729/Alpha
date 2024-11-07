@@ -53,7 +53,7 @@ namespace Yd.Input
             var input = context.ReadValue<float>();
             if (input != 0)
             {
-                Zoom?.Invoke(-input * controller.Data.cameraZoomUnit);
+                Zoom?.Invoke(-input * controller.PlayerControllerData.cameraZoomUnit);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Yd.Input
             var delta = context.ReadValue<Vector2>();
 
             // 控制旋转视角的灵敏度
-            LookAround?.Invoke(delta * controller.Data.lookAroundUnit);
+            LookAround?.Invoke(delta * controller.PlayerControllerData.lookAroundUnit);
         }
 
         public void OnNormalAttack(InputAction.CallbackContext context)

@@ -13,13 +13,12 @@ namespace Yd.Gameplay.Object
         public CharacterController UnityCharacterController => Character.UnityCharacterController;
 
         public bool IsGrounded =>
-            (!CurrentState.ShouldGrounded && GroundDistance <= UnityCharacterController.skinWidth + GroundTolerance) ||
-            (CurrentState.ShouldGrounded && GroundDistance <= UnityCharacterController.skinWidth +
-                UnityCharacterController.stepOffset + GroundTolerance);
+            GroundDistance <= UnityCharacterController.skinWidth + GroundTolerance +
+            (CurrentState.ShouldGrounded ? UnityCharacterController.stepOffset : 0);
 
         public readonly CharacterMovement CharacterMovement => Character.Movement;
         public readonly CharacterControllerBase CharacterController => Character.Controller;
 
-        public float GroundTolerance => Character.Controller.Data.groundTolerance;
+        public float GroundTolerance => Character.Controller.ControllerData.groundTolerance;
     }
 }
