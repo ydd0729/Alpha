@@ -101,10 +101,6 @@ namespace Tayx.Graphy.Ram
                     break;
             }
 
-            m_shaderGraphAllocated.InitializeShader();
-            m_shaderGraphReserved.InitializeShader();
-            m_shaderGraphMono.InitializeShader();
-
             m_resolution = m_graphyManager.RamGraphResolution;
 
             CreatePoints();
@@ -220,10 +216,6 @@ namespace Tayx.Graphy.Ram
             m_shaderGraphMono.GoodThreshold = 0;
             m_shaderGraphMono.CautionThreshold = 0;
             m_shaderGraphMono.UpdateThresholds();
-
-            m_shaderGraphAllocated.UpdateArrayValuesLength();
-            m_shaderGraphReserved.UpdateArrayValuesLength();
-            m_shaderGraphMono.UpdateArrayValuesLength();
 
             // Average
 

@@ -59,29 +59,6 @@ namespace Tayx.Graphy
         #region Methods -> Public
 
         /// <summary>
-        /// This is done to avoid a design problem that arrays in shaders have, 
-        /// and should be called before initializing any shader graph.
-        /// The first time that you use initialize an array, the size of the array in the shader is fixed.
-        /// This is why sometimes you will get a warning saying that the array size will be capped.
-        /// It shouldn't generate any issues, but in the worst case scenario just reset the Unity Editor
-        /// (if for some reason the shaders reload).
-        /// I also cache the Property IDs, that make access faster to modify shader parameters.
-        /// </summary>
-        public void InitializeShader()
-        {
-            Image.material.SetFloatArray( GraphValues, new float[ArrayMaxSize] );
-        }
-
-        /// <summary>
-        /// Updates the GraphValuesLength parameter in the material with the current length of the
-        /// ShaderArrayValues float[] array.
-        /// </summary>
-        public void UpdateArrayValuesLength()
-        {
-            Image.material.SetInt( GraphValuesLength, ShaderArrayValues.Length );
-        }
-
-        /// <summary>
         /// Updates the average parameter in the material.
         /// </summary>
         public void UpdateAverage()
@@ -113,9 +90,23 @@ namespace Tayx.Graphy
         /// </summary>
         public void UpdatePoints()
         {
-            Image.material.SetFloatArray( GraphValues, ShaderArrayValues );
+            UpdateArrayValuesLength();
+            Image.material.SetFloatArray(GraphValues, ShaderArrayValues);
         }
 
+        #endregion
+        
+        #region Methods -> Private
+        
+        /// <summary>
+        /// Updates the GraphValuesLength parameter in the material with the current length of the
+        /// ShaderArrayValues float[] array.
+        /// </summary>
+        private void UpdateArrayValuesLength()
+        {
+            Image.material.SetInt( GraphValuesLength, ShaderArrayValues.Length );
+        }
+        
         #endregion
     }
 }

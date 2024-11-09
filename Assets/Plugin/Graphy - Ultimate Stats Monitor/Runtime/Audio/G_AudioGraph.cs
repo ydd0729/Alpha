@@ -108,9 +108,6 @@ namespace Tayx.Graphy.Audio
                     break;
             }
 
-            m_shaderGraph.InitializeShader();
-            m_shaderGraphHighestValues.InitializeShader();
-
             m_resolution = m_graphyManager.AudioGraphResolution;
 
             CreatePoints();
@@ -251,10 +248,6 @@ namespace Tayx.Graphy.Audio
             m_shaderGraphHighestValues.GoodThreshold = 0;
             m_shaderGraphHighestValues.CautionThreshold = 0;
             m_shaderGraphHighestValues.UpdateThresholds();
-
-            // Update Array
-            m_shaderGraph.UpdateArrayValuesLength();
-            m_shaderGraphHighestValues.UpdateArrayValuesLength();
 
             // Average
             m_shaderGraph.Average = 0;

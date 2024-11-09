@@ -80,8 +80,6 @@ namespace Tayx.Graphy.Fps
                     break;
             }
 
-            m_shaderGraph.InitializeShader();
-
             m_resolution = m_graphyManager.FpsGraphResolution;
 
             CreatePoints();
@@ -168,8 +166,6 @@ namespace Tayx.Graphy.Fps
             m_shaderGraph.CriticalColor = m_graphyManager.CriticalFPSColor;
 
             m_shaderGraph.UpdateColors();
-
-            m_shaderGraph.UpdateArrayValuesLength();
         }
 
         #endregion
