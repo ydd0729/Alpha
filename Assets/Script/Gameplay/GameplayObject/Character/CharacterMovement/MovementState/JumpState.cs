@@ -9,19 +9,26 @@ namespace Yd.Gameplay.Object
         {
         }
 
-        public override void Tick(ref MovementStateTransitionContext context)
+        public override void OnEnter(ref MovementStateTransitionContext context)
         {
-            base.Tick(ref context);
+            base.OnEnter(ref context);
 
-            if (context.Character.Controller.Velocity.y <= 0)
+            context.Character.SetGrounded(false);
+        }
+
+        public override void OnTick(ref MovementStateTransitionContext context)
+        {
+            base.OnTick(ref context);
+
+            if (context.Timer > 0.1f && context.Character.Controller.Velocity.y <= 0)
             {
                 context.CharacterMovement.TryTransitTo(Fall);
             }
         }
 
-        public override bool CanTransit(MovementStateTransitionContext context)
+        public override bool CanTransitFrom(MovementStateTransitionContext context)
         {
-            if (!base.CanTransit(context))
+            if (!base.CanTransitFrom(context))
             {
                 return false;
             }
@@ -37,6 +44,16 @@ namespace Yd.Gameplay.Object
                 JumpState or FallState => false,
                 _ => throw new NotImplementedException()
             };
+        }
+
+        public override void OnExit(ref MovementStateTransitionContext context)
+        {
+            base.OnExit(ref context);
+
+            if (context.LastOrNextState is not FallState)
+            {
+                context.Character.SetGrounded(true);
+            }
         }
     }
 }

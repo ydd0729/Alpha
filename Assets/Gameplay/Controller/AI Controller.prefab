@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 2024975278534404168, guid: 3f7764123245efe43b86113084ec8a84, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4161695821722012194, guid: 3f7764123245efe43b86113084ec8a84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

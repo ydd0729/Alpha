@@ -1,3 +1,4 @@
+using UnityEngine;
 using Yd.Animation;
 
 namespace Yd.Gameplay.Object
@@ -20,33 +21,34 @@ namespace Yd.Gameplay.Object
         {
             StateParameterName = stateParameterName;
             AllowRotation = allowRotation;
-            ShouldGrounded = shouldOnGround;
+            IsGroundState = shouldOnGround;
         }
 
 
         public bool AllowRotation { get; private set; }
 
-        public bool ShouldGrounded { get; private set; }
+        public bool IsGroundState { get; private set; }
 
-        public virtual bool CanTransit(MovementStateTransitionContext context)
+        public virtual bool CanTransitFrom(MovementStateTransitionContext context)
         {
             return true;
         }
 
-        public virtual void Enter(ref MovementStateTransitionContext context)
+        public virtual void OnEnter(ref MovementStateTransitionContext context)
         {
+            context.EnterTime = Time.time;
+
             var animator = context.Character.Animator;
 
             animator.SetValue(StateParameterName, true);
-
             animator.SetValue(AnimatorParameterId.RandomIndex, 0);
         }
 
-        public virtual void Tick(ref MovementStateTransitionContext context)
+        public virtual void OnTick(ref MovementStateTransitionContext context)
         {
         }
 
-        public virtual void Exit(ref MovementStateTransitionContext context)
+        public virtual void OnExit(ref MovementStateTransitionContext context)
         {
             var animator = context.Character.Animator;
 

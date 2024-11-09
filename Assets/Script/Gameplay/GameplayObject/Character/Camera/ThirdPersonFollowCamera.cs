@@ -20,8 +20,8 @@ namespace Yd.Gameplay.Object
             };
 
             cinemachineThirdPersonFollow = GetComponent<CinemachineThirdPersonFollow>();
-            cinemachineThirdPersonFollow.VerticalArmLength = controller.PlayerControllerData.cameraVerticalArmLength;
-            cinemachineThirdPersonFollow.CameraDistance = controller.PlayerControllerData.defaultCameraDistance;
+            cinemachineThirdPersonFollow.VerticalArmLength = controller.Character.PlayerCharacterData.cameraVerticalArmLength;
+            cinemachineThirdPersonFollow.CameraDistance = controller.Character.PlayerCharacterData.defaultCameraDistance;
 
             controller.PlayerActions.Zoom += OnZoom;
         }
@@ -29,7 +29,7 @@ namespace Yd.Gameplay.Object
         private void OnZoom(float zoom)
         {
             cinemachineThirdPersonFollow.CameraDistance += zoom;
-            cinemachineThirdPersonFollow.CameraDistance = controller.PlayerControllerData.cameraDistanceRange.Clamp
+            cinemachineThirdPersonFollow.CameraDistance = controller.Character.PlayerCharacterData.cameraDistanceRange.Clamp
                 (cinemachineThirdPersonFollow.CameraDistance);
 
             // DebugE.LogValue(nameof(zoom), zoom);

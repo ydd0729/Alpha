@@ -33,7 +33,7 @@ namespace Script.Animation
             base.OnStateMachineEnter(animator, stateMachinePathHash);
 
             animator.SetValue(AnimatorParameterId.RandomIndex, 0);
-            var randomInt = new RandomInt(valueRange.Min, valueRange.Max, minDuplicateGap);
+            var randomInt = new RandomInt(valueRange.MinInclusive, valueRange.MaxInclusive, minDuplicateGap);
 
             if (isInfinite)
             {
@@ -46,8 +46,8 @@ namespace Script.Animation
                             animator.SetValue(AnimatorParameterId.RandomTransition, true);
                         }
                     },
-                    periodRange.Min,
-                    periodRange.Max,
+                    periodRange.MinInclusive,
+                    periodRange.MaxInclusive,
                     CoroutineTimerLoopPolicy.InfiniteLoop
                 );
             }

@@ -14,8 +14,7 @@ namespace Yd.Extension
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
-            Debug.Log($"{nameof(EnumExtension)} reset.");
-
+            // Debug.Log($"{nameof(EnumExtension)} reset.");
             EnumStr?.Clear();
             StrEnum?.Clear();
         }

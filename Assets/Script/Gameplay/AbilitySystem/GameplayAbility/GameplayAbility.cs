@@ -44,20 +44,20 @@ namespace Yd.Gameplay.AbilitySystem
         public GameplayAbilitySystem Owner { get; }
 
         public SRangeFloat CooldownSpan { get; protected set; } = new();
-        public float CooldownRemainingTime => CooldownSpan.IsValid(Time.time) ? CooldownSpan.End - Time.time : 0;
+        public float CooldownRemainingTime => CooldownSpan.IsInRange(Time.time) ? CooldownSpan.End - Time.time : 0;
         public bool IsCoolingDown { get; protected set; }
 
         protected GameplayAbilitySystem Source { get; }
         protected Character Character { get; }
         protected Animator Animator { get; private set; }
-        protected CharacterControllerBase Controller { get; }
+        protected GameplayCharacterController Controller { get; }
         [CanBeNull] protected PlayerCharacterController PlayerController => Controller as PlayerCharacterController;
         protected CharacterMovement CharacterMovement { get; private set; }
         protected AnimationEventDispatcher AnimationEventDispatcher { get; private set; }
 
         public virtual void Tick()
         {
-            if (IsCoolingDown && !CooldownSpan.IsValid(Time.time))
+            if (IsCoolingDown && !CooldownSpan.IsInRange(Time.time))
             {
                 EndCooldown();
             }

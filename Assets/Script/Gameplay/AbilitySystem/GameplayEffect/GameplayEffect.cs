@@ -37,7 +37,9 @@ namespace Yd.Gameplay.AbilitySystem
             AttributesDirty?.Invoke();
         }
 
-        public bool CalculateModifications(IDictionary<GameplayAttributeType, float> moddingAttributes, bool useBaseValue = false)
+        public bool CalculateModifications(
+            IDictionary<GameplayAttributeType, float> moddingAttributes, bool useBaseValue = false
+        )
         {
             IReadOnlyDictionary<GameplayAttributeType, float> sourceAttributeValues = null;
             if (source != null)
@@ -54,7 +56,7 @@ namespace Yd.Gameplay.AbilitySystem
 
             foreach (var (type, value) in moddingAttributes)
             {
-                if (!type.Range.IsValid(value))
+                if (!type.Range.IsInRange(value))
                 {
                     if (Data.AllModsMustValid)
                     {

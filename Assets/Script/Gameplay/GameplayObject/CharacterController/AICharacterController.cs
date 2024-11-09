@@ -1,7 +1,6 @@
 namespace Yd.Gameplay.Object
 {
-    public class AICharacterController : CharacterControllerBase
+    public class AICharacterController : GameplayCharacterController
     {
-
     }
 }

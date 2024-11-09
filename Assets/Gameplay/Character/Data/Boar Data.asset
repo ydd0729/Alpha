@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b9b70af01cc3e842810f15041a3a184, type: 3}
-  m_Name: AI Controller Data
+  m_Name: Boar Data
   m_EditorClassIdentifier: 
   controllerFollowOffset: {x: 0, y: 1, z: 0}
   timeToRotate: 0.1
   jumpForwardSpeed: 4
   jumpUpSpeed: 4
-  gravitationalAcceleration: {x: 0, y: -9.8, z: 0}
-  airDrag: {x: 0.01, y: 0.001, z: 0.01}
   useRootMotionMovement: 0
   useStrafeSet: 0
-  groundTolerance: 0.2
+  GroundToleranceWhenGrounded: 1
+  GroundToleranceWhenFalling: 0.1

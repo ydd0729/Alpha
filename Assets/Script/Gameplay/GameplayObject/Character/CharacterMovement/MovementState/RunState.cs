@@ -10,9 +10,9 @@ namespace Yd.Gameplay.Object
         {
         }
 
-        public override void Tick(ref MovementStateTransitionContext context)
+        public override void OnTick(ref MovementStateTransitionContext context)
         {
-            base.Tick(ref context);
+            base.OnTick(ref context);
 
             if (!context.IsGrounded)
             {
@@ -28,9 +28,9 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public override bool CanTransit(MovementStateTransitionContext context)
+        public override bool CanTransitFrom(MovementStateTransitionContext context)
         {
-            if (!base.CanTransit(context))
+            if (!base.CanTransitFrom(context))
             {
                 return false;
             }

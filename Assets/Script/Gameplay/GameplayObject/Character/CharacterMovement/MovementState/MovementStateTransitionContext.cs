@@ -6,19 +6,22 @@ namespace Yd.Gameplay.Object
     {
         public Character Character;
         public MovementState CurrentState;
-        public MovementState LastState;
+        public MovementState LastOrNextState;
+        public float EnterTime;
 
         public float GroundDistance;
 
-        public CharacterController UnityCharacterController => Character.UnityCharacterController;
+        public CharacterController UnityController => Character.UnityController;
 
-        public bool IsGrounded =>
-            GroundDistance <= UnityCharacterController.skinWidth + GroundTolerance +
-            (CurrentState.ShouldGrounded ? UnityCharacterController.stepOffset : 0);
+        public bool IsGrounded => GroundDistance <=
+                                  (CurrentState.IsGroundState ? GroundToleranceWhenGrounded : GroundToleranceWhenFalling);
 
         public readonly CharacterMovement CharacterMovement => Character.Movement;
-        public readonly CharacterControllerBase CharacterController => Character.Controller;
+        public readonly GameplayCharacterController CharacterController => Character.Controller;
 
-        public float GroundTolerance => Character.Controller.ControllerData.groundTolerance;
+        public float GroundToleranceWhenFalling => Character.Data.GroundToleranceWhenFalling;
+        public float GroundToleranceWhenGrounded => Character.Data.GroundToleranceWhenGrounded;
+
+        public float Timer => Time.time - EnterTime;
     }
 }

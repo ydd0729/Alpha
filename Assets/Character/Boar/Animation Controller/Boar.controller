@@ -37,7 +37,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Idle
+    m_ConditionEvent: Stand
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -6648681241595789206}
   m_DstState: {fileID: 0}
@@ -159,11 +159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   valueRange:
-    min: 0
-    max: 1
+    minInclusive: 0
+    maxInclusive: 1
   periodRange:
-    min: 3
-    max: 5
+    minInclusive: 3
+    maxInclusive: 5
   minDuplicateGap: 0
   isInfinite: 1
 --- !u!1101 &-4783612594605175948
@@ -191,6 +191,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-3989228980092555312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518e421546d64b71b9869c29388887bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configs:
+  - {fileID: 11400000, guid: 8e64fe198ce2c39468f944ccedc318b6, type: 2}
 --- !u!1109 &-3238711301276265770
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -342,7 +356,7 @@ AnimatorStateMachine:
     m_Position: {x: 280, y: 330, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -2761383348098867803}
-    m_Position: {x: 720, y: 130, z: 0}
+    m_Position: {x: 700, y: 130, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -6648681241595789206}
     m_Position: {x: 280, y: 130, z: 0}
@@ -436,12 +450,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Idle
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: Walk
     m_Type: 4
     m_DefaultFloat: 0
@@ -500,7 +508,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   - m_Name: Fall
     m_Type: 4
@@ -629,7 +637,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Idle
+    m_ConditionEvent: Stand
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -658,7 +666,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 3570967115783918260}
   - {fileID: -2542734802221435439}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -3989228980092555312}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -699,7 +708,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Idle
+    m_ConditionEvent: Stand
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -6648681241595789206}
   m_DstState: {fileID: 0}
@@ -710,7 +719,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.6999999
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -855,7 +864,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Idle
+    m_ConditionEvent: Stand
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}

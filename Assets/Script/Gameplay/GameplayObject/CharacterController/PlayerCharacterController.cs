@@ -5,10 +5,8 @@ using Yd.Input;
 
 namespace Yd.Gameplay.Object
 {
-    public class PlayerCharacterController : CharacterControllerBase
+    public class PlayerCharacterController : GameplayCharacterController
     {
-        public PlayerControllerData PlayerControllerData => (PlayerControllerData)ControllerData;
-
         public PlayerActions PlayerActions
         {
             get;
@@ -29,7 +27,7 @@ namespace Yd.Gameplay.Object
             PlayerActions.GameplayEvent += OnGameplayEvent;
 
             var thirdPersonFollowCamera = Instantiate
-                (PlayerControllerData.followCameraPrefab, transform.parent).GetComponent<ThirdPersonFollowCamera>();
+                (Character.PlayerCharacterData.followCameraPrefab, transform.parent).GetComponent<ThirdPersonFollowCamera>();
             thirdPersonFollowCamera.Initialize(this);
         }
 
@@ -49,8 +47,8 @@ namespace Yd.Gameplay.Object
 
             rotation.x += -delta.y;
             rotation.x = rotation.x <= 180
-                ? Math.Min(rotation.x, PlayerControllerData.lookAroundAngleLimit.Max)
-                : Math.Max(rotation.x, 360 + PlayerControllerData.lookAroundAngleLimit.Min);
+                ? Math.Min(rotation.x, Character.PlayerCharacterData.lookAroundAngleLimit.MaxInclusive)
+                : Math.Max(rotation.x, 360 + Character.PlayerCharacterData.lookAroundAngleLimit.MinInclusive);
 
             rotation.y += delta.x;
 
@@ -64,10 +62,10 @@ namespace Yd.Gameplay.Object
 
         private void OnJump()
         {
-            if (Character.Movement.TryTransitTo(MovementState.Jump))
-            {
-                Jump();
-            }
+            Character.Movement.TryTransitTo(MovementState.Jump);
+            // {
+            //     Jump();
+            // }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Yd.Gameplay.AbilitySystem
         public GameplayAttributeSet AttributeSet { get; private set; }
 
         public Actor Owner { get; protected set; }
-        public CharacterControllerBase OnwerController => Owner as CharacterControllerBase;
+        public GameplayCharacterController OnwerController => Owner as GameplayCharacterController;
         public Character OwnerCharacter => OnwerController.Character;
 
         public bool AllowRotation

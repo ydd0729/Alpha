@@ -60,7 +60,7 @@ namespace Yd.Gameplay.AbilitySystem
 
         private void Update()
         {
-            LogCurrentValues(this);
+            // LogCurrentValues(this);
         }
 
         public void ResetCurrentValues()

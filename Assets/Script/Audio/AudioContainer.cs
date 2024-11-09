@@ -36,9 +36,9 @@ namespace Yd.Audio
             {
                 var audioItem = audioClips[index];
 
-                audioItem.volume += volume + Random.Range(volumeRandomRange.Min, volumeRandomRange.Max);
+                audioItem.volume += volume + Random.Range(volumeRandomRange.MinInclusive, volumeRandomRange.MaxInclusive);
                 audioItem.volume = Mathf.Clamp(audioItem.volume, 0, 1);
-                audioItem.pitch += pitch + Random.Range(pitchRandomRange.Min, pitchRandomRange.Max);
+                audioItem.pitch += pitch + Random.Range(pitchRandomRange.MinInclusive, pitchRandomRange.MaxInclusive);
                 audioItem.spatialBlend = spatialBlend;
 
                 return audioItem;
@@ -49,8 +49,9 @@ namespace Yd.Audio
         {
             volume = Mathf.Clamp(volume, 0, 1);
             spatialBlend = Mathf.Clamp(spatialBlend, 0, 1);
-            volumeRandomRange.Min = Mathf.Clamp(volumeRandomRange.Min, -volume, 1 - volume);
-            volumeRandomRange.Max = Mathf.Clamp(volumeRandomRange.Max, volumeRandomRange.Min, 1 - volume);
+            volumeRandomRange.MinInclusive = Mathf.Clamp(volumeRandomRange.MinInclusive, -volume, 1 - volume);
+            volumeRandomRange.MaxInclusive = Mathf.Clamp
+                (volumeRandomRange.MaxInclusive, volumeRandomRange.MinInclusive, 1 - volume);
         }
 
         public IEnumerator<AudioItem> GetEnumerator()

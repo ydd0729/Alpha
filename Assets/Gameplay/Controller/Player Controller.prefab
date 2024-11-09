@@ -78,4 +78,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useGravity: 1
-  data: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}
+  controllerData: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}

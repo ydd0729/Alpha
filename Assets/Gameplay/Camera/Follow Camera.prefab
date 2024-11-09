@@ -55,7 +55,10 @@ MonoBehaviour:
   StandbyUpdate: 2
   m_StreamingVersion: 20230301
   m_LegacyPriority: 0
-  BlendHint: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
@@ -75,10 +78,7 @@ MonoBehaviour:
       Curvature: {x: 2, y: 11}
       BarrelClipping: 0.25
       Anamorphism: 0
-  Target:
-    TrackingTarget: {fileID: 0}
-    LookAtTarget: {fileID: 0}
-    CustomLookAtTarget: 0
+  BlendHint: 0
 --- !u!114 &3694896530349835445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
     CollisionFilter:
       serializedVersion: 2
       m_Bits: 1
-    IgnoreTag: Player
+    IgnoreTag: 
     CameraRadius: 0.001
     DampingIntoCollision: 0.1
     DampingFromCollision: 0.5

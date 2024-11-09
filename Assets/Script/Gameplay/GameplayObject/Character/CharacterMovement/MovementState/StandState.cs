@@ -6,19 +6,20 @@ namespace Yd.Gameplay.Object
 {
     public class StandState : MovementState
     {
-        public StandState() : base(AnimatorParameterId.Stand, true, true)
+        public StandState() : base(AnimatorParameterId.Stand, true)
         {
         }
 
-        public override void Tick(ref MovementStateTransitionContext context)
+        public override void OnTick(ref MovementStateTransitionContext context)
         {
-            base.Tick(ref context);
+            base.OnTick(ref context);
 
             if (!context.IsGrounded)
             {
                 context.Character.Movement.TryTransitTo(Fall);
             }
-            else if (context.CharacterController.AllowMovement && context.Character.Controller.LocalMoveDirection != Vector3.zero)
+            else if (context.CharacterController.AllowMovement &&
+                     context.Character.Controller.LocalMoveDirection != Vector3.zero)
             {
                 switch(context.Character.Controller.WalkRunToggle)
                 {
@@ -32,9 +33,9 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public override bool CanTransit(MovementStateTransitionContext context)
+        public override bool CanTransitFrom(MovementStateTransitionContext context)
         {
-            if (!base.CanTransit(context))
+            if (!base.CanTransitFrom(context))
             {
                 return false;
             }

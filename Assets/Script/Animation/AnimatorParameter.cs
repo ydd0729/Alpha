@@ -59,8 +59,7 @@ namespace Yd.Animation
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
-            Debug.Log($"{nameof(AnimatorParameterExtension)} reset.");
-
+            // Debug.Log($"{nameof(AnimatorParameterExtension)} reset.");
             ParameterId?.Clear();
         }
 
@@ -71,7 +70,7 @@ namespace Yd.Animation
                 id = Animator.StringToHash(parameter.GetString());
                 ParameterId.Add(parameter, id);
             }
-            
+
             // Debug.Log($"hash({parameter}) = {id}");
 
             return id;

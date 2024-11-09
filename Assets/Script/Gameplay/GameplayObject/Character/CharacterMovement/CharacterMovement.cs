@@ -10,13 +10,13 @@ namespace Yd.Gameplay.Object
     public class CharacterMovement : MonoBehaviour
     {
         private AnimationEventDispatcher animationEventDispatcher;
-        private MovementStateTransitionContext transitionContext;
+        private MovementStateTransitionContext context;
 
-        public bool IsGrounded => transitionContext.IsGrounded;
-        public Character Character => transitionContext.Character;
-        public MovementState CurrentState => transitionContext.CurrentState;
-        public MovementState LastState => transitionContext.LastState;
-        public float GroundDistance => transitionContext.GroundDistance;
+        // public bool IsGrounded => context.IsGrounded;
+        public Character Character => context.Character;
+        public MovementState CurrentState => context.CurrentState;
+        public MovementState LastOrNextState => context.LastOrNextState;
+        public float GroundDistance => context.GroundDistance;
         public bool IsWalkingOrRunning => CurrentState is WalkState or RunState;
 
         // private void Start()
@@ -29,16 +29,16 @@ namespace Yd.Gameplay.Object
             // DetectGround();
             Character.Animator.SetValue(AnimatorParameterId.GroundVelocity, Character.Controller.GroundVelocity.magnitude);
 
-            CurrentState.Tick(ref transitionContext);
+            CurrentState.OnTick(ref context);
         }
 
-        public event Action<MovementStateChangedEventArgs> MovementStateChanged;
+        public event Action<MovementStateTransitionContext> MovementStateChanged;
 
         public void Initialize(Character character)
         {
-            transitionContext.Character = character;
-            transitionContext.CurrentState = MovementState.Stand;
-            transitionContext.GroundDistance = 0;
+            context.Character = character;
+            context.CurrentState = MovementState.Stand;
+            context.GroundDistance = 0;
 
             animationEventDispatcher = gameObject.GetOrAddComponent<AnimationEventDispatcher>();
             animationEventDispatcher.Step += OnStep;
@@ -64,28 +64,19 @@ namespace Yd.Gameplay.Object
                 return;
             }
 
-            var oldStateParameter = CurrentState.StateParameterName;
-            var currentStateParameterName = nextState.StateParameterName;
+            context.LastOrNextState = nextState;
+            CurrentState?.OnExit(ref context);
 
-            CurrentState?.Exit(ref transitionContext);
-            transitionContext.LastState = transitionContext.CurrentState;
-            transitionContext.CurrentState = nextState;
-            CurrentState.Enter(ref transitionContext);
+            context.LastOrNextState = context.CurrentState;
+            context.CurrentState = nextState;
+            CurrentState?.OnEnter(ref context);
 
-
-            MovementStateChanged?.Invoke
-            (
-                new MovementStateChangedEventArgs
-                {
-                    OldStateParameterName = oldStateParameter,
-                    CurrentStateParameterName = currentStateParameterName
-                }
-            );
+            MovementStateChanged?.Invoke(context);
         }
 
         public bool TryTransitTo(MovementState state)
         {
-            if (state.CanTransit(transitionContext))
+            if (state.CanTransitFrom(context))
             {
                 TransitTo(state);
                 return true;
@@ -96,16 +87,16 @@ namespace Yd.Gameplay.Object
 
         public void DetectGround()
         {
-            var radius = Character.UnityCharacterController.radius;
+            var radius = Character.UnityController.radius;
             var origin = Character.transform.position + Vector3.up * radius;
 
             if (PhysicsE.SphereCast(origin, 0.1f, Vector3.down, out var hitInfo, true, Color.red, Color.blue, 32))
             {
-                transitionContext.GroundDistance = Character.transform.position.y - hitInfo.point.y;
+                context.GroundDistance = Character.transform.position.y - hitInfo.point.y;
             }
             else
             {
-                transitionContext.GroundDistance = Mathf.Infinity;
+                context.GroundDistance = Mathf.Infinity;
             }
 
             // DebugE.LogValue(nameof(GroundDistance), GroundDistance);
@@ -137,23 +128,17 @@ namespace Yd.Gameplay.Object
                             (AudioId.StoneFootstep, AudioChannel.FootStep, humanoidCharacter.RightFoot);
                     }
                     break;
-                case AnimationEvent.StepLeftMiddle:
-                    Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, true);
-                    Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, false);
-                    break;
-                case AnimationEvent.StepRightMiddle:
-                    Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, false);
-                    Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, true);
-                    break;
+                // case AnimationEvent.StepLeftMiddle:
+                //     Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, true);
+                //     Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, false);
+                //     break;
+                // case AnimationEvent.StepRightMiddle:
+                //     Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, false);
+                //     Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, true);
+                //     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-    }
-
-    public class MovementStateChangedEventArgs : EventArgs
-    {
-        public AnimatorParameterId CurrentStateParameterName;
-        public AnimatorParameterId OldStateParameterName;
     }
 }

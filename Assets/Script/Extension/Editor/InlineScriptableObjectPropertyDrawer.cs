@@ -28,8 +28,7 @@ namespace Yd.Extension
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
-            Debug.Log($"{nameof(InlineScriptableObjectPropertyDrawer)} Reset.");
-
+            // Debug.Log($"{nameof(InlineScriptableObjectPropertyDrawer)} Reset.");
             Foldout.Clear();
         }
 

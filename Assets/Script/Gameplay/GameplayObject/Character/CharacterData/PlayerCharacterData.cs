@@ -4,7 +4,7 @@ using Yd.Collection;
 namespace Yd.Gameplay.Object
 {
     [CreateAssetMenu(fileName = "Player Controller Data", menuName = "Scriptable Objects/Gameplay/Player Controller Data")]
-    public class PlayerControllerData : ControllerData
+    public class PlayerCharacterData : CharacterData
     {
         // Camera
         public GameObject followCameraPrefab;

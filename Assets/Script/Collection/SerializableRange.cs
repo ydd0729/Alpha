@@ -8,59 +8,68 @@ namespace Yd.Collection
     [Serializable]
     public class SRange<T> where T : IComparable<T>
     {
-        [FormerlySerializedAs("start")] [SerializeField] protected T min;
+        [FormerlySerializedAs("minInclusiveInclusive")] [FormerlySerializedAs("min")] [FormerlySerializedAs("start")]
+        [SerializeField]
+        protected T minInclusive;
 
-        [FormerlySerializedAs("end")] [SerializeField] protected T max;
+        [FormerlySerializedAs("maxInclusiveInclusive")] [FormerlySerializedAs("max")] [FormerlySerializedAs("end")]
+        [SerializeField]
+        protected T maxInclusive;
 
         public SRange()
         {
-            min = default;
-            max = default;
+            minInclusive = default;
+            maxInclusive = default;
         }
 
-        public SRange(T min, T max)
+        public SRange(T minInclusive, T maxInclusive)
         {
-            Min = min;
-            Max = max;
+            Set(minInclusive, maxInclusive);
         }
 
-        public virtual T Min
+        public T MinInclusive
         {
-            get => min;
+            get => minInclusive;
             set
             {
-                min = value;
-                if (min.CompareTo(max) > 0)
+                minInclusive = value;
+                if (minInclusive.CompareTo(maxInclusive) > 0)
                 {
-                    max = min;
+                    maxInclusive = minInclusive;
                 }
             }
         }
 
-        public virtual T Max
+        public T MaxInclusive
         {
-            get => max;
+            get => maxInclusive;
             set
             {
-                max = value;
-                if (max.CompareTo(min) < 0)
+                maxInclusive = value;
+                if (maxInclusive.CompareTo(minInclusive) < 0)
                 {
-                    min = max;
+                    minInclusive = maxInclusive;
                 }
             }
         }
 
         public T Start
         {
-            get => Min;
-            set => Min = value;
+            get => MinInclusive;
+            set => MinInclusive = value;
         }
 
 
         public T End
         {
-            get => Max;
-            set => Max = value;
+            get => MaxInclusive;
+            set => MaxInclusive = value;
+        }
+
+        public void Set(T minInclusive, T maxInclusive)
+        {
+            MinInclusive = minInclusive;
+            MaxInclusive = maxInclusive;
         }
 
 
@@ -84,8 +93,8 @@ namespace Yd.Collection
             }
             #endif
 
-            Min.Clamp(minMin, minMax);
-            Max.Clamp(maxMin, maxMax);
+            MinInclusive.Clamp(minMin, minMax);
+            MaxInclusive.Clamp(maxMin, maxMax);
         }
 
         public void ClampRange(T minMin, T maxMax)
@@ -98,31 +107,31 @@ namespace Yd.Collection
             }
             #endif
 
-            if (Min.CompareTo(minMin) < 0)
+            if (MinInclusive.CompareTo(minMin) < 0)
             {
-                Min = minMin;
+                MinInclusive = minMin;
             }
 
-            if (Max.CompareTo(maxMax) > 0)
+            if (MaxInclusive.CompareTo(maxMax) > 0)
             {
-                Max = maxMax;
+                MaxInclusive = maxMax;
             }
         }
 
         public T Clamp(T v)
         {
-            v = v.Clamp(Min, Max);
+            v = v.Clamp(MinInclusive, MaxInclusive);
             return v;
         }
 
-        public bool IsValid(T v)
+        public bool IsInRange(T v)
         {
-            if (Min.CompareTo(v) > 0)
+            if (MinInclusive.CompareTo(v) > 0)
             {
                 return false;
             }
 
-            if (Max.CompareTo(v) < 0)
+            if (MaxInclusive.CompareTo(v) < 0)
             {
                 return false;
             }
@@ -138,19 +147,19 @@ namespace Yd.Collection
         {
         }
 
-        public SRangeInt(int min, int max) : base(min, max)
+        public SRangeInt(int minInclusive, int maxInclusive) : base(minInclusive, maxInclusive)
         {
         }
 
         public static implicit operator Vector2Int(SRangeInt range)
         {
-            return new Vector2Int(range.min, range.max);
+            return new Vector2Int(range.minInclusive, range.maxInclusive);
         }
 
 
         public int Random()
         {
-            return UnityEngine.Random.Range(min, max + 1);
+            return UnityEngine.Random.Range(minInclusive, maxInclusive + 1);
         }
     }
 
@@ -161,18 +170,23 @@ namespace Yd.Collection
         {
         }
 
-        public SRangeFloat(float min, float max) : base(min, max)
+        public SRangeFloat(float minInclusive, float maxInclusive) : base(minInclusive, maxInclusive)
         {
         }
 
         public static implicit operator Vector2(SRangeFloat range)
         {
-            return new Vector2(range.min, range.max);
+            return new Vector2(range.minInclusive, range.maxInclusive);
         }
 
         public float Random()
         {
-            return UnityEngine.Random.Range(min, max);
+            return UnityEngine.Random.Range(minInclusive, maxInclusive);
+        }
+
+        public float Length()
+        {
+            return MaxInclusive - MinInclusive;
         }
     }
 }
