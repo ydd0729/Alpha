@@ -5,7 +5,6 @@ namespace Yd.Gameplay.Object
 {
     public class MovementState
     {
-        public static readonly MovementState None = new();
         public static readonly WalkState Walk = new();
         public static readonly RunState Run = new();
         public static readonly StandState Stand = new();
@@ -29,12 +28,12 @@ namespace Yd.Gameplay.Object
 
         public bool IsGroundState { get; private set; }
 
-        public virtual bool CanTransitFrom(MovementStateTransitionContext context)
-        {
-            return true;
-        }
+        // public virtual bool CanTransitFrom(MovementStateTransitionContext context)
+        // {
+        //     return true;
+        // }
 
-        public virtual void OnEnter(ref MovementStateTransitionContext context)
+        public virtual void OnEnter(ref MovementStateContext context)
         {
             context.EnterTime = Time.time;
 
@@ -44,11 +43,11 @@ namespace Yd.Gameplay.Object
             animator.SetValue(AnimatorParameterId.RandomIndex, 0);
         }
 
-        public virtual void OnTick(ref MovementStateTransitionContext context)
+        public virtual void OnTick(ref MovementStateContext context)
         {
         }
 
-        public virtual void OnExit(ref MovementStateTransitionContext context)
+        public virtual void OnExit(ref MovementStateContext context)
         {
             var animator = context.Character.Animator;
 

@@ -10,7 +10,7 @@ namespace Yd.Gameplay.Object
         {
         }
 
-        public override void OnEnter(ref MovementStateTransitionContext context)
+        public override void OnEnter(ref MovementStateContext context)
         {
             base.OnEnter(ref context);
 
@@ -20,11 +20,11 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public override void OnTick(ref MovementStateTransitionContext context)
+        public override void OnTick(ref MovementStateContext context)
         {
             base.OnTick(ref context);
 
-            if (context is { IsGrounded: true })
+            if (context.Character.IsGrounded)
             {
                 if (context.CharacterController.Velocity != Vector3.zero)
                 {
@@ -45,27 +45,27 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public override bool CanTransitFrom(MovementStateTransitionContext context)
-        {
-            if (!base.CanTransitFrom(context))
-            {
-                return false;
-            }
+        // public override bool CanTransitFrom(MovementStateTransitionContext context)
+        // {
+        //     if (!base.CanTransitFrom(context))
+        //     {
+        //         return false;
+        //     }
+        //
+        //     //if (context.IsGrounded)
+        //     //{
+        //     //    return false;
+        //     //}
+        //
+        //     return context.CurrentState switch
+        //     {
+        //         JumpState or StandState or WalkState or RunState => true,
+        //         FallState => false,
+        //         _ => throw new NotImplementedException()
+        //     };
+        // }
 
-            //if (context.IsGrounded)
-            //{
-            //    return false;
-            //}
-
-            return context.CurrentState switch
-            {
-                JumpState or StandState or WalkState or RunState => true,
-                FallState => false,
-                _ => throw new NotImplementedException()
-            };
-        }
-
-        public override void OnExit(ref MovementStateTransitionContext context)
+        public override void OnExit(ref MovementStateContext context)
         {
             base.OnExit(ref context);
 

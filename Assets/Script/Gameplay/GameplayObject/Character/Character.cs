@@ -11,6 +11,7 @@ namespace Yd.Gameplay.Object
     {
         [SerializeField] private GameObject controllerPrefab;
         [FormerlySerializedAs("characterData")] [SerializeField] protected CharacterData data;
+        [SerializeField] private HealthBar healthBar;
 
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
@@ -24,11 +25,18 @@ namespace Yd.Gameplay.Object
         public CharacterData Data => data;
         public PlayerCharacterData PlayerCharacterData => (PlayerCharacterData)Data;
 
+        protected HealthBar HealthBar => healthBar;
+
         public CharacterWeapon Weapon
         {
             get;
             protected set;
         }
+
+        public bool IsGrounded => Movement.GroundDistance <=
+                                  (Movement.CurrentState.IsGroundState
+                                      ? Data.GroundToleranceWhenGrounded
+                                      : Data.GroundToleranceWhenFalling);
 
 
         private void Awake()
@@ -67,6 +75,16 @@ namespace Yd.Gameplay.Object
                 Rigidbody.isKinematic = false;
                 Rigidbody.interpolation = RigidbodyInterpolation.Extrapolate;
             }
+        }
+
+        public void OnHealthChanged(float health)
+        {
+            HealthBar.SetHealth(health);
+        }
+
+        public void OnMaxHealthChanged(float health)
+        {
+            HealthBar.SetMaxHealth(health);
         }
 
         public event Action AnimatorMoved;

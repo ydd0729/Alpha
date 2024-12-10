@@ -23,7 +23,7 @@ namespace Yd.Gameplay.Object
             PlayerActions.Move += OnMove;
             PlayerActions.LookAround += OnLookAround;
             PlayerActions.ToggleWalkRun += OnToggleWalkRun;
-            PlayerActions.Jump += OnJump;
+            PlayerActions.Jump += Character.Movement.RequestJump;
             PlayerActions.GameplayEvent += OnGameplayEvent;
 
             var thirdPersonFollowCamera = Instantiate
@@ -58,14 +58,6 @@ namespace Yd.Gameplay.Object
         private void OnMove(Vector2 moveVector)
         {
             LocalMoveDirection = new Vector3(moveVector.x, 0, moveVector.y);
-        }
-
-        private void OnJump()
-        {
-            Character.Movement.TryTransitTo(MovementState.Jump);
-            // {
-            //     Jump();
-            // }
         }
     }
 }

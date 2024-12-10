@@ -174,7 +174,7 @@ namespace Yd.Gameplay.AbilitySystem
         {
             for (var channel = (int)start; channel < (int)GEChannel.MAX; ++channel)
             {
-                Dictionary<GameplayAttributeType, float> mods = new();
+                Dictionary<GameplayAttributeTypeSO, float> mods = new();
 
                 if (ActiveEffects.TryGetValue((GEChannel)channel, out var gameplayEffectSet))
                 {

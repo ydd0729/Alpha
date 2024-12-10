@@ -80,3 +80,4 @@ Raw
 .vsconfig
 *.sln.DotSettings
 Assets/~UnityDirMonSyncFile~*
+AssetResource/

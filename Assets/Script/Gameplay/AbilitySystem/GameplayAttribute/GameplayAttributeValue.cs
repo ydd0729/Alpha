@@ -6,18 +6,18 @@ namespace Yd.Gameplay.AbilitySystem
     [Serializable]
     public struct GameplayAttributeValue
     {
-        [FormerlySerializedAs("Type")] public GameplayAttributeType type;
+        [FormerlySerializedAs("type")] [FormerlySerializedAs("Type")] public GameplayAttributeTypeSO typeSo;
         [FormerlySerializedAs("Value")] public float value;
 
-        public GameplayAttributeValue(GameplayAttributeType type, float value)
+        public GameplayAttributeValue(GameplayAttributeTypeSO typeSo, float value)
         {
-            this.type = type;
+            this.typeSo = typeSo;
             this.value = value;
         }
 
-        internal void Deconstruct(out GameplayAttributeType type, out float value)
+        internal void Deconstruct(out GameplayAttributeTypeSO typeSo, out float value)
         {
-            type = this.type;
+            typeSo = this.typeSo;
             value = this.value;
         }
     }

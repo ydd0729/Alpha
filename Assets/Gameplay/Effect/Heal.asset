@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   type: 2
-  duration: 3
+  duration: 5
   period: 1
   channel: 0
   allModsMustValid: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
     operations:
     - operator: 1
       operand:
-        type: 1
-        magnitude: 0.1
+        type: 0
+        magnitude: -10
         attributeSourceType: 1
         basedAttribute: {fileID: 11400000, guid: f38d43e5052ea47458f3266d0f1c80e5, type: 2}

@@ -19,7 +19,7 @@ namespace Yd.Gameplay.Behavior
             (
                 Type switch
                 {
-                    PatrolAreaType.Circle => DebugShape.CircularArea,
+                    PatrolAreaType.Circle => DebugShape.WireCircularArea,
                     _ => throw new ArgumentOutOfRangeException()
                 },
                 Radius,

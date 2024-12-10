@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Yd.Extension
 {
-    [ExecuteAlways]
     public class DebugDrawer : MonoBehaviour
     {
         public DebugShape Shape;
@@ -12,9 +11,23 @@ namespace Yd.Extension
         public DebugColorType Color;
         public int Segment;
 
+        private Vector3[] wireShape;
+
         private void OnDrawGizmos()
         {
-            Draw();
+            GizmosE.DrawShape(wireShape, StaticColor.Get(Color));
+
+            Gizmos.DrawFrustum(Vector3.zero, 90, 10, 1, 1);
+        }
+
+        private void OnValidate()
+        {
+            wireShape = Shape switch
+            {
+                DebugShape.WireCircularArea => WireShape.CircularArea(transform.position, Radius, Height, Segment),
+                DebugShape.WireSphere => WireShape.Sphere(transform.position, Radius, Segment),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         public void Init(DebugShape shape, float radius, float height, DebugColorType color, int segment = 0)
@@ -25,27 +38,12 @@ namespace Yd.Extension
             Color = color;
             Segment = segment;
         }
-
-        private void Draw()
-        {
-            switch(Shape)
-            {
-                case DebugShape.CircularArea:
-                    GizmosE.DrawCircularArea(transform.position, Radius, Height, StaticColor.Get(Color), Segment);
-                    break;
-                case DebugShape.Sphere:
-                    GizmosE.DrawSphere(transform.position, Radius, StaticColor.Get(Color), Segment);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
     }
 
     public enum DebugShape
     {
-        Sphere,
-        CircularArea
+        WireSphere,
+        WireCircularArea
     }
 
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
+using Yd.Extension;
 
-namespace Yd.Extension
+namespace Yd.DebugExtension
 {
     public static class DebugE
     {

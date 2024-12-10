@@ -10,27 +10,36 @@ namespace Yd.Gameplay.AbilitySystem
         [SerializeField] public AttributeModifierOperandType type;
         [SerializeField] public float magnitude;
         [SerializeField] public AttributeSourceType attributeSourceType;
-        [SerializeField] public GameplayAttributeType basedAttribute;
+        [SerializeField] public GameplayAttributeTypeSO basedAttribute;
 
-        public float Value(IReadOnlyDictionary<GameplayAttributeType, float> sourceAttributeValues, IReadOnlyDictionary<GameplayAttributeType, float> targetAttributeValues)
+        public float Value(
+            IReadOnlyDictionary<GameplayAttributeTypeSO, float> sourceAttributeValues,
+            IReadOnlyDictionary<GameplayAttributeTypeSO, float> targetAttributeValues
+        )
         {
             return type switch
             {
                 AttributeModifierOperandType.Constant => magnitude,
                 AttributeModifierOperandType.AttributeBased => attributeSourceType switch
-                {
-                    AttributeSourceType.Source => sourceAttributeValues?[basedAttribute] ?? throw new NullReferenceException(),
-                    AttributeSourceType.Target => targetAttributeValues[basedAttribute],
-                    _ => throw new ArgumentOutOfRangeException()
-                } * magnitude,
+                                                               {
+                                                                   AttributeSourceType.Source => sourceAttributeValues?[
+                                                                       basedAttribute] ??
+                                                                   throw new NullReferenceException(),
+                                                                   AttributeSourceType.Target => targetAttributeValues[
+                                                                       basedAttribute],
+                                                                   _ => throw new ArgumentOutOfRangeException()
+                                                               } *
+                                                               magnitude,
                 AttributeModifierOperandType.SetByCaller => throw new NotImplementedException(),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
 
-        public void AddRequirements(List<GameplayAttributeType> requiredSourceAttributes, List<GameplayAttributeType> requiredTargetAttributes)
+        public void AddRequirements(
+            List<GameplayAttributeTypeSO> requiredSourceAttributes, List<GameplayAttributeTypeSO> requiredTargetAttributes
+        )
         {
-            switch (attributeSourceType)
+            switch(attributeSourceType)
             {
                 case AttributeSourceType.Source:
                     if (!requiredSourceAttributes.Contains(basedAttribute))

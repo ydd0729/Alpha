@@ -2,11 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Yd.Extension;
+using Yd.Gameplay.AbilitySystem;
 
 namespace Yd.Gameplay.Object
 {
     public class GameplayCharacterController : Actor
     {
+
+        private GameplayAttributeSet attributeSet;
         private RotationTask rotationTask;
 
         protected NavMeshAgent NavMeshAgent { get; private set; }
@@ -69,7 +72,7 @@ namespace Yd.Gameplay.Object
                 Move();
             }
 
-            DebugE.LogValue(nameof(LocalMoveDirection), LocalMoveDirection);
+            // DebugE.LogValue(nameof(LocalMoveDirection), LocalMoveDirection);
         }
 
         protected virtual void LateUpdate()
@@ -124,10 +127,25 @@ namespace Yd.Gameplay.Object
                 AbilitySystem.Initialize(this);
             }
 
+            attributeSet = GetComponent<GameplayAttributeSet>();
+            attributeSet.AttributeCurrentValueChanged += (so, oldValue, value) => {
+                switch(so.Type)
+                {
+                    case GameplayAttributeTypeEnum.Health:
+                        character.OnHealthChanged(value);
+                        break;
+                    case GameplayAttributeTypeEnum.MaxHealth:
+                        character.OnMaxHealthChanged(value);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            };
+
             FollowCharacterPosition();
         }
 
-        private void OnMovementStateChanged(MovementStateTransitionContext context)
+        private void OnMovementStateChanged(MovementStateContext context)
         {
             switch(context.CurrentState)
             {

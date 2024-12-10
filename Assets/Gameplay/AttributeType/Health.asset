@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01170b5327ab4506a6e6e32a8eac07e9, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
+  range:
+    minInclusive: 0
+    maxInclusive: 999999
+  maxAttribute: {fileID: 11400000, guid: 60e10836d3347b445890c4d20fb4e2ba, type: 2}
+  valueAttribute: {fileID: 0}
+  type: 0

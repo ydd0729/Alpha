@@ -3,6 +3,7 @@ using UnityEngine;
 using Yd.Animation;
 using Yd.Audio;
 using Yd.Extension;
+using Yd.PhysicsExtension;
 using AnimationEvent = Yd.Animation.AnimationEvent;
 
 namespace Yd.Gameplay.Object
@@ -10,7 +11,7 @@ namespace Yd.Gameplay.Object
     public class CharacterMovement : MonoBehaviour
     {
         private AnimationEventDispatcher animationEventDispatcher;
-        private MovementStateTransitionContext context;
+        private MovementStateContext context;
 
         // public bool IsGrounded => context.IsGrounded;
         public Character Character => context.Character;
@@ -32,7 +33,7 @@ namespace Yd.Gameplay.Object
             CurrentState.OnTick(ref context);
         }
 
-        public event Action<MovementStateTransitionContext> MovementStateChanged;
+        public event Action<MovementStateContext> MovementStateChanged;
 
         public void Initialize(Character character)
         {
@@ -47,6 +48,11 @@ namespace Yd.Gameplay.Object
 
             // var characterAnimationRandomizer = gameObject.AddComponent<CharacterAnimationRandomizer>();
             // characterAnimationRandomizer.Initialize(Character);
+        }
+
+        public void RequestJump()
+        {
+            context.JumpRequested = true;
         }
 
         private void OnAnimatorMoved()
@@ -76,11 +82,11 @@ namespace Yd.Gameplay.Object
 
         public bool TryTransitTo(MovementState state)
         {
-            if (state.CanTransitFrom(context))
-            {
-                TransitTo(state);
-                return true;
-            }
+            // if (state.CanTransitFrom(context))
+            // {
+            TransitTo(state);
+            //     return true;
+            // }
 
             return false;
         }
@@ -88,9 +94,12 @@ namespace Yd.Gameplay.Object
         public void DetectGround()
         {
             var radius = Character.UnityController.radius;
-            var origin = Character.transform.position + Vector3.up * radius;
+            var origin = Character.transform.position + Vector3.up * (radius + 0.01f);
+            var layerMask = Physics.DefaultRaycastLayers ^ LayerMaskE.Character;
 
-            if (PhysicsE.SphereCast(origin, 0.1f, Vector3.down, out var hitInfo, true, Color.red, Color.blue, 32))
+
+            if (PhysicsE.SphereCast
+                (origin, radius, Vector3.down, out var hitInfo, layerMask: layerMask, drawDebug: true, hitColor: Color.red))
             {
                 context.GroundDistance = Character.transform.position.y - hitInfo.point.y;
             }
@@ -98,8 +107,6 @@ namespace Yd.Gameplay.Object
             {
                 context.GroundDistance = Mathf.Infinity;
             }
-
-            // DebugE.LogValue(nameof(GroundDistance), GroundDistance);
         }
 
         private void OnStep(AnimationEvent @event)

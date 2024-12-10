@@ -36,7 +36,7 @@ namespace Yd.Gameplay.AbilitySystem
             {
                 Animator.SetValue(AnimatorParameterId.Attack, true);
             }
-
+            
             return true;
         }
 
@@ -52,6 +52,8 @@ namespace Yd.Gameplay.AbilitySystem
 
             AllowMovement = true;
             AllowRotation = true;
+            
+            Debug.LogWarning("StopExecution");
         }
 
         protected override void EndCooldown()
@@ -78,16 +80,15 @@ namespace Yd.Gameplay.AbilitySystem
                     }
                     else
                     {
-                        EndComboDetection();
+                        StopComboDetection();
                     }
-
                     break;
                 case GameplayEvent.NormalAttack:
                     if (!ComboApproved && CanDetectCombo)
                     {
-                        ComboWaiter.SetResult(true);
                         ComboApproved = true;
                         ComboCounter += 1;
+                        ComboWaiter.SetResult(true);
                     }
                     break;
                 default:

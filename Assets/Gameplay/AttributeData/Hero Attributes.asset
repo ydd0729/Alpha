@@ -16,4 +16,5 @@ MonoBehaviour:
     list:
     - key: {fileID: 11400000, guid: f38d43e5052ea47458f3266d0f1c80e5, type: 2}
       value: 100
-    warningText: 
+    - key: {fileID: 11400000, guid: 60e10836d3347b445890c4d20fb4e2ba, type: 2}
+      value: 100

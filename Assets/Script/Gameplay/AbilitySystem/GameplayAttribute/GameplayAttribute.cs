@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Yd.Gameplay.AbilitySystem
 {
@@ -8,9 +9,11 @@ namespace Yd.Gameplay.AbilitySystem
     {
         [SerializeField] [HideInInspector] private float baseValue;
         [SerializeField] [HideInInspector] private float currentValue;
+        [FormerlySerializedAs("type")] [SerializeField] [HideInInspector] private GameplayAttributeTypeSO typeSo;
 
-        public GameplayAttribute(float value)
+        public GameplayAttribute(GameplayAttributeTypeSO typeSo, float value)
         {
+            this.typeSo = typeSo;
             baseValue = value;
             currentValue = value;
         }
@@ -25,12 +28,12 @@ namespace Yd.Gameplay.AbilitySystem
                     return;
                 }
 
-                PreAttributeBaseValueChange(ref value);
+                OnPreAttributeBaseValueChange(baseValue, ref value);
 
                 var oldValue = baseValue;
                 baseValue = value;
 
-                PostAttributeBaseValueChange(oldValue);
+                OnPostAttributeBaseValueChange(oldValue, value);
             }
         }
 
@@ -44,29 +47,44 @@ namespace Yd.Gameplay.AbilitySystem
                     return;
                 }
 
-                PreAttributeCurrentValueChange(ref value);
+                OnPreAttributeCurrentValueChange(currentValue, ref value);
 
                 var oldValue = currentValue;
                 currentValue = value;
 
-                PostAttributeCurrentValueChange(oldValue);
+                OnPostAttributeCurrentValueChange(oldValue, value);
             }
         }
 
-        public virtual void PreAttributeBaseValueChange(ref float value)
+        public event Func<GameplayAttributeTypeSO, float, float, float> PreAttributeBaseValueChange;
+        public event Func<GameplayAttributeTypeSO, float, float, float> PreAttributeCurrentValueChange;
+        public event Action<GameplayAttributeTypeSO, float, float> PostAttributeBaseValueChange;
+        public event Action<GameplayAttributeTypeSO, float, float> PostAttributeCurrentValueChange;
+
+        public virtual void OnPreAttributeBaseValueChange(float oldValue, ref float value)
         {
+            if (PreAttributeBaseValueChange != null)
+            {
+                value = PreAttributeBaseValueChange(typeSo, oldValue, value);
+            }
         }
 
-        public virtual void PostAttributeBaseValueChange(float oldValue)
+        public virtual void OnPostAttributeBaseValueChange(float oldValue, float value)
         {
+            PostAttributeBaseValueChange?.Invoke(typeSo, oldValue, value);
         }
 
-        public virtual void PreAttributeCurrentValueChange(ref float value)
+        public virtual void OnPreAttributeCurrentValueChange(float oldValue, ref float value)
         {
+            if (PreAttributeCurrentValueChange != null)
+            {
+                value = PreAttributeCurrentValueChange(typeSo, oldValue, value);
+            }
         }
 
-        public virtual void PostAttributeCurrentValueChange(float oldValue)
+        public virtual void OnPostAttributeCurrentValueChange(float oldValue, float value)
         {
+            PostAttributeCurrentValueChange?.Invoke(typeSo, oldValue, value);
         }
     }
 }

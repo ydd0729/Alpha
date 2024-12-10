@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Yd.Collection;
-using Yd.Extension;
+using Yd.DebugExtension;
 
 namespace Yd.Gameplay.AbilitySystem
 {
@@ -9,15 +10,15 @@ namespace Yd.Gameplay.AbilitySystem
     {
         [SerializeField] private GameplayAttributeData attributeData;
 
-        private readonly SDictionary<GameplayAttributeType, GameplayAttribute> attributes = new();
+        private readonly SDictionary<GameplayAttributeTypeSO, GameplayAttribute> attributes = new();
 
-        public GameplayAttribute this[GameplayAttributeType gameplayAttributeType] => attributes[gameplayAttributeType];
+        public GameplayAttribute this[GameplayAttributeTypeSO gameplayAttributeTypeSo] => attributes[gameplayAttributeTypeSo];
 
-        public IReadOnlyDictionary<GameplayAttributeType, float> BaseValues
+        public IReadOnlyDictionary<GameplayAttributeTypeSO, float> BaseValues
         {
             get
             {
-                var baseValues = new Dictionary<GameplayAttributeType, float>();
+                var baseValues = new Dictionary<GameplayAttributeTypeSO, float>();
 
                 foreach (var (type, attribute) in attributes)
                 {
@@ -28,11 +29,11 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        public IReadOnlyDictionary<GameplayAttributeType, float> CurrentValues
+        public IReadOnlyDictionary<GameplayAttributeTypeSO, float> CurrentValues
         {
             get
             {
-                var currentValues = new Dictionary<GameplayAttributeType, float>();
+                var currentValues = new Dictionary<GameplayAttributeTypeSO, float>();
 
                 foreach (var (type, attribute) in attributes)
                 {
@@ -54,14 +55,28 @@ namespace Yd.Gameplay.AbilitySystem
 
             foreach (var (type, value) in attributeData.Data)
             {
-                attributes.Add(type, new GameplayAttribute(value));
+                var attribute = new GameplayAttribute(type, value);
+                attribute.PreAttributeCurrentValueChange += OnPreAttributeCurrentValueChanged;
+                attribute.PostAttributeCurrentValueChange += OnPostAttributeCurrentValueChanged;
+
+                attributes.Add(type, attribute);
             }
         }
 
-        private void Update()
+        private void Start()
         {
-            // LogCurrentValues(this);
+            foreach (var (type, attribute) in attributes)
+            {
+                OnPostAttributeCurrentValueChanged(type, attribute.CurrentValue, attribute.CurrentValue);
+            }
         }
+
+        public event Action<GameplayAttributeTypeSO, float, float> AttributeCurrentValueChanged;
+
+        // private void Update()
+        // {
+        //     LogCurrentValues(this);
+        // }
 
         public void ResetCurrentValues()
         {
@@ -77,6 +92,26 @@ namespace Yd.Gameplay.AbilitySystem
             {
                 DebugE.LogValue(type.name, value);
             }
+        }
+
+        private float OnPreAttributeCurrentValueChanged(GameplayAttributeTypeSO typeSo, float oldValue, float value)
+        {
+            if (typeSo.MaxAttribute && value > attributes[typeSo.MaxAttribute].CurrentValue)
+            {
+                value = attributes[typeSo.MaxAttribute].CurrentValue;
+            }
+            if (typeSo.ValueAttribute && value > oldValue)
+            {
+                attributes[typeSo.ValueAttribute].BaseValue += value - oldValue;
+                attributes[typeSo.ValueAttribute].CurrentValue += value - oldValue;
+            }
+
+            return value;
+        }
+
+        private void OnPostAttributeCurrentValueChanged(GameplayAttributeTypeSO typeSo, float oldValue, float value)
+        {
+            AttributeCurrentValueChanged?.Invoke(typeSo, oldValue, value);
         }
     }
 }

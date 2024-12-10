@@ -18,15 +18,15 @@ MonoBehaviour:
     m_Value1: 2628837880593905913
   m_Blackboard:
     m_Variables:
-    - rid: 3986338995050381743
-    - rid: 3986338995050381744
-    - rid: 3986338995050381745
-    - rid: 3986338995050381746
+    - rid: 488373608251400
+    - rid: 488373608251401
+    - rid: 488373608251402
+    - rid: 488373608251403
   m_SharedBlackboardVariableGuids: []
   references:
     version: 2
     RefIds:
-    - rid: 3986338995050381743
+    - rid: 488373608251400
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -34,7 +34,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 0}
-    - rid: 3986338995050381744
+    - rid: 488373608251401
       type: {class: 'BlackboardVariable`1[[Yd.Gameplay.Behavior.PatrolArea, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -42,7 +42,7 @@ MonoBehaviour:
           m_Value1: 9001562068513955214
         Name: Patrol Area
         m_Value: {fileID: 0}
-    - rid: 3986338995050381745
+    - rid: 488373608251402
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -50,7 +50,7 @@ MonoBehaviour:
           m_Value1: 10334627924472409562
         Name: Patrol Min Wait Time
         m_Value: 3
-    - rid: 3986338995050381746
+    - rid: 488373608251403
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -71,74 +71,74 @@ MonoBehaviour:
   m_Name: BG_Boar
   m_EditorClassIdentifier: 
   Graphs:
-  - rid: 3986338995050381747
+  - rid: 488389876121600
   RootGraph:
-    rid: 3986338995050381747
+    rid: 488389876121600
   m_DebugInfo: {fileID: 8510436461860107598}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3986338995050381747
+    - rid: 488389876121600
       type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         AuthoringAssetID:
           m_Value0: 2623494280376230931
           m_Value1: 2628837880593905913
-        m_DebugInfo: {fileID: 8510436461860107598}
+        m_DebugInfo: {fileID: 0}
         Root:
-          rid: 3986338995050381748
+          rid: 488389876121601
         BlackboardReference:
-          rid: 3986338995050381749
+          rid: 488389876121602
         BlackboardGroupReferences: []
         m_VersionTimestamp: 638667804295389596
-    - rid: 3986338995050381748
+    - rid: 488389876121601
       type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
           m_Value0: 2618814842564682108
           m_Value1: 17787284308507881161
         Graph:
-          rid: 3986338995050381747
+          rid: 488389876121600
         m_Parent:
           rid: -2
         m_Child:
-          rid: 3986338995050381750
+          rid: 488389876121603
         Repeat: 0
-    - rid: 3986338995050381749
+    - rid: 488389876121602
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         m_Blackboard:
-          rid: 3986338995050381751
+          rid: 488389876121604
         m_Source: {fileID: -8026392733460923710}
-    - rid: 3986338995050381750
+    - rid: 488389876121603
       type: {class: PatrolWithinAreaAction, ns: Yd.Gameplay.Behavior, asm: Assembly-CSharp}
       data:
         ID:
           m_Value0: 923032632841219331
           m_Value1: 15057792698141467185
         Graph:
-          rid: 3986338995050381747
+          rid: 488389876121600
         m_Parent:
-          rid: 3986338995050381748
+          rid: 488389876121601
         Agent:
-          rid: 3986338995050381752
+          rid: 488389876121605
         PatrolArea:
-          rid: 3986338995050381753
+          rid: 488389876121606
         WaitTimeMinInclusive:
-          rid: 3986338995050381754
+          rid: 488389876121607
         WaitTimeMaxInclusive:
-          rid: 3986338995050381755
-    - rid: 3986338995050381751
+          rid: 488389876121608
+    - rid: 488389876121604
       type: {class: Blackboard, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         m_Variables:
-        - rid: 3986338995050381752
-        - rid: 3986338995050381753
-        - rid: 3986338995050381754
-        - rid: 3986338995050381755
-    - rid: 3986338995050381752
+        - rid: 488389876121605
+        - rid: 488389876121606
+        - rid: 488389876121607
+        - rid: 488389876121608
+    - rid: 488389876121605
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -146,7 +146,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 0}
-    - rid: 3986338995050381753
+    - rid: 488389876121606
       type: {class: 'BlackboardVariable`1[[Yd.Gameplay.Behavior.PatrolArea, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -154,7 +154,7 @@ MonoBehaviour:
           m_Value1: 9001562068513955214
         Name: Patrol Area
         m_Value: {fileID: 0}
-    - rid: 3986338995050381754
+    - rid: 488389876121607
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -162,7 +162,7 @@ MonoBehaviour:
           m_Value1: 10334627924472409562
         Name: Patrol Min Wait Time
         m_Value: 3
-    - rid: 3986338995050381755
+    - rid: 488389876121608
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -304,6 +304,46 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 488389876121609
+      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 488389876121610
+      type: {class: 'TypedVariableModel`1[[Yd.Gameplay.Behavior.PatrolArea, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 3879627112164388752
+          m_Value1: 9001562068513955214
+        Name: Patrol Area
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 488389876121611
+      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 11644115550778356945
+          m_Value1: 10334627924472409562
+        Name: Patrol Min Wait Time
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: 3
+    - rid: 488389876121612
+      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 16056681696519666789
+          m_Value1: 15803247158932309755
+        Name: Patrol Max Wait TIme
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: 16
     - rid: 3986338966709731467
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -355,7 +395,7 @@ MonoBehaviour:
         LocalValue:
           rid: 3986338976177062654
         LinkedVariable:
-          rid: 3986338995050381759
+          rid: 488389876121611
     - rid: 3986338976177062653
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -366,7 +406,7 @@ MonoBehaviour:
         LocalValue:
           rid: 3986338976177062655
         LinkedVariable:
-          rid: 3986338995050381760
+          rid: 488389876121612
     - rid: 3986338976177062654
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -393,7 +433,7 @@ MonoBehaviour:
         LocalValue:
           rid: 3986338990945206575
         LinkedVariable:
-          rid: 3986338995050381757
+          rid: 488389876121609
     - rid: 3986338990945206575
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -412,7 +452,7 @@ MonoBehaviour:
         LocalValue:
           rid: 3986338995050381703
         LinkedVariable:
-          rid: 3986338995050381758
+          rid: 488389876121610
     - rid: 3986338995050381703
       type: {class: 'BlackboardVariable`1[[Yd.Gameplay.Behavior.PatrolArea, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -421,46 +461,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 0}
-    - rid: 3986338995050381757
-      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 3986338995050381758
-      type: {class: 'TypedVariableModel`1[[Yd.Gameplay.Behavior.PatrolArea, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 3879627112164388752
-          m_Value1: 9001562068513955214
-        Name: Patrol Area
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 3986338995050381759
-      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 11644115550778356945
-          m_Value1: 10334627924472409562
-        Name: Patrol Min Wait Time
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: 3
-    - rid: 3986338995050381760
-      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 16056681696519666789
-          m_Value1: 15803247158932309755
-        Name: Patrol Max Wait TIme
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: 16
     - rid: 8931811901684580467
       type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:

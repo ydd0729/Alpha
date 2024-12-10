@@ -38,10 +38,10 @@ namespace Yd.Gameplay.AbilitySystem
         }
 
         public bool CalculateModifications(
-            IDictionary<GameplayAttributeType, float> moddingAttributes, bool useBaseValue = false
+            IDictionary<GameplayAttributeTypeSO, float> moddingAttributes, bool useBaseValue = false
         )
         {
-            IReadOnlyDictionary<GameplayAttributeType, float> sourceAttributeValues = null;
+            IReadOnlyDictionary<GameplayAttributeTypeSO, float> sourceAttributeValues = null;
             if (source != null)
             {
                 sourceAttributeValues = useBaseValue ? source.AttributeSet.BaseValues : source.AttributeSet.CurrentValues;
@@ -73,7 +73,7 @@ namespace Yd.Gameplay.AbilitySystem
         {
             return Data.Type switch
             {
-                GameplayEffectType.Instant => CalculateModifications(new Dictionary<GameplayAttributeType, float>()),
+                GameplayEffectType.Instant => CalculateModifications(new Dictionary<GameplayAttributeTypeSO, float>()),
                 GameplayEffectType.Infinite => true,
                 GameplayEffectType.Duration => true,
                 _ => throw new ArgumentOutOfRangeException()
@@ -141,7 +141,7 @@ namespace Yd.Gameplay.AbilitySystem
             timer = CoroutineTimer.SetTimer
             (
                 context => {
-                    var mods = new Dictionary<GameplayAttributeType, float>();
+                    var mods = new Dictionary<GameplayAttributeTypeSO, float>();
                     CalculateModifications(mods, true);
 
                     foreach (var (type, mod) in mods)
@@ -168,7 +168,7 @@ namespace Yd.Gameplay.AbilitySystem
 
         private void ApplyInstantEffect()
         {
-            var mods = new Dictionary<GameplayAttributeType, float>();
+            var mods = new Dictionary<GameplayAttributeTypeSO, float>();
             CalculateModifications(mods, true);
 
             foreach (var (type, mod) in mods)
