@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volume: 1
   volumeRandomRange:
-    start: -0.6
-    end: -0.2
+    minInclusive: -0.6
+    maxInclusive: -0.2
   pitch: 1
   pitchRandomRange:
-    start: 0
-    end: 0
+    minInclusive: 0
+    maxInclusive: 0
   spatialBlend: 1
   playbackMode: 2
   avoidRepeatingLast: 5

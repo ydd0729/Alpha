@@ -104,6 +104,28 @@ namespace Yd.Gameplay.Object
 
         public void OnGameplayEvent(GameplayEvent obj)
         {
+            switch(obj)
+            {
+                case Gameplay.GameplayEvent.DamageDetectionStart:
+                    break;
+                case Gameplay.GameplayEvent.DamageDetectionEnd:
+                    break;
+                case Gameplay.GameplayEvent.ComboDetectionStart:
+                    break;
+                case Gameplay.GameplayEvent.ComboDetectionEnd:
+                    break;
+                case Gameplay.GameplayEvent.NormalAttack:
+                    break;
+                case Gameplay.GameplayEvent.Interact:
+                    foreach (var interactive in Character.TriggeredInteractives)
+                    {
+                        interactive.Interact();
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
+            }
+
             GameplayEvent?.Invoke(obj);
         }
 

@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Script.Gameplay.GameplayObject.Item;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Yd.Extension;
@@ -15,6 +18,10 @@ namespace Yd.Gameplay.Object
 
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
+        public HashSet<GameObject> TriggeredObjects
+        {
+            get;
+        } = new();
 
         public CharacterMovement Movement { get; private set; }
 
@@ -38,6 +45,8 @@ namespace Yd.Gameplay.Object
                                       ? Data.GroundToleranceWhenGrounded
                                       : Data.GroundToleranceWhenFalling);
 
+        public ICollection<IInteractive> TriggeredInteractives => TriggeredObjects.Select
+            (triggered => triggered.GetComponent<IInteractive>()).Where(interactive => interactive != null).ToList();
 
         private void Awake()
         {
@@ -59,6 +68,16 @@ namespace Yd.Gameplay.Object
         private void OnAnimatorMove()
         {
             AnimatorMoved?.Invoke();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            TriggeredObjects.Add(other.gameObject);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            TriggeredObjects.Remove(other.gameObject);
         }
 
         public void SetGrounded(bool isGrounded)

@@ -47,11 +47,11 @@ namespace Yd.Audio
 
         private void OnValidate()
         {
-            volume = Mathf.Clamp(volume, 0, 1);
+            // volume = Mathf.Clamp(volume, 0, 1);
             spatialBlend = Mathf.Clamp(spatialBlend, 0, 1);
-            volumeRandomRange.MinInclusive = Mathf.Clamp(volumeRandomRange.MinInclusive, -volume, 1 - volume);
-            volumeRandomRange.MaxInclusive = Mathf.Clamp
-                (volumeRandomRange.MaxInclusive, volumeRandomRange.MinInclusive, 1 - volume);
+            // volumeRandomRange.MinInclusive = Mathf.Clamp(volumeRandomRange.MinInclusive, -volume, 1 - volume);
+            // volumeRandomRange.MaxInclusive = Mathf.Clamp
+            //     (volumeRandomRange.MaxInclusive, volumeRandomRange.MinInclusive, 1 - volume);
         }
 
         public IEnumerator<AudioItem> GetEnumerator()

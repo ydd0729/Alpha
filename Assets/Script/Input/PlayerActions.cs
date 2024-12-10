@@ -75,6 +75,10 @@ namespace Yd.Input
 
         public void OnInteract(InputAction.CallbackContext context)
         {
+            if (context.performed)
+            {
+                GameplayEvent?.Invoke(Gameplay.GameplayEvent.Interact);
+            }
         }
 
         public void OnCrouch(InputAction.CallbackContext context)

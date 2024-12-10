@@ -1,29 +1,18 @@
-﻿using TMPro;
+﻿using Script.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : BillboardBehaviour
 {
     public Slider slider;
     public Gradient gradient;
     public Image fill;
-    public bool faceCamera;
     public TextMeshProUGUI text;
 
     private float health;
     private float maxHealth;
 
-    private void LateUpdate()
-    {
-        if (faceCamera)
-        {
-            var camera = Camera.main;
-            if (camera)
-            {
-                transform.LookAt(transform.position + camera.transform.forward);
-            }
-        }
-    }
 
     public void SetMaxHealth(float maxHealth)
     {

@@ -20,20 +20,18 @@ namespace Yd.Gameplay.AbilitySystem
         {
             switch(type)
             {
-                case GameplayEvent.DamageDetectionStart:
-                    break;
-                case GameplayEvent.DamageDetectionEnd:
-                    break;
-                case GameplayEvent.ComboDetectionStart:
-                    break;
-                case GameplayEvent.ComboDetectionEnd:
-                    break;
                 case GameplayEvent.NormalAttack:
                     if (owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
                         owner.OwnerCharacter.Weapon == CharacterWeapon.None)
                     {
                         await owner.TryActivateAbility(this);
                     }
+                    break;
+                case GameplayEvent.DamageDetectionStart:
+                case GameplayEvent.DamageDetectionEnd:
+                case GameplayEvent.ComboDetectionStart:
+                case GameplayEvent.ComboDetectionEnd:
+                case GameplayEvent.Interact:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

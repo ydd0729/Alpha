@@ -6,6 +6,7 @@
         DamageDetectionEnd,
         ComboDetectionStart,
         ComboDetectionEnd,
-        NormalAttack
+        NormalAttack,
+        Interact
     }
 }

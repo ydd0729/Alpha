@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audios:
     list:
-    - Key: 0
-      Value: {fileID: 11400000, guid: 9fa6e4400127080408c41c9b3caa61f6, type: 2}
-    warningText: 
+    - key: 0
+      value: {fileID: 11400000, guid: 9fa6e4400127080408c41c9b3caa61f6, type: 2}
+    - key: 1
+      value: {fileID: 11400000, guid: 634ca9952bc676f45a43d06511b9dc55, type: 2}
   audioMixerGroups:
     list:
-    - Key: 1
-      Value: {fileID: 6774264383534025056, guid: 0d342e66846929c419c334344d2678c2, type: 2}
-    warningText: 
+    - key: 1
+      value: {fileID: 6774264383534025056, guid: 0d342e66846929c419c334344d2678c2, type: 2}
+    - key: 3
+      value: {fileID: 2739367004565823823, guid: 0d342e66846929c419c334344d2678c2, type: 2}
+    - key: 2
+      value: {fileID: -2945457701016070139, guid: 0d342e66846929c419c334344d2678c2, type: 2}
