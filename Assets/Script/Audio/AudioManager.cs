@@ -58,18 +58,18 @@ namespace Yd.Audio
 
             if (audioContainerEnumerators.TryGetValue(audioId, out var enumerator))
             {
-                SetAudioItem(audioSource, enumerator);
+                SetAudioSource(audioSource, enumerator);
             }
             else
             {
-                switch( GlobalData.Instance.Audio.AudioResources[audioId] )
+                switch(GlobalData.Instance.Audio.AudioResources[audioId])
                 {
                     case AudioClip clip:
                         audioSource.clip = clip;
                         break;
                     case AudioContainer audioContainer:
                         enumerator = audioContainer.GetEnumerator();
-                        SetAudioItem(audioSource, enumerator);
+                        SetAudioSource(audioSource, enumerator);
                         audioContainerEnumerators[audioId] = enumerator;
                         break;
                 }
@@ -77,6 +77,7 @@ namespace Yd.Audio
 
             audioSource.outputAudioMixerGroup = GlobalData.Instance.Audio.AudioMixerGroups[channel];
 
+            Debug.Log($"[AudioManager::PlayOneShot] {audioSource.clip.name}");
             audioSource.Play();
 
             CoroutineTimer.SetTimer
@@ -91,19 +92,19 @@ namespace Yd.Audio
             );
         }
 
-        private static void SetAudioItem(AudioSource audioSource, IEnumerator<AudioItem> enumerator)
+        private static void SetAudioSource(AudioSource audioSource, IEnumerator<AudioItem> enumerator)
         {
-            if (!enumerator.MoveNext())
-            {
-                enumerator.Reset();
-            }
-
             var audioItem = enumerator.Current;
 
             audioSource.volume = audioItem.volume;
             audioSource.pitch = audioItem.pitch;
             audioSource.clip = audioItem.audioClip;
             audioSource.spatialBlend = audioItem.spatialBlend;
+
+            if (!enumerator.MoveNext())
+            {
+                enumerator.Reset();
+            }
         }
 
         private void OnGetFromPool(AudioSource audioSource)

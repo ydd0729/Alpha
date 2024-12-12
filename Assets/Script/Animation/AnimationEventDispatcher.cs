@@ -7,34 +7,31 @@ namespace Yd.Animation
 {
     public sealed class AnimationEventDispatcher : MonoBehaviour
     {
-        public event Action<AnimationEvent> Step;
-        public event Action<GameplayEvent> Gameplay;
-
-        // binding functions
+        public event Action<GameplayEvent> Event;
 
         private void StepLeft()
         {
-            Step?.Invoke(AnimationEvent.StepLeft);
+            Event?.Invoke(Gameplay.GameplayEvent.StepLeft);
         }
 
         private void StepRight()
         {
-            Step?.Invoke(AnimationEvent.StepRight);
+            Event?.Invoke(Gameplay.GameplayEvent.StepRight);
         }
 
         private void StepLeftMiddle()
         {
-            Step?.Invoke(AnimationEvent.StepLeftMiddle);
+            Event?.Invoke(Gameplay.GameplayEvent.StepLeftMiddle);
         }
 
         private void StepRightMiddle()
         {
-            Step?.Invoke(AnimationEvent.StepRightMiddle);
+            Event?.Invoke(Gameplay.GameplayEvent.StepRightMiddle);
         }
 
         private void GameplayEvent(string @event)
         {
-            Gameplay?.Invoke(@event.GetEnum<GameplayEvent>());
+            Event?.Invoke(@event.GetEnum<GameplayEvent>());
         }
     }
 }

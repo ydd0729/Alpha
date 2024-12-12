@@ -34,7 +34,7 @@ with open(os.path.join(base_path, "path-deleted-sizes.txt"), "r") as f:
     for line in f.readlines():
         match = re.search(r'\s+\d+\s+\d+\s+\d+-\d+-\d+\s(.*)', line)
         match = match.group(1) if match else ''
-        if not match.endswith(('.meta', '.cs')):
+        if not match.endswith('.cs'):
             deleted_paths.append(match)
 
 deleted_hashes = []
@@ -61,5 +61,6 @@ with open(os.path.join(script_dir, "deleted_hashes.txt"), "w") as w:
     # print(deleted_hashes)
     w.writelines(deleted_hashes)
 
+os.remove(os.path.join(script_dir, '.git', 'filter-repo', 'already_ran'))
 run_powershell_command_live("git-filter-repo --strip-blobs-with-ids \"{}\" --force".format(os.path.join(script_dir, "deleted_hashes.txt")))
 os.remove(os.path.join(script_dir, "deleted_hashes.txt"))

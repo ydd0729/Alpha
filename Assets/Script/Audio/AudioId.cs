@@ -3,6 +3,11 @@ namespace Yd.Audio
     public enum AudioId
     {
         StoneFootstep,
-        Collect
+        Collect,
+        JumpUp,
+        Land,
+        Punch,
+        Kick,
+        PunchImpactFlesh
     }
 }

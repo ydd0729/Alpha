@@ -20,7 +20,7 @@ namespace Yd.Gameplay.Object
         public bool useRootMotionMovement;
         public bool useStrafeSet;
 
-        [FormerlySerializedAs("groundTolerance")] public float GroundToleranceWhenGrounded = 0.8f;
+        [FormerlySerializedAs("groundTolerance")] public float GroundToleranceWhenGrounded = 0.01f;
         public float GroundToleranceWhenFalling = 0.01f;
     }
 }

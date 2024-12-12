@@ -18,7 +18,7 @@ namespace Yd.Gameplay.AbilitySystem
         public void Calculate(
             [CanBeNull] IReadOnlyDictionary<GameplayAttributeTypeSO, float> sourceAttributeValues,
             IReadOnlyDictionary<GameplayAttributeTypeSO, float> targetAttributeValues,
-            IDictionary<GameplayAttributeTypeSO, float> moddingAttributeValues
+            IDictionary<GameplayAttributeTypeSO, float> moddingAttributeValues, IReadOnlyDictionary<string, float> taggedValues
         )
         {
             moddingAttributeValues.TryAdd(targetAttribute, targetAttributeValues[targetAttribute]);
@@ -27,7 +27,7 @@ namespace Yd.Gameplay.AbilitySystem
 
             foreach (var (@operator, operand) in operations)
             {
-                var operandValue = operand.Value(sourceAttributeValues, targetAttributeValues);
+                var operandValue = operand.Value(sourceAttributeValues, targetAttributeValues, taggedValues);
 
                 switch(@operator)
                 {

@@ -1,5 +1,4 @@
 using Script.Gameplay.GameplayObject.Item;
-using TMPro;
 using UnityEngine;
 using Yd.Audio;
 using Yd.Gameplay.Object;
@@ -8,14 +7,14 @@ public class Chest : Actor, IInteractive
 {
     private static readonly int Open = Animator.StringToHash("Open");
 
-    public TextMeshProUGUI text;
+    public Canvas canvas;
     public Animator animator;
 
     private bool opened;
 
     private void Awake()
     {
-        text.enabled = false;
+        canvas.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,7 +22,7 @@ public class Chest : Actor, IInteractive
         if (!opened && other.gameObject.CompareTag("Player"))
         {
             // Debug.Log(other.gameObject.name + " enter");
-            text.enabled = true;
+            canvas.enabled = true;
         }
     }
 
@@ -32,7 +31,7 @@ public class Chest : Actor, IInteractive
         if (!opened && other.gameObject.CompareTag("Player"))
         {
             // Debug.Log(other.gameObject.name + " exit");
-            text.enabled = false;
+            canvas.enabled = false;
         }
     }
 
@@ -42,7 +41,7 @@ public class Chest : Actor, IInteractive
         {
             animator.SetTrigger(Open);
             opened = true;
-            text.enabled = false;
+            canvas.enabled = false;
             AudioManager.PlayOneShot(AudioId.Collect, AudioChannel.SFX);
         }
 

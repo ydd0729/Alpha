@@ -4,7 +4,7 @@ namespace Yd.Audio
     {
         Main,
         World,
-        FootStep,
+        Footstep,
         SFX
     }
 }

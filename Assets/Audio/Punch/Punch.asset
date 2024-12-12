@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: Punch
+  m_EditorClassIdentifier: 
+  volume: 1
+  volumeRandomRange:
+    minInclusive: -0.3
+    maxInclusive: 0
+  pitch: 1
+  pitchRandomRange:
+    minInclusive: 0
+    maxInclusive: 0
+  spatialBlend: 1
+  playbackMode: 0
+  avoidRepeatingLast: 0
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: 56571adb4c732804cb7698c481865b8b, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 6427c2938f6a04246a2d3e7779e32368, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 58f310f0c5963fe4d9076cd9aec5d519, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 1d886d3744948d84a917f3f508d1b173, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: b217b2f7c16ba7648869993a6966712f, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 6b33505755d31354bb7bb466d321171a, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: ca8558b93676d7c46bad44ba5a8c2268, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: bd69b57c42d9ec949b5ceb56683e6a20, type: 3}
+    volume: 0
+    pitch: 0

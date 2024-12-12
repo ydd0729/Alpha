@@ -35,15 +35,13 @@ namespace Yd.Audio
             get
             {
                 var audioItem = audioClips[index];
-
-                audioItem.volume += volume + Random.Range(volumeRandomRange.MinInclusive, volumeRandomRange.MaxInclusive);
-                audioItem.volume = Mathf.Clamp(audioItem.volume, 0, 1);
-                audioItem.pitch += pitch + Random.Range(pitchRandomRange.MinInclusive, pitchRandomRange.MaxInclusive);
-                audioItem.spatialBlend = spatialBlend;
+                SetAudioItem(ref audioItem);
 
                 return audioItem;
             }
         }
+
+        public int Count => audioClips.Count;
 
         private void OnValidate()
         {
@@ -58,7 +56,7 @@ namespace Yd.Audio
         {
             return playbackMode switch
             {
-                AudioContainerMode.Sequential => audioClips.GetEnumerator(),
+                AudioContainerMode.Sequential => new SequentialEnumerator(this),
                 AudioContainerMode.Shuffle => new ShuffleEnumerator(this),
                 AudioContainerMode.Random => new RandomEnumerator(this),
                 _ => throw new InvalidEnumArgumentException($"PlaybackMode = {(int)playbackMode}")
@@ -68,6 +66,50 @@ namespace Yd.Audio
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void SetAudioItem(ref AudioItem audioItem)
+        {
+            audioItem.volume += volume + Random.Range(volumeRandomRange.MinInclusive, volumeRandomRange.MaxInclusive);
+            audioItem.volume = Mathf.Clamp(audioItem.volume, 0, 1);
+            audioItem.pitch += pitch + Random.Range(pitchRandomRange.MinInclusive, pitchRandomRange.MaxInclusive);
+            audioItem.spatialBlend = spatialBlend;
+        }
+
+        private class SequentialEnumerator : IEnumerator<AudioItem>
+        {
+            private readonly AudioContainer audioContainer;
+            private int index;
+
+            public SequentialEnumerator(AudioContainer audioContainer)
+            {
+                this.audioContainer = audioContainer;
+
+                Reset();
+            }
+
+            public bool MoveNext()
+            {
+                if (index == audioContainer.Count - 1)
+                {
+                    return false;
+                }
+                index++;
+                return true;
+            }
+
+            public void Reset()
+            {
+                index = 0;
+            }
+
+            public AudioItem Current => audioContainer[index];
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+            }
         }
 
         private class ShuffleEnumerator : IEnumerator<AudioItem>

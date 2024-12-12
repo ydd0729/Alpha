@@ -7,6 +7,12 @@
         ComboDetectionStart,
         ComboDetectionEnd,
         NormalAttack,
-        Interact
+        Interact,
+        StepLeft,
+        StepRight,
+        StepLeftMiddle,
+        StepRightMiddle,
+        PunchSound,
+        KickSound
     }
 }

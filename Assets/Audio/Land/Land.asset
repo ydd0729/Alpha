@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: Land
+  m_EditorClassIdentifier: 
+  volume: 0.8
+  volumeRandomRange:
+    minInclusive: -0.2
+    maxInclusive: 0
+  pitch: 1
+  pitchRandomRange:
+    minInclusive: 0
+    maxInclusive: 0
+  spatialBlend: 1
+  playbackMode: 2
+  avoidRepeatingLast: 2
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: fa2c9bad28287004fb45139399e9f1c0, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 5fb9dcbba5ee4f34fa7890ba47c84ba7, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 997c730d495f0874b904e89ac79fb32a, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 721f80924974ebb4bab62da5768177ee, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 41a21d925de04684c9a6539354173e2f, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 72e7b7673f63d5142abeee556d78b26e, type: 3}
+    volume: 0
+    pitch: 0

@@ -9749,9 +9749,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerPrefab: {fileID: 6749876451545551172, guid: 7e8d6bd33f17ba44594dae25d965d8e8, type: 3}
-  characterData: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}
+  data: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}
+  healthBar: {fileID: 0}
   leftFoot: {fileID: 4261760523046411520}
   rightFoot: {fileID: 4359934514928935806}
+  bodyParts:
+    list:
+    - key: 0
+      value: {fileID: 4261760523046411520}
+    - key: 1
+      value: {fileID: 4359934514928935806}
+    - key: 2
+      value: {fileID: 8436521508938383471}
+    - key: 3
+      value: {fileID: 4120126401431002938}
 --- !u!1 &8497822888192323355
 GameObject:
   m_ObjectHideFlags: 0

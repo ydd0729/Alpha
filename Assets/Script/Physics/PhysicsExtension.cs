@@ -55,6 +55,22 @@ namespace Yd.PhysicsExtension
 
             return hit;
         }
+
+        public static Collider[] OverlapSphere(
+            Vector3 position, float radius, int layerMask = Physics.AllLayers,
+            QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal, bool drawDebug = false,
+            Color hitColor = default, Color missColor = default, int segment = 0
+        )
+        {
+            var colliders = Physics.OverlapSphere(position, radius, layerMask, queryTriggerInteraction);
+
+            if (drawDebug)
+            {
+                DebugE.DrawSphere(position, radius, colliders.Length != 0 ? hitColor : missColor, segment);
+            }
+
+            return colliders;
+        }
     }
 
     public static partial class LayerMaskE

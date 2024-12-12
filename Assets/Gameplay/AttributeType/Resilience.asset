@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01170b5327ab4506a6e6e32a8eac07e9, type: 3}
+  m_Name: Resilience
+  m_EditorClassIdentifier: 
+  range:
+    minInclusive: 0
+    maxInclusive: 100
+  maxAttribute: {fileID: 0}
+  valueAttribute: {fileID: 0}
+  type: 2

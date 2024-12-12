@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Yd.Animation;
+using Yd.Audio;
 
 namespace Yd.Gameplay.Object
 {
@@ -70,6 +71,8 @@ namespace Yd.Gameplay.Object
             base.OnExit(ref context);
 
             context.Character.SetGrounded(true);
+
+            context.Character.AudioManager.PlayOneShot(AudioId.Land, AudioChannel.World);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Yd.Gameplay.AbilitySystem
     [Serializable]
     public class AttributeModifierOperand
     {
+        [SerializeField] public string tag;
         [SerializeField] public AttributeModifierOperandType type;
         [SerializeField] public float magnitude;
         [SerializeField] public AttributeSourceType attributeSourceType;
@@ -14,7 +15,8 @@ namespace Yd.Gameplay.AbilitySystem
 
         public float Value(
             IReadOnlyDictionary<GameplayAttributeTypeSO, float> sourceAttributeValues,
-            IReadOnlyDictionary<GameplayAttributeTypeSO, float> targetAttributeValues
+            IReadOnlyDictionary<GameplayAttributeTypeSO, float> targetAttributeValues,
+            IReadOnlyDictionary<string, float> taggedValues
         )
         {
             return type switch
@@ -30,7 +32,7 @@ namespace Yd.Gameplay.AbilitySystem
                                                                    _ => throw new ArgumentOutOfRangeException()
                                                                } *
                                                                magnitude,
-                AttributeModifierOperandType.SetByCaller => throw new NotImplementedException(),
+                AttributeModifierOperandType.SetByCaller => taggedValues[tag],
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

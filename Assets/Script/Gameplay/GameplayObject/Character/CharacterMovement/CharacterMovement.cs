@@ -4,7 +4,6 @@ using Yd.Animation;
 using Yd.Audio;
 using Yd.Extension;
 using Yd.PhysicsExtension;
-using AnimationEvent = Yd.Animation.AnimationEvent;
 
 namespace Yd.Gameplay.Object
 {
@@ -42,7 +41,7 @@ namespace Yd.Gameplay.Object
             context.GroundDistance = 0;
 
             animationEventDispatcher = gameObject.GetOrAddComponent<AnimationEventDispatcher>();
-            animationEventDispatcher.Step += OnStep;
+            animationEventDispatcher.Event += OnStep;
 
             character.AnimatorMoved += OnAnimatorMoved;
 
@@ -109,42 +108,32 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        private void OnStep(AnimationEvent @event)
+        private void OnStep(GameplayEvent @event)
         {
             var humanoidCharacter = Character as HumanoidCharacter;
 
             switch(@event)
             {
-                case AnimationEvent.StepLeft:
+                case GameplayEvent.StepLeft:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, true);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, false);
 
                     if (humanoidCharacter != null)
                     {
                         humanoidCharacter.AudioManager.PlayOneShot
-                            (AudioId.StoneFootstep, AudioChannel.FootStep, humanoidCharacter.LeftFoot);
+                            (AudioId.StoneFootstep, AudioChannel.Footstep, humanoidCharacter.BodyParts[GameplayBone.LeftFoot]);
                     }
                     break;
-                case AnimationEvent.StepRight:
+                case GameplayEvent.StepRight:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, false);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, true);
 
                     if (humanoidCharacter != null)
                     {
                         humanoidCharacter.AudioManager.PlayOneShot
-                            (AudioId.StoneFootstep, AudioChannel.FootStep, humanoidCharacter.RightFoot);
+                            (AudioId.StoneFootstep, AudioChannel.Footstep, humanoidCharacter.BodyParts[GameplayBone.RightFoot]);
                     }
                     break;
-                // case AnimationEvent.StepLeftMiddle:
-                //     Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, true);
-                //     Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, false);
-                //     break;
-                // case AnimationEvent.StepRightMiddle:
-                //     Character.Animator.SetValue(AnimatorParameterId.StepLeftMiddle, false);
-                //     Character.Animator.SetValue(AnimatorParameterId.StepRightMiddle, true);
-                //     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }

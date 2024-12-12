@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Yd.Collection;
 using Yd.Gameplay.Object;
 
 namespace Yd.Gameplay.AbilitySystem
@@ -11,6 +13,24 @@ namespace Yd.Gameplay.AbilitySystem
     )]
     public class GA_UnarmedAttackData : ComboAbilityData
     {
+        [SerializeField] private List<AttributeDamage> damage;
+        [SerializeField] private GameplayEffectData damageEffect;
+
+        public IReadOnlyList<AttributeDamage> Damage => damage;
+        public GameplayEffectData DamageEffect => damageEffect;
+
+        private void OnValidate()
+        {
+            while (damage.Count < MaxCombo)
+            {
+                damage.Add(new AttributeDamage());
+            }
+            while (damage.Count > MaxCombo)
+            {
+                damage.RemoveAt(damage.Count - 1);
+            }
+        }
+
         public override GameplayAbility Create(GameplayAbilitySystem owner, GameplayAbilitySystem source)
         {
             return new GA_UnarmedAttack(this, owner, source);
@@ -27,15 +47,17 @@ namespace Yd.Gameplay.AbilitySystem
                         await owner.TryActivateAbility(this);
                     }
                     break;
-                case GameplayEvent.DamageDetectionStart:
-                case GameplayEvent.DamageDetectionEnd:
-                case GameplayEvent.ComboDetectionStart:
-                case GameplayEvent.ComboDetectionEnd:
-                case GameplayEvent.Interact:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
+    }
+
+    [Serializable]
+    public struct AttributeDamage
+    {
+        public SRangeFloat healthDamage;
+        public SRangeFloat resilienceDamage;
+        public GameplayBone bindBone;
+        public float radius;
+        public int maxHit;
     }
 }

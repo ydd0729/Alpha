@@ -18,11 +18,21 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: 9fa6e4400127080408c41c9b3caa61f6, type: 2}
     - key: 1
       value: {fileID: 11400000, guid: 634ca9952bc676f45a43d06511b9dc55, type: 2}
+    - key: 2
+      value: {fileID: 11400000, guid: 23acc6b391952dc42b3130474168c87a, type: 2}
+    - key: 3
+      value: {fileID: 11400000, guid: 70dddc7e4e4a63b4ab9ada8c7bbe216e, type: 2}
+    - key: 4
+      value: {fileID: 11400000, guid: 62e09344fcc247341906b8670091ec6f, type: 2}
+    - key: 5
+      value: {fileID: 11400000, guid: 0ae9b0be8f87ce840a14505dc5850dd1, type: 2}
+    - key: 6
+      value: {fileID: 11400000, guid: 30f5fa80b0c5cdb49801e7dda7f733fd, type: 2}
   audioMixerGroups:
     list:
     - key: 1
-      value: {fileID: 6774264383534025056, guid: 0d342e66846929c419c334344d2678c2, type: 2}
+      value: {fileID: 24300002, guid: 379654c3586d0534ba0fd173b9b3f84f, type: 2}
     - key: 3
-      value: {fileID: 2739367004565823823, guid: 0d342e66846929c419c334344d2678c2, type: 2}
+      value: {fileID: 24300002, guid: 0d342e66846929c419c334344d2678c2, type: 2}
     - key: 2
-      value: {fileID: -2945457701016070139, guid: 0d342e66846929c419c334344d2678c2, type: 2}
+      value: {fileID: 5782846966529108490, guid: 379654c3586d0534ba0fd173b9b3f84f, type: 2}

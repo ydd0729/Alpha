@@ -13,13 +13,15 @@ namespace Yd.Gameplay.AbilitySystem
 
         [CanBeNull] private readonly GameplayAbilitySystem source;
 
-        private Coroutine timer;
+        private Dictionary<string, float> taggedValues;
 
+        private Coroutine timer;
         public GameplayEffect(GameplayEffectData data, GameplayAbilitySystem source, GameplayAbilitySystem owner)
         {
             Data = data;
             this.source = source;
             this.owner = owner;
+            taggedValues = new();
         }
 
         public bool AllModsValid { get; private set; }
@@ -27,6 +29,11 @@ namespace Yd.Gameplay.AbilitySystem
         public GameplayEffectData Data
         {
             get;
+        }
+
+        public void SetTaggedValues(Dictionary<string, float> taggedValues)
+        {
+            this.taggedValues = taggedValues;
         }
 
         public event Action AttributesDirty;
@@ -51,7 +58,7 @@ namespace Yd.Gameplay.AbilitySystem
 
             foreach (var attributeModifier in Data.AttributeModifiers)
             {
-                attributeModifier.Calculate(sourceAttributeValues, targetAttributeValues, moddingAttributes);
+                attributeModifier.Calculate(sourceAttributeValues, targetAttributeValues, moddingAttributes, taggedValues);
             }
 
             foreach (var (type, value) in moddingAttributes)

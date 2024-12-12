@@ -23,6 +23,7 @@ namespace Yd.Gameplay.AbilitySystem
     public enum GameplayAttributeTypeEnum
     {
         Health,
-        MaxHealth
+        MaxHealth,
+        Resilience
     }
 }

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: Kick
+  m_EditorClassIdentifier: 
+  volume: 1
+  volumeRandomRange:
+    minInclusive: -0.3
+    maxInclusive: 0
+  pitch: 1
+  pitchRandomRange:
+    minInclusive: 0
+    maxInclusive: 0
+  spatialBlend: 1
+  playbackMode: 0
+  avoidRepeatingLast: 0
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: e2d0ad0f08884ad4e8f66430924ea7de, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 5180634a6235ba645b69f2d63bdfff5e, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 71c894e1ea02a3041b9dc313e9e52609, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: fc599d93e9cea9741a8633baa2eab624, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: f1f3dfd2f5ccb95429a7231e5ccdfc84, type: 3}
+    volume: 0
+    pitch: 0

@@ -12,7 +12,8 @@ namespace Yd.Gameplay.AbilitySystem
     {
         private readonly HashSet<GameplayAbility> AbilitiesWaitingForRemoval = new();
         public readonly HashSet<GameplayEffect> ActivePeriodicEffects = new();
-        private readonly Dictionary<GEChannel, HashSet<TaskCompletionSource<GameplayEffect>>> gameplayEffectsToApply = new();
+        private readonly Dictionary<GEChannel, HashSet<Tuple<TaskCompletionSource<GameplayEffect>, Dictionary<string, float>>>>
+            gameplayEffectsToApply = new();
         private readonly HashSet<GameplayAbilityData> grantedAbilities = new();
         public Action<GameplayEvent, GameplayAbilitySystem> GameplayEvent;
 
@@ -103,7 +104,9 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        public Task<GameplayEffect> ApplyGameplayEffectAsync(GameplayEffectData effectData, GameplayAbilitySystem source)
+        public Task<GameplayEffect> ApplyGameplayEffectAsync(
+            GameplayEffectData effectData, GameplayAbilitySystem source, Dictionary<string, float> taggedValues = null
+        )
         {
             var gameplayEffect = new GameplayEffect(effectData, source, this);
             gameplayEffect.AttributesDirty += UpdateAttributesDelayed;
@@ -111,7 +114,7 @@ namespace Yd.Gameplay.AbilitySystem
             MaxChannelToApply = (GEChannel)Math.Max((int)MaxChannelToApply, (int)effectData.Channel);
 
             var tcs = new TaskCompletionSource<GameplayEffect>(gameplayEffect);
-            gameplayEffectsToApply.GetValueOrAdd(effectData.Channel).Add(tcs);
+            gameplayEffectsToApply.GetValueOrAdd(effectData.Channel).Add(Tuple.Create(tcs, taggedValues));
 
             return tcs.Task;
         }
@@ -133,9 +136,10 @@ namespace Yd.Gameplay.AbilitySystem
 
                 if (gameplayEffectsToApply.TryGetValue(channel, out var tcss))
                 {
-                    foreach (var tcs in tcss)
+                    foreach (var (tcs, taggedValues) in tcss)
                     {
                         var gameplayEffect = (GameplayEffect)tcs.Task.AsyncState;
+                        gameplayEffect.SetTaggedValues(taggedValues);
                         gameplayEffect.Apply();
                         tcs.SetResult(gameplayEffect);
                     }

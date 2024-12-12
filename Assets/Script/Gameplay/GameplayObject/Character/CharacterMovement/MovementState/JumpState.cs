@@ -1,4 +1,5 @@
 using Yd.Animation;
+using Yd.Audio;
 
 namespace Yd.Gameplay.Object
 {
@@ -13,6 +14,7 @@ namespace Yd.Gameplay.Object
             base.OnEnter(ref context);
 
             context.Character.SetGrounded(false);
+            context.Character.AudioManager.PlayOneShot(AudioId.JumpUp, AudioChannel.World);
         }
 
         public override void OnTick(ref MovementStateContext context)
