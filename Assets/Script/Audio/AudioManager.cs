@@ -77,7 +77,7 @@ namespace Yd.Audio
 
             audioSource.outputAudioMixerGroup = GlobalData.Instance.Audio.AudioMixerGroups[channel];
 
-            Debug.Log($"[AudioManager::PlayOneShot] {audioSource.clip.name}");
+            // Debug.Log($"[AudioManager::PlayOneShot] {audioSource.clip.name}");
             audioSource.Play();
 
             CoroutineTimer.SetTimer

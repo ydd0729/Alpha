@@ -1,13 +1,16 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Gameplay.GameplayObject.Item;
+using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Yd.Animation;
 using Yd.Audio;
 using Yd.Collection;
 using Yd.Extension;
+using Action = System.Action;
 
 namespace Yd.Gameplay.Object
 {
@@ -17,9 +20,11 @@ namespace Yd.Gameplay.Object
     {
         [SerializeField] private GameObject controllerPrefab;
         [FormerlySerializedAs("characterData")] [SerializeField] protected CharacterData data;
-        [SerializeField] private HealthBar healthBar;
+        [FormerlySerializedAs("healthBar")] [SerializeField] private StatsBar statsBar;
 
         [SerializeField] private SDictionary<GameplayBone, GameObject> bodyParts;
+
+        public readonly ObservableList<GameObject> targets = new();
 
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
@@ -37,7 +42,9 @@ namespace Yd.Gameplay.Object
         public CharacterData Data => data;
         public PlayerCharacterData PlayerCharacterData => (PlayerCharacterData)Data;
 
-        protected HealthBar HealthBar => healthBar;
+        protected StatsBar StatsBar => statsBar;
+
+        public BehaviorGraphAgent behaviorGraphAgent { get; private set; }
 
         public CharacterWeapon Weapon
         {
@@ -71,8 +78,35 @@ namespace Yd.Gameplay.Object
             // 在 Instantiate 返回前就会执行 Awake ，不是想要的，把初始化放在 Initialize 中
             Controller.Initialize(this);
 
-            var animationEventDispatcher = gameObject.GetOrAddComponent<AnimationEventDispatcher>();
+            var animationEventDispatcher = GameObjectExtension.GetOrAddComponent<AnimationEventDispatcher>(gameObject);
             animationEventDispatcher.Event += OnGameplayEvent;
+
+            var aiSensor = GetComponent<AiSensor>();
+            if (aiSensor)
+            {
+                aiSensor.Initialize(this);
+            }
+
+            behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            if (behaviorGraphAgent)
+            {
+                behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Speed", Data.speed);
+                targets.ItemAdded += (sender, args) => {
+                    behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", targets[0]);
+                };
+                targets.ItemRemoved += (sender, args) => {
+                    if (args.index == 0)
+                    {
+                        behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", (GameObject)null);
+                    }
+                };
+            }
+
+            var navAgent = GetComponent<NavMeshAgent>();
+            if (navAgent)
+            {
+                navAgent.speed = Data.speed;
+            }
         }
 
         private void OnAnimatorMove()
@@ -121,12 +155,17 @@ namespace Yd.Gameplay.Object
 
         public void OnHealthChanged(float health)
         {
-            HealthBar.SetHealth(health);
+            StatsBar.SetHealth(health);
         }
 
         public void OnMaxHealthChanged(float health)
         {
-            HealthBar.SetMaxHealth(health);
+            StatsBar.SetMaxHealth(health);
+        }
+
+        public void OnResilienceChanged(float resilience)
+        {
+            statsBar.SetResilience(resilience);
         }
 
         public event Action AnimatorMoved;

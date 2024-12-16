@@ -159,8 +159,9 @@ namespace Yd.Gameplay.Object
                     case GameplayAttributeTypeEnum.MaxHealth:
                         character.OnMaxHealthChanged(value);
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    case GameplayAttributeTypeEnum.Resilience:
+                        character.OnResilienceChanged(value);
+                        break;
                 }
             };
 

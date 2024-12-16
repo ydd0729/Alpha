@@ -71,6 +71,22 @@ namespace Yd.PhysicsExtension
 
             return colliders;
         }
+
+        public static int OverlapSphereNonAlloc(
+            Vector3 position, float radius, Collider[] results, int layerMask = Physics.AllLayers,
+            QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal, bool drawDebug = false,
+            Color hitColor = default, Color missColor = default, int segment = 0
+        )
+        {
+            var count = Physics.OverlapSphereNonAlloc(position, radius, results, layerMask, queryTriggerInteraction);
+
+            if (drawDebug)
+            {
+                DebugE.DrawSphere(position, radius, count != 0 ? hitColor : missColor, segment);
+            }
+
+            return count;
+        }
     }
 
     public static partial class LayerMaskE

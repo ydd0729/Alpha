@@ -16,8 +16,6 @@ namespace Yd.Extension
         private void OnDrawGizmos()
         {
             GizmosE.DrawShape(wireShape, StaticColor.Get(Color));
-
-            Gizmos.DrawFrustum(Vector3.zero, 90, 10, 1, 1);
         }
 
         private void OnValidate()

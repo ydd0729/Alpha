@@ -22,8 +22,8 @@ MonoBehaviour:
       minInclusive: 5
       maxInclusive: 8
     resilienceDamage:
-      minInclusive: 10
-      maxInclusive: 10
+      minInclusive: 50
+      maxInclusive: 60
     bindBone: 3
     radius: 0.5
     maxHit: 1
@@ -31,8 +31,8 @@ MonoBehaviour:
       minInclusive: 7
       maxInclusive: 10
     resilienceDamage:
-      minInclusive: 10
-      maxInclusive: 10
+      minInclusive: 50
+      maxInclusive: 60
     bindBone: 2
     radius: 0.5
     maxHit: 1
@@ -40,8 +40,8 @@ MonoBehaviour:
       minInclusive: 9
       maxInclusive: 12
     resilienceDamage:
-      minInclusive: 10
-      maxInclusive: 10
+      minInclusive: 50
+      maxInclusive: 60
     bindBone: 3
     radius: 0.5
     maxHit: 1
@@ -49,8 +49,8 @@ MonoBehaviour:
       minInclusive: 11
       maxInclusive: 14
     resilienceDamage:
-      minInclusive: 30
-      maxInclusive: 30
+      minInclusive: 100
+      maxInclusive: 150
     bindBone: 1
     radius: 0.5
     maxHit: 1

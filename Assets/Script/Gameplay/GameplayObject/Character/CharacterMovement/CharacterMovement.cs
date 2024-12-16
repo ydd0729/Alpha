@@ -51,7 +51,10 @@ namespace Yd.Gameplay.Object
 
         public void RequestJump()
         {
-            context.JumpRequested = true;
+            if (Character.Controller.AllowMovement && CurrentState is not (JumpState or FallState))
+            {
+                context.JumpRequested = true;
+            }
         }
 
         private void OnAnimatorMoved()
