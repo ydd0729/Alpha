@@ -9,6 +9,7 @@ namespace Yd.Gameplay.AbilitySystem
         [SerializeField] private float cooldown;
         [SerializeField] [CanBeNull] private GameplayEffectData cost;
         [SerializeField] private GameplayEffectData[] effectsToApply;
+        [SerializeField] private bool passive;
 
         public float Cooldown => cooldown;
 
@@ -16,6 +17,7 @@ namespace Yd.Gameplay.AbilitySystem
         public GameplayEffectData[] EffectsToApply => effectsToApply;
 
         public int MaxActivation => maxActivation;
+        public bool Passive => passive;
 
         public abstract GameplayAbility Create(GameplayAbilitySystem owner, GameplayAbilitySystem source);
 

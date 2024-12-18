@@ -13,7 +13,7 @@ public class AttackAction : Action
 
     protected override Status OnStart()
     {
-        Debug.Log("Attack");
+        // Debug.Log("Attack");
         return Status.Running;
     }
 

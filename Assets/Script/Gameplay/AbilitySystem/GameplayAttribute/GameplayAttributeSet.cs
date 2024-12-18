@@ -71,6 +71,11 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
+        public GameplayAttribute GetAttribute(GameplayAttributeTypeEnum type)
+        {
+            return attributes[GlobalData.Instance.Attributes[type]];
+        }
+
         public event Action<GameplayAttributeTypeSO, float, float> AttributeCurrentValueChanged;
 
         // private void Update()

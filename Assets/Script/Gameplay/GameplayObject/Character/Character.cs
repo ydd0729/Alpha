@@ -165,7 +165,7 @@ namespace Yd.Gameplay.Object
 
         public void OnResilienceChanged(float resilience)
         {
-            statsBar.SetResilience(resilience);
+            StatsBar.SetResilience(resilience);
         }
 
         public event Action AnimatorMoved;

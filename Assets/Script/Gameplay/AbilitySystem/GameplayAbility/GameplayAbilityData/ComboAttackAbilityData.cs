@@ -8,10 +8,10 @@ namespace Yd.Gameplay.AbilitySystem
 {
     [CreateAssetMenu
     (
-        fileName = "Unarmed Attack Ability",
-        menuName = "Scriptable Objects/Gameplay/Gameplay Ability System/Unarmed Attack Ability"
+        fileName = "Combo Attack Ability",
+        menuName = "Scriptable Objects/Gameplay/Gameplay Ability System/Combo Attack Ability"
     )]
-    public class GA_UnarmedAttackData : ComboAbilityData
+    public class ComboAttackAbilityData : ComboAbilityData
     {
         [SerializeField] private List<AttributeDamage> damage;
         [SerializeField] private GameplayEffectData damageEffect;
@@ -33,7 +33,7 @@ namespace Yd.Gameplay.AbilitySystem
 
         public override GameplayAbility Create(GameplayAbilitySystem owner, GameplayAbilitySystem source)
         {
-            return new GA_UnarmedAttack(this, owner, source);
+            return new ComboAttackAbility(this, owner, source);
         }
 
         public override async void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)

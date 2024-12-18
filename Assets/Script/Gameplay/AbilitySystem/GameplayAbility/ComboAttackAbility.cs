@@ -10,26 +10,26 @@ using Yd.PhysicsExtension;
 
 namespace Yd.Gameplay.AbilitySystem
 {
-    public class GA_UnarmedAttack : ComboAbility
+    public class ComboAttackAbility : ComboAbility
     {
 
         private readonly HashSet<Collider> hitted = new();
 
         private bool damageDetection;
 
-        public GA_UnarmedAttack(
+        public ComboAttackAbility(
             GameplayAbilityData data, GameplayAbilitySystem owner, [CanBeNull] GameplayAbilitySystem source
         ) : base(data, owner, source)
         {
         }
 
-        public GA_UnarmedAttackData AttackData => (GA_UnarmedAttackData)Data;
+        public ComboAttackAbilityData AttackAbilityData => (ComboAttackAbilityData)Data;
 
-        protected override async Task<bool> Execute()
+        protected override async Task<bool> StartExecution()
         {
-            Debug.LogWarning($"{nameof(GA_UnarmedAttack)} Starts.");
+            Debug.LogWarning($"{nameof(ComboAttackAbility)} Starts.");
 
-            if (!await base.Execute())
+            if (!await base.StartExecution())
             {
                 return false;
             }
@@ -67,24 +67,18 @@ namespace Yd.Gameplay.AbilitySystem
             Debug.LogWarning("StopExecution");
         }
 
-        protected override void EndCooldown()
-        {
-            base.EndCooldown();
-            Owner.Deactivate(this);
-        }
-
         public override void Tick()
         {
             base.Tick();
 
             if (damageDetection)
             {
-                var damageData = AttackData.Damage[ComboCounter - 1];
+                var damageData = AttackAbilityData.Damage[ComboCounter - 1];
                 var colliders = PhysicsE.OverlapSphere
                 (
                     Character.BodyParts[damageData.bindBone].transform.position,
                     damageData.radius,
-                    LayerMaskE.Default,
+                    LayerMaskE.Character,
                     QueryTriggerInteraction.Ignore,
                     true,
                     StaticColor.Get(DebugColorType.Red),
@@ -93,6 +87,11 @@ namespace Yd.Gameplay.AbilitySystem
 
                 foreach (var collider in colliders)
                 {
+                    if (collider.gameObject == Owner.OwnerCharacter.gameObject)
+                    {
+                        continue;
+                    }
+
                     if (!hitted.Contains(collider))
                     {
                         var actor = collider.gameObject.GetComponent<Actor>();
@@ -107,14 +106,17 @@ namespace Yd.Gameplay.AbilitySystem
         private void ApplyDamage()
         {
             var taggedDamages = new Dictionary<string, float>();
-            var damageData = AttackData.Damage[ComboCounter - 1];
+            var damageData = AttackAbilityData.Damage[ComboCounter - 1];
             taggedDamages.Add(key: "Health", -damageData.healthDamage.Random());
             taggedDamages.Add(key: "Resilience", -damageData.resilienceDamage.Random());
 
             foreach (var collider in hitted)
             {
                 var character = collider.gameObject.GetComponent<Character>();
-                character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync(AttackData.DamageEffect, Owner, taggedDamages);
+                // Debug.Log($"[ComboAttackAbility::ApplyDamage] {character.name}");
+
+                character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync
+                    (AttackAbilityData.DamageEffect, Owner, taggedDamages);
             }
         }
 

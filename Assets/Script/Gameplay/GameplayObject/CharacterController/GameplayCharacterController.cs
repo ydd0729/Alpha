@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Yd.Animation;
 using Yd.Extension;
 using Yd.Gameplay.AbilitySystem;
 
@@ -72,7 +73,7 @@ namespace Yd.Gameplay.Object
                 Move();
             }
 
-            // DebugE.LogValue(nameof(LocalMoveDirection), LocalMoveDirection);
+            // DebugE.LogValue($"{Character.gameObject.name}::{nameof(LocalMoveDirection)}", LocalMoveDirection);
         }
 
         protected virtual void LateUpdate()
@@ -87,6 +88,7 @@ namespace Yd.Gameplay.Object
             if (NavMeshAgent.SetDestination(position))
             {
                 NavMeshAgent.stoppingDistance = stoppingDistance;
+                Character.Animator.SetValue(AnimatorParameterId.SpeedMagnitude, Character.Data.speed);
 
                 return true;
             }

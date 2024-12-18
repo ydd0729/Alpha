@@ -153,6 +153,8 @@ namespace Yd.Gameplay.AbilitySystem
 
         public void RemoveGameplayEffect(GameplayEffect gameplayEffect)
         {
+            gameplayEffect.Removed = true;
+
             if (gameplayEffect.Data.IsPeriodic)
             {
                 ActivePeriodicEffects.Remove(gameplayEffect);
@@ -200,14 +202,18 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        public void GrantAbility([CanBeNull] GameplayAbilityData AbilityData)
+        public void GrantAbility([CanBeNull] GameplayAbilityData abilityData)
         {
-            if (AbilityData == null)
+            if (abilityData == null)
             {
                 return;
             }
 
-            grantedAbilities.Add(AbilityData);
+            grantedAbilities.Add(abilityData);
+            if (abilityData.Passive)
+            {
+                _ = TryActivateAbility(abilityData);
+            }
         }
 
         public async Task<bool> TryActivateAbility(

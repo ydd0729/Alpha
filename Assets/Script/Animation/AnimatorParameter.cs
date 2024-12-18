@@ -31,7 +31,8 @@ namespace Yd.Animation
         StepLeftMiddle,
         StepRightMiddle,
 
-        GroundVelocity
+        GroundVelocity,
+        SpeedMagnitude
     }
 
     [Serializable]

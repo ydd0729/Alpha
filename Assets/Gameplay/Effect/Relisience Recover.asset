@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   duration: 0
-  period: 0.1
+  period: 0.01
   channel: 0
   allModsMustValid: 0
   attributeModifiers:
-  - targetAttribute: {fileID: 11400000, guid: 60e10836d3347b445890c4d20fb4e2ba, type: 2}
+  - targetAttribute: {fileID: 11400000, guid: 13ff6f50c8d4b834da6c379d9b1dc5a3, type: 2}
     operations:
     - operator: 1
       operand:
+        tag: 
         type: 0
         magnitude: 1
         attributeSourceType: 1

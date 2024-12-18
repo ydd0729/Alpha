@@ -18,6 +18,8 @@ namespace Yd.Gameplay.AbilitySystem
             currentValue = value;
         }
 
+        public GameplayAttributeTypeSO AttributeDefinition => typeSo;
+
         public virtual float BaseValue
         {
             get => baseValue;

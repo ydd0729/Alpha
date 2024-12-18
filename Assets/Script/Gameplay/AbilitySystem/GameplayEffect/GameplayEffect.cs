@@ -26,6 +26,8 @@ namespace Yd.Gameplay.AbilitySystem
 
         public bool AllModsValid { get; private set; }
 
+        public bool Removed { private get; set; }
+
         public GameplayEffectData Data
         {
             get;
@@ -158,8 +160,9 @@ namespace Yd.Gameplay.AbilitySystem
 
                     AttributesDirty?.Invoke();
 
-                    if (context.LoopPolicy.RemainingLoopCount == 0)
+                    if (Data.Type != GameplayEffectType.Infinite && context.LoopPolicy.RemainingLoopCount == 0 || Removed)
                     {
+                        CoroutineTimer.Cancel(ref timer);
                         owner.RemoveGameplayEffect(this);
                     }
                 },

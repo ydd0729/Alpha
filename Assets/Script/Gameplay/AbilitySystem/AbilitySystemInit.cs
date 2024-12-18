@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Yd.Collection;
 using Yd.Gameplay.AbilitySystem;
 using Yd.Gameplay.Object;
 using Yd.Manager;
 
-public class GameplayTest : MonoBehaviour
+public class AbilitySystemInit : MonoBehaviour
 {
     [SerializeField] private SKeyValuePair<GameplayEffectData, float>[] effectsDelayed;
-    [SerializeField] private SKeyValuePair<GameplayAbilityData, float>[] abilities;
+    [FormerlySerializedAs("abilities")] [SerializeField] private SKeyValuePair<GameplayAbilityData, float>[] abilitiesDelayed;
 
     private Character character;
 
@@ -15,9 +16,8 @@ public class GameplayTest : MonoBehaviour
     {
         character = GetComponent<Character>();
 
-        foreach (var (ability, delay) in abilities)
+        foreach (var (ability, delay) in abilitiesDelayed)
         {
-
             CoroutineTimer.SetTimer(_ => character.Controller.AbilitySystem.GrantAbility(ability), delay);
         }
 

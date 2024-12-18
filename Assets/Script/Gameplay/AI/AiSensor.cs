@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Yd.Gameplay.Object;
 using Yd.PhysicsExtension;
@@ -16,6 +17,7 @@ public class AiSensor : MonoBehaviour
     public LayerMask layers;
     public LayerMask occlusionLayers;
     private readonly Collider[] colliders = new Collider[50];
+    private readonly List<GameObject> localTargets = new();
     private Character character;
     // private readonly List<GameObject> objects = new();
     private int count;
@@ -23,7 +25,19 @@ public class AiSensor : MonoBehaviour
     private float scanInterval;
     private float scanTimer;
 
-    private Vector3 Origin => transform.position + offset;
+    private Vector3 Origin => transform.position + (Vector3)(transform.localToWorldMatrix * offset);
+
+    private IList<GameObject> Targets
+    {
+        get
+        {
+            if (character)
+            {
+                return character.targets;
+            }
+            return localTargets;
+        }
+    }
 
     private void Start()
     {
@@ -57,9 +71,10 @@ public class AiSensor : MonoBehaviour
         // }
 
         Gizmos.color = Color.green;
-        foreach (var obj in character.targets)
+
+        foreach (var obj in Targets)
         {
-            Debug.Log(obj.name);
+            // Debug.Log(obj.name);
             Gizmos.DrawSphere(obj.transform.position, 1f);
         }
     }
@@ -78,7 +93,7 @@ public class AiSensor : MonoBehaviour
     {
         count = PhysicsE.OverlapSphereNonAlloc(Origin, distance, colliders, layers, QueryTriggerInteraction.Collide);
 
-        character.targets.Clear();
+        Targets.Clear();
         for (var i = 0; i < count; ++i)
         {
             var go = colliders[i].gameObject;
@@ -88,7 +103,7 @@ public class AiSensor : MonoBehaviour
             }
             if (IsInSight(go))
             {
-                character.targets.Add(go);
+                Targets.Add(go);
             }
         }
     }

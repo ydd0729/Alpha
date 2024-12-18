@@ -193,6 +193,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d74afddc1d59f44f9b42de8194d2530, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2318703799273067526}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d74afddc1d59f44f9b42de8194d2530, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 595664947600949448}
   m_SourcePrefab: {fileID: 100100000, guid: 3d74afddc1d59f44f9b42de8194d2530, type: 3}
 --- !u!4 &8312213859756345972 stripped
 Transform:
@@ -363,7 +366,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerPrefab: {fileID: 3906989803433588185, guid: 89785623b59b084449229ff1dd026562, type: 3}
   data: {fileID: 11400000, guid: a96b16bcda0dbd547be4f78aa731c5ef, type: 2}
-  healthBar: {fileID: 5146879401138498935}
+  statsBar: {fileID: 5146879401138498935}
+  bodyParts:
+    list: []
 --- !u!114 &2318703799273067526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +383,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   stoppingDistance: 4
+--- !u!114 &595664947600949448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8651761074605609166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a5e5196fc035d45abfa0143c1cecd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectsDelayed: []
+  abilitiesDelayed:
+  - key: {fileID: 11400000, guid: ae2b3972f3495f645ae0e412370c7dde, type: 2}
+    value: 0
 --- !u!1001 &8847522246522821602
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -59,7 +59,12 @@ namespace Yd.Gameplay.AbilitySystem
         {
             if (IsCoolingDown && !CooldownSpan.IsInRange(Time.time))
             {
-                EndCooldown();
+                StopCooldown();
+
+                if (!Data.Passive)
+                {
+                    Owner.Deactivate(this);
+                }
             }
         }
 
@@ -74,7 +79,7 @@ namespace Yd.Gameplay.AbilitySystem
             IsExecuting = true;
             StartCooldown();
 
-            if (!await Execute())
+            if (!await StartExecution())
             {
                 StopExecution();
                 return false;
@@ -83,24 +88,24 @@ namespace Yd.Gameplay.AbilitySystem
             return true;
         }
 
-        protected virtual async Task<bool> CanExecute()
+        private async Task<bool> CanExecute()
         {
             return !IsExecuting && !IsCoolingDown && await TryApplyCost();
         }
 
-        protected virtual void StartCooldown(float? cooldown = null)
+        private void StartCooldown(float? cooldown = null)
         {
             IsCoolingDown = true;
             CooldownSpan.Start = Time.time;
             CooldownSpan.End = CooldownSpan.Start + (cooldown ?? Data.Cooldown);
         }
 
-        protected virtual void EndCooldown()
+        protected void StopCooldown()
         {
             IsCoolingDown = false;
         }
 
-        protected virtual async Task<bool> Execute()
+        protected virtual async Task<bool> StartExecution()
         {
             foreach (var effectData in Data.EffectsToApply)
             {

@@ -64,11 +64,11 @@ namespace Yd.Gameplay.Behavior
             waitTime = 0;
             waitTimeRange.Set(WaitTimeMinInclusive.Value, WaitTimeMaxInclusive.Value);
 
-            if (waitTimeRange.Length() == 0)
-            {
-                LogFailure("WaitTime Length cannot be zero.");
-                return Status.Failure;
-            }
+            // if (waitTimeRange.Length() == 0)
+            // {
+            //     LogFailure("WaitTime Length cannot be zero.");
+            //     return Status.Failure;
+            // }
 
             return Status.Running;
         }
