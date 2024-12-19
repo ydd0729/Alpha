@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ namespace Yd.Gameplay.AbilitySystem
         [SerializeField] [CanBeNull] private GameplayEffectData cost;
         [SerializeField] private GameplayEffectData[] effectsToApply;
         [SerializeField] private bool passive;
+        [SerializeField] private GameplayEvent bindingEvent;
+        [SerializeField] private int attackId;
+        [SerializeField] private List<string> forbiddenTags;
 
         public float Cooldown => cooldown;
 
@@ -19,10 +23,14 @@ namespace Yd.Gameplay.AbilitySystem
         public int MaxActivation => maxActivation;
         public bool Passive => passive;
 
+        public GameplayEvent BindingEvent => bindingEvent;
+        public int AttackId => attackId;
+        public IReadOnlyList<string> ForbiddenTags => forbiddenTags;
+
         public abstract GameplayAbility Create(GameplayAbilitySystem owner, GameplayAbilitySystem source);
 
-        public virtual void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
-        {
-        }
+        // public virtual void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
+        // {
+        // }
     }
 }

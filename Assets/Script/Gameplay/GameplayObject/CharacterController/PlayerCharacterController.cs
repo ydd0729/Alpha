@@ -17,6 +17,8 @@ namespace Yd.Gameplay.Object
         {
             base.Initialize(character);
 
+            NavMeshAgent.updatePosition = false;
+
             PlayerActions = gameObject.GetOrAddComponent<PlayerActions>();
             PlayerActions.Initialize(this);
 

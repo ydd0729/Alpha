@@ -15,6 +15,7 @@ namespace Yd.Gameplay.Object
 
             context.Character.SetGrounded(false);
             context.Character.AudioManager.PlayOneShot(AudioId.JumpUp, AudioChannel.World);
+            // context.Character.Controller.NavMeshAgent.enabled = false;
         }
 
         public override void OnTick(ref MovementStateContext context)
@@ -26,26 +27,6 @@ namespace Yd.Gameplay.Object
                 context.CharacterMovement.TryTransitTo(Fall);
             }
         }
-
-        // public override bool CanTransitFrom(MovementStateTransitionContext context)
-        // {
-        //     if (!base.CanTransitFrom(context))
-        //     {
-        //         return false;
-        //     }
-        //
-        //     if (!context.Character.IsGrounded)
-        //     {
-        //         return false;
-        //     }
-        //
-        //     return context.CurrentState switch
-        //     {
-        //         StandState or WalkState or RunState => true,
-        //         JumpState or FallState => false,
-        //         _ => throw new NotImplementedException()
-        //     };
-        // }
 
         public override void OnExit(ref MovementStateContext context)
         {

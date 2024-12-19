@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Script.Gameplay.GameplayObject.Item;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Yd.Animation;
 using Yd.Audio;
@@ -24,8 +24,6 @@ namespace Yd.Gameplay.Object
 
         [SerializeField] private SDictionary<GameplayBone, GameObject> bodyParts;
 
-        public readonly ObservableList<GameObject> targets = new();
-
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
         public HashSet<GameObject> TriggeredObjects
@@ -41,6 +39,9 @@ namespace Yd.Gameplay.Object
 
         public CharacterData Data => data;
         public PlayerCharacterData PlayerCharacterData => (PlayerCharacterData)Data;
+
+        public AiSensor AiSensor { get; protected set; }
+        [CanBeNull] public GameObject Target => AiSensor.Objects.Count > 0 ? AiSensor.Objects[0] : null;
 
         protected StatsBar StatsBar => statsBar;
 
@@ -81,25 +82,19 @@ namespace Yd.Gameplay.Object
             var animationEventDispatcher = GameObjectExtension.GetOrAddComponent<AnimationEventDispatcher>(gameObject);
             animationEventDispatcher.Event += OnGameplayEvent;
 
-            var aiSensor = GetComponent<AiSensor>();
-            if (aiSensor)
+            AiSensor = GetComponent<AiSensor>();
+            if (AiSensor)
             {
-                aiSensor.Initialize(this);
+                AiSensor.Initialize(this);
             }
 
             behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             if (behaviorGraphAgent)
             {
+                behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", AiSensor.Target);
                 behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Speed", Data.speed);
-                targets.ItemAdded += (sender, args) => {
-                    behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", targets[0]);
-                };
-                targets.ItemRemoved += (sender, args) => {
-                    if (args.index == 0)
-                    {
-                        behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", (GameObject)null);
-                    }
-                };
+
+                AiSensor.TargetChanged += o => { behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", o); };
             }
 
             var navAgent = GetComponent<NavMeshAgent>();
@@ -150,6 +145,7 @@ namespace Yd.Gameplay.Object
                 UnityController.enabled = false;
                 Rigidbody.isKinematic = false;
                 Rigidbody.interpolation = RigidbodyInterpolation.Extrapolate;
+                // Rigidbody.interpolation = RigidbodyInterpolation.None;
             }
         }
 
@@ -183,4 +179,6 @@ namespace Yd.Gameplay.Object
         LeftHand,
         RightHand
     }
+
+
 }

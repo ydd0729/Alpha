@@ -36,19 +36,19 @@ namespace Yd.Gameplay.AbilitySystem
             return new ComboAttackAbility(this, owner, source);
         }
 
-        public override async void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
-        {
-            switch(type)
-            {
-                case GameplayEvent.NormalAttack:
-                    if (owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
-                        owner.OwnerCharacter.Weapon == CharacterWeapon.None)
-                    {
-                        await owner.TryActivateAbility(this);
-                    }
-                    break;
-            }
-        }
+        // public override async void OnGameplayEvent(GameplayEvent type, GameplayAbilitySystem owner)
+        // {
+        //     switch(type)
+        //     {
+        //         case GameplayEvent.NormalAttack:
+        //             if (owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
+        //                 owner.OwnerCharacter.Weapon == CharacterWeapon.None)
+        //             {
+        //                 await owner.TryActivateAbility(this);
+        //             }
+        //             break;
+        //     }
+        // }
     }
 
     [Serializable]

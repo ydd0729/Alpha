@@ -9,13 +9,17 @@ namespace Yd.Gameplay.Object
 {
     public class GameplayCharacterController : Actor
     {
-
+        public const float RotationTolerance = 1f;
         private GameplayAttributeSet attributeSet;
         private RotationTask rotationTask;
 
-        protected NavMeshAgent NavMeshAgent { get; private set; }
+        private Vector3? targetDirection;
+
+        public NavMeshAgent NavMeshAgent { get; private set; }
 
         public Character Character { get; private set; }
+
+        public bool IsRotating => rotationTask.IsExecuting;
 
         public EWalkRunToggle WalkRunToggle { get; protected set; }
 
@@ -63,14 +67,16 @@ namespace Yd.Gameplay.Object
 
         protected virtual void Update()
         {
-            if (!Character.Data.useStrafeSet && !IsNavigating && AllowRotation)
-            {
-                UpdateRotation();
-            }
-
             if (!Character.Data.useRootMotionMovement)
             {
                 Move();
+            }
+
+            // Debug.Log($"{Character.name} allow rotation = {AllowRotation}");
+
+            if (AllowRotation)
+            {
+                Rotate();
             }
 
             // DebugE.LogValue($"{Character.gameObject.name}::{nameof(LocalMoveDirection)}", LocalMoveDirection);
@@ -85,10 +91,11 @@ namespace Yd.Gameplay.Object
 
         public bool NavigateTo(Vector3 position, float stoppingDistance = 0.5f)
         {
+            targetDirection = (position - Character.transform.position).Ground().normalized;
             if (NavMeshAgent.SetDestination(position))
             {
                 NavMeshAgent.stoppingDistance = stoppingDistance;
-                Character.Animator.SetValue(AnimatorParameterId.SpeedMagnitude, Character.Data.speed);
+                // Character.Animator.SetValue(AnimatorParameterId.SpeedMagnitude, Character.Data.moveAnimationSpeed);
 
                 return true;
             }
@@ -108,24 +115,12 @@ namespace Yd.Gameplay.Object
         {
             switch(obj)
             {
-                case Gameplay.GameplayEvent.DamageDetectionStart:
-                    break;
-                case Gameplay.GameplayEvent.DamageDetectionEnd:
-                    break;
-                case Gameplay.GameplayEvent.ComboDetectionStart:
-                    break;
-                case Gameplay.GameplayEvent.ComboDetectionEnd:
-                    break;
-                case Gameplay.GameplayEvent.NormalAttack:
-                    break;
                 case Gameplay.GameplayEvent.Interact:
                     foreach (var interactive in Character.TriggeredInteractives)
                     {
                         interactive.Interact();
                     }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
             }
 
             GameplayEvent?.Invoke(obj);
@@ -137,11 +132,12 @@ namespace Yd.Gameplay.Object
 
             Character.Movement.MovementStateChanged += OnMovementStateChanged;
             NavMeshAgent = Character.GetComponent<NavMeshAgent>();
+            // NavMeshAgent.autoBraking = true;
+            NavMeshAgent.updateRotation = false;
 
             if (Character.Data.useRootMotionMovement)
             {
                 Character.AnimatorMoved += Move;
-                NavMeshAgent.updatePosition = false;
             }
 
             WalkRunToggle = EWalkRunToggle.Run;
@@ -225,6 +221,8 @@ namespace Yd.Gameplay.Object
             {
                 // TODO
             }
+
+            NavMeshAgent.nextPosition = Character.transform.position;
         }
 
         private void NavigatedMove()
@@ -235,18 +233,52 @@ namespace Yd.Gameplay.Object
             }
             else
             {
-                LocalMoveDirection = Velocity.magnitude > 0.05f ? Velocity.normalized : Vector3.zero;
+                if (targetDirection.HasValue &&
+                    Vector3.Angle(Character.transform.forward, targetDirection.Value) < RotationTolerance)
+                {
+                    targetDirection = null;
+                }
+
+                if (Velocity.magnitude > 0f)
+                {
+                    LocalMoveDirection = Velocity.normalized;
+                }
+                else if (targetDirection.HasValue)
+                {
+                    // Debug.Log($"{Character.name} target direction {targetDirection.Value}");
+                    LocalMoveDirection = targetDirection.Value;
+                }
+                else
+                {
+                    LocalMoveDirection = Vector3.zero;
+                }
+
+                // Debug.Log($"{Character.name} LocalMoveDirection {LocalMoveDirection}");
+                Character.Movement.CurrentState.OnTick(ref Character.Movement.context);
+
+                Character.Animator.SetValue
+                (
+                    AnimatorParameterId.SpeedMagnitude,
+                    Mathf.Max(Velocity.magnitude, rotationTask.IsExecuting ? Character.Data.speed : 0)
+                );
             }
         }
 
-        private void UpdateRotation()
+        public void SetTargetDirection(Vector3 dir)
         {
+            targetDirection = dir;
+        }
+
+        private void Rotate()
+        {
+            // Debug.Log($"{Character.name} Rotate");
+
             if (LocalMoveDirection != Vector3.zero && CharacterTargetRotation != rotationTask.Target)
             {
                 rotationTask.SetTask(CharacterRotation, CharacterTargetRotation, Character.Data.timeToRotate);
             }
 
-            if (rotationTask.Executing)
+            if (rotationTask.IsExecuting)
             {
                 CharacterRotation = rotationTask.Execute();
             }

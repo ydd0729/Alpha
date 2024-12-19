@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using Yd.Gameplay.Object;
 using Yd.PhysicsExtension;
@@ -7,7 +9,9 @@ using Yd.PhysicsExtension;
 public class AiSensor : MonoBehaviour
 {
 
-    private static readonly float groundTolerance = -1e-1f;
+    private const float groundTolerance = -1e-1f;
+    private const uint maxDetectedObjectsNum = 50;
+
     public Vector3 offset;
     public float distance = 10;
     public float angle = 30;
@@ -16,28 +20,31 @@ public class AiSensor : MonoBehaviour
     public int scanFrequency = 30;
     public LayerMask layers;
     public LayerMask occlusionLayers;
-    private readonly Collider[] colliders = new Collider[50];
-    private readonly List<GameObject> localTargets = new();
+    private readonly Collider[] colliders = new Collider[maxDetectedObjectsNum];
+    private readonly List<GameObject> objects = new();
     private Character character;
-    // private readonly List<GameObject> objects = new();
     private int count;
     private Mesh mesh;
     private float scanInterval;
     private float scanTimer;
 
-    private Vector3 Origin => transform.position + (Vector3)(transform.localToWorldMatrix * offset);
-
-    private IList<GameObject> Targets
+    [CanBeNull] private GameObject target;
+    [CanBeNull] public GameObject Target
     {
-        get
+        get => target;
+        private set
         {
-            if (character)
+            if (target == value)
             {
-                return character.targets;
+                return;
             }
-            return localTargets;
+            target = value;
+            TargetChanged?.Invoke(value);
         }
     }
+
+    private Vector3 Origin => transform.position + (Vector3)(transform.localToWorldMatrix * offset);
+    public IReadOnlyList<GameObject> Objects => objects;
 
     private void Start()
     {
@@ -72,7 +79,7 @@ public class AiSensor : MonoBehaviour
 
         Gizmos.color = Color.green;
 
-        foreach (var obj in Targets)
+        foreach (var obj in objects)
         {
             // Debug.Log(obj.name);
             Gizmos.DrawSphere(obj.transform.position, 1f);
@@ -84,6 +91,8 @@ public class AiSensor : MonoBehaviour
         mesh = CreateWedgeMesh();
     }
 
+    public event Action<GameObject> TargetChanged;
+
     public void Initialize(Character character)
     {
         this.character = character;
@@ -93,7 +102,7 @@ public class AiSensor : MonoBehaviour
     {
         count = PhysicsE.OverlapSphereNonAlloc(Origin, distance, colliders, layers, QueryTriggerInteraction.Collide);
 
-        Targets.Clear();
+        objects.Clear();
         for (var i = 0; i < count; ++i)
         {
             var go = colliders[i].gameObject;
@@ -103,9 +112,10 @@ public class AiSensor : MonoBehaviour
             }
             if (IsInSight(go))
             {
-                Targets.Add(go);
+                objects.Add(go);
             }
         }
+        Target = objects.Count > 0 ? objects[0] : null;
     }
 
     public bool IsInSight(GameObject target)
@@ -127,12 +137,10 @@ public class AiSensor : MonoBehaviour
 
         origin.y += height / 2;
         dest.y = origin.y;
-        if (Physics.Linecast(origin, dest, occlusionLayers))
-        {
-            return false;
-        }
-        return true;
+
+        return !Physics.Linecast(origin, dest, occlusionLayers);
     }
+
     private Mesh CreateWedgeMesh()
     {
         var mesh = new Mesh();

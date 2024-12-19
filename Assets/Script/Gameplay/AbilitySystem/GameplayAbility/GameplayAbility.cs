@@ -40,6 +40,8 @@ namespace Yd.Gameplay.AbilitySystem
         public bool AllowRotation { get; protected set; }
         public bool AllowMovement { get; protected set; }
 
+        public List<string> Tags { get; private set; } = new();
+
         public GameplayAbilityData Data { get; }
         public GameplayAbilitySystem Owner { get; }
 
@@ -72,13 +74,13 @@ namespace Yd.Gameplay.AbilitySystem
         {
             if (!await CanExecute())
             {
-                Debug.LogError("Activation Failed");
+                Debug.Log("[GameplayAbility::CanExecute] Failed");
                 return false;
             }
+            Debug.Log("[GameplayAbility::CanExecute] Success");
 
             IsExecuting = true;
-            StartCooldown();
-
+            
             if (!await StartExecution())
             {
                 StopExecution();
@@ -88,9 +90,12 @@ namespace Yd.Gameplay.AbilitySystem
             return true;
         }
 
-        private async Task<bool> CanExecute()
+        protected virtual async Task<bool> CanExecute()
         {
-            return !IsExecuting && !IsCoolingDown && await TryApplyCost();
+            return !IsExecuting &&
+                   !IsCoolingDown &&
+                   await TryApplyCost() &&
+                   Owner.GetActiveAbilitiesWithTags(Data.ForbiddenTags).Count == 0;
         }
 
         private void StartCooldown(float? cooldown = null)
@@ -128,6 +133,7 @@ namespace Yd.Gameplay.AbilitySystem
         public virtual void StopExecution()
         {
             IsExecuting = false;
+            StartCooldown();
 
             // TODO 感觉放在这里不合适
             // foreach (var effect in AppliedEffects)

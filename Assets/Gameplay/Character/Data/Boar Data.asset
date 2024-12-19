@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boar Data
   m_EditorClassIdentifier: 
   controllerFollowOffset: {x: 0, y: 1, z: 0}
-  timeToRotate: 0.1
+  timeToRotate: 0.3
   jumpForwardSpeed: 4
   jumpUpSpeed: 4
   useRootMotionMovement: 0

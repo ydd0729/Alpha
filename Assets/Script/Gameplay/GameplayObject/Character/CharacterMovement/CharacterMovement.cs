@@ -10,7 +10,7 @@ namespace Yd.Gameplay.Object
     public class CharacterMovement : MonoBehaviour
     {
         private AnimationEventDispatcher animationEventDispatcher;
-        private MovementStateContext context;
+        public MovementStateContext context;
 
         // public bool IsGrounded => context.IsGrounded;
         public Character Character => context.Character;
@@ -97,7 +97,7 @@ namespace Yd.Gameplay.Object
         {
             var radius = Character.UnityController.radius;
             var origin = Character.transform.position + Vector3.up * (radius + 0.01f);
-            var layerMask = Physics.DefaultRaycastLayers ^ LayerMaskE.Character;
+            var layerMask = Physics.DefaultRaycastLayers & ~LayerMaskE.Character;
 
 
             if (PhysicsE.SphereCast
@@ -109,6 +109,8 @@ namespace Yd.Gameplay.Object
             {
                 context.GroundDistance = Mathf.Infinity;
             }
+
+            // Debug.Log(GroundDistance);
         }
 
         private void OnStep(GameplayEvent @event)

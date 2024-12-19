@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8415265178347866253}
   - component: {fileID: 2124048927164459492}
   - component: {fileID: 7053407675386111928}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Chest Epic
   m_TagString: Untagged
   m_Icon: {fileID: 0}

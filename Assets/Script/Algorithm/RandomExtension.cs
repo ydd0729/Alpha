@@ -58,7 +58,7 @@ namespace Yd.Algorithm
         /// </summary>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static (float, float) RandomInCircle(float radius)
+        public static Vector2 RandomInCircle(float radius)
         {
             var xi1 = UnityEngine.Random.Range(0f, 1f);
             var xi2 = UnityEngine.Random.Range(0f, 1f);
@@ -69,7 +69,21 @@ namespace Yd.Algorithm
             var x = r * Mathf.Cos(phi);
             var y = r * Mathf.Sin(phi);
 
-            return (x, y);
+            return new Vector2(x, y);
+        }
+
+        public static Vector2 RandomInRing(float innerRadius, float radius)
+        {
+            var xi1 = UnityEngine.Random.Range(innerRadius / radius, 1f);
+            var xi2 = UnityEngine.Random.Range(innerRadius / radius, 1f);
+
+            var phi = 2 * Mathf.PI * xi1;
+            var r = radius * Mathf.Pow(xi2, 0.5f);
+
+            var x = r * Mathf.Cos(phi);
+            var y = r * Mathf.Sin(phi);
+
+            return new Vector2(x, y);
         }
     }
 }

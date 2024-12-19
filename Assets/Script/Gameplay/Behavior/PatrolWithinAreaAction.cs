@@ -64,12 +64,6 @@ namespace Yd.Gameplay.Behavior
             waitTime = 0;
             waitTimeRange.Set(WaitTimeMinInclusive.Value, WaitTimeMaxInclusive.Value);
 
-            // if (waitTimeRange.Length() == 0)
-            // {
-            //     LogFailure("WaitTime Length cannot be zero.");
-            //     return Status.Failure;
-            // }
-
             return Status.Running;
         }
 
@@ -94,7 +88,7 @@ namespace Yd.Gameplay.Behavior
 
         protected override void OnEnd()
         {
-            controller.StopNavigation();
+            controller?.StopNavigation();
         }
 
         private Vector3 GetNext()
@@ -104,11 +98,11 @@ namespace Yd.Gameplay.Behavior
 
                 case PatrolAreaType.Circle:
                 {
-                    var (x, y) = RandomE.RandomInCircle(PatrolArea.Value.Radius);
+                    var randomInCircle = RandomE.RandomInCircle(PatrolArea.Value.Radius);
 
                     var target = PatrolArea.Value.Center;
-                    target.x += x;
-                    target.y += y;
+                    target.x += randomInCircle.x;
+                    target.z += randomInCircle.y;
 
                     return target;
                 }

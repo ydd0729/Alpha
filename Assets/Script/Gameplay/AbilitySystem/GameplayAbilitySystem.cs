@@ -238,7 +238,14 @@ namespace Yd.Gameplay.AbilitySystem
 
             ActiveAbilities[abilityData].Add(ability);
 
-            return await ability.TryExecute();
+            var result = await ability.TryExecute();
+
+            if (!result)
+            {
+                AbilitiesWaitingForRemoval.Add(ability);
+            }
+
+            return result;
         }
 
         public void Deactivate(GameplayAbility ability)
@@ -276,12 +283,36 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        private void OnGameplayEvent(GameplayEvent type)
+        private void OnGameplayEvent(GameplayEvent eventType)
         {
             foreach (var abilityData in grantedAbilities)
             {
-                abilityData.OnGameplayEvent(type, this);
+                // Debug.Log(abilityData);
+                if (!abilityData.Passive && abilityData.BindingEvent == eventType)
+                {
+                    _ = TryActivateAbility(abilityData);
+                }
             }
+        }
+
+        public IList<GameplayAbility> GetActiveAbilitiesWithTags(IReadOnlyList<string> tags)
+        {
+            List<GameplayAbility> result = new();
+            foreach (var (data, abilities) in ActiveAbilities)
+            {
+                foreach (var ability in abilities)
+                {
+                    foreach (var abilityTag in ability.Tags)
+                    {
+                        if (tags.Contains(abilityTag))
+                        {
+                            result.Add(ability);
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

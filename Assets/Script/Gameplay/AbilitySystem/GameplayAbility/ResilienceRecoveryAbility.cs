@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+using Yd.Animation;
 using Yd.Manager;
 
 namespace Yd.Gameplay.AbilitySystem
@@ -48,6 +49,8 @@ namespace Yd.Gameplay.AbilitySystem
                     _ => { resilienceRecoveryEffect = Owner.ApplyGameplayEffectAsync(Data.RecoverEffect, Owner); },
                     Data.RecoverDelay
                 );
+                Tags.Add("Stun");
+                Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, true);
             }
             else if (resilienceRecoveryEffect is { IsCompleted: true } &&
                      resilience.CurrentValue >=
@@ -57,6 +60,7 @@ namespace Yd.Gameplay.AbilitySystem
                 Owner.RemoveGameplayEffect(resilienceRecoveryEffect.Result);
                 resilienceRecoveryEffect = null;
                 recoverTimer = null;
+                Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, false);
             }
         }
     }

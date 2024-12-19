@@ -32,7 +32,8 @@ namespace Yd.Animation
         StepRightMiddle,
 
         GroundVelocity,
-        SpeedMagnitude
+        SpeedMagnitude,
+        AttackId
     }
 
     [Serializable]

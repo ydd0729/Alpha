@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Yd.Animation;
 
@@ -34,8 +33,6 @@ namespace Yd.Gameplay.Object
                     case EWalkRunToggle.Run:
                         context.Character.Movement.TryTransitTo(Run);
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

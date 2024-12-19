@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Unarmed Attack Ability
   m_EditorClassIdentifier: 
   maxActivation: 1
-  cooldown: 6
+  cooldown: 2
   cost: {fileID: 0}
   effectsToApply: []
+  passive: 0
+  bindingEvent: 4
+  attackId: 0
+  forbiddenTags: []
   maxCombo: 4
   damage:
   - healthDamage:

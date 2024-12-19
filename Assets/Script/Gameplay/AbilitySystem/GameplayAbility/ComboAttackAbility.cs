@@ -21,13 +21,14 @@ namespace Yd.Gameplay.AbilitySystem
             GameplayAbilityData data, GameplayAbilitySystem owner, [CanBeNull] GameplayAbilitySystem source
         ) : base(data, owner, source)
         {
+            Tags.Add("Attack");
         }
 
         public ComboAttackAbilityData AttackAbilityData => (ComboAttackAbilityData)Data;
 
         protected override async Task<bool> StartExecution()
         {
-            Debug.LogWarning($"{nameof(ComboAttackAbility)} Starts.");
+            // Debug.LogWarning($"{nameof(ComboAttackAbility)} Starts.");
 
             if (!await base.StartExecution())
             {
@@ -46,6 +47,7 @@ namespace Yd.Gameplay.AbilitySystem
             while (await Combo())
             {
                 Animator.SetValue(AnimatorParameterId.Attack, true);
+                Animator.SetValue(AnimatorParameterId.AttackId, Data.AttackId);
             }
 
             return true;
@@ -64,7 +66,7 @@ namespace Yd.Gameplay.AbilitySystem
             AllowMovement = true;
             AllowRotation = true;
 
-            Debug.LogWarning("StopExecution");
+            // Debug.LogWarning("StopExecution");
         }
 
         public override void Tick()
@@ -115,13 +117,42 @@ namespace Yd.Gameplay.AbilitySystem
                 var character = collider.gameObject.GetComponent<Character>();
                 // Debug.Log($"[ComboAttackAbility::ApplyDamage] {character.name}");
 
+                // TODO: Ugly
+                character?.Controller.NavigateTo
+                (
+                    character.transform.position +
+                    (Owner.OwnerCharacter.transform.position - character.transform.position).normalized * 0.01f
+                );
+
                 character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync
                     (AttackAbilityData.DamageEffect, Owner, taggedDamages);
             }
         }
 
+        protected override async Task<bool> CanExecute()
+        {
+            if (!await base.CanExecute())
+            {
+                return false;
+            }
+
+            return Owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
+                   Owner.OwnerCharacter.Weapon == CharacterWeapon.None;
+        }
+
         private void OnGameplayEvent(GameplayEvent @event)
         {
+            if (@event == Data.BindingEvent)
+            {
+                if (!ComboApproved && CanDetectCombo)
+                {
+                    ComboApproved = true;
+                    ComboCounter += 1;
+                    ComboWaiter.SetResult(true);
+                }
+                return;
+            }
+
             switch(@event)
             {
                 case GameplayEvent.DamageDetectionStart:
@@ -143,14 +174,6 @@ namespace Yd.Gameplay.AbilitySystem
                     else
                     {
                         StopComboDetection();
-                    }
-                    break;
-                case GameplayEvent.NormalAttack:
-                    if (!ComboApproved && CanDetectCombo)
-                    {
-                        ComboApproved = true;
-                        ComboCounter += 1;
-                        ComboWaiter.SetResult(true);
                     }
                     break;
             }

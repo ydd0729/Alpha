@@ -19,6 +19,8 @@ namespace Yd.Gameplay.Object
             {
                 context.Character.SetGrounded(false);
             }
+
+            // context.Character.Controller.NavMeshAgent.enabled = false;
         }
 
         public override void OnTick(ref MovementStateContext context)
@@ -46,26 +48,6 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        // public override bool CanTransitFrom(MovementStateTransitionContext context)
-        // {
-        //     if (!base.CanTransitFrom(context))
-        //     {
-        //         return false;
-        //     }
-        //
-        //     //if (context.IsGrounded)
-        //     //{
-        //     //    return false;
-        //     //}
-        //
-        //     return context.CurrentState switch
-        //     {
-        //         JumpState or StandState or WalkState or RunState => true,
-        //         FallState => false,
-        //         _ => throw new NotImplementedException()
-        //     };
-        // }
-
         public override void OnExit(ref MovementStateContext context)
         {
             base.OnExit(ref context);
@@ -73,6 +55,8 @@ namespace Yd.Gameplay.Object
             context.Character.SetGrounded(true);
 
             context.Character.AudioManager.PlayOneShot(AudioId.Land, AudioChannel.World);
+
+            // context.Character.Controller.NavMeshAgent.enabled = true;
         }
     }
 }

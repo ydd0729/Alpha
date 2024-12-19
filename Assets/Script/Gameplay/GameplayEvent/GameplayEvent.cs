@@ -13,6 +13,9 @@
         StepLeftMiddle,
         StepRightMiddle,
         PunchSound,
-        KickSound
+        KickSound,
+        Attack01,
+        Attack02,
+        Attack03
     }
 }

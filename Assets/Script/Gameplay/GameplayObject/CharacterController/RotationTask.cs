@@ -11,11 +11,13 @@ namespace Yd.Gameplay.Object
 
         public Quaternion Target
         {
-            get; private set;
+            get;
+            private set;
         }
-        public bool Executing
+        public bool IsExecuting
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public void SetTask(Quaternion inOrigin, Quaternion inTarget, float timeToRotateHalfCircle)
@@ -24,7 +26,7 @@ namespace Yd.Gameplay.Object
             Target = inTarget;
             rotationTime = timeToRotateHalfCircle;
             timePassed = 0;
-            Executing = true;
+            IsExecuting = true;
         }
 
         public Quaternion Execute()
@@ -32,7 +34,7 @@ namespace Yd.Gameplay.Object
             timePassed += Time.deltaTime;
             if (timePassed >= rotationTime)
             {
-                Executing = false;
+                IsExecuting = false;
             }
 
             return Quaternion.Slerp(origin, Target, Math.Min(timePassed / rotationTime, 1));

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c730872bd1e4d5eae7a624be45403c9, type: 3}
-  m_Name: Attack Animation Parameter Data
+  m_Name: Attack On Enter
   m_EditorClassIdentifier: 
   animatorParameterValues:
     list:

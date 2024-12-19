@@ -19,7 +19,7 @@ public class TargetInSightCondition : Condition
 
     public override bool IsTrue()
     {
-        return character.targets.Count > 0;
+        return character.AiSensor.Target != null;
     }
 
     public override void OnStart()

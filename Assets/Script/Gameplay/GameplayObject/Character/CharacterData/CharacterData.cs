@@ -23,6 +23,6 @@ namespace Yd.Gameplay.Object
         [FormerlySerializedAs("groundTolerance")] public float GroundToleranceWhenGrounded = 0.01f;
         public float GroundToleranceWhenFalling = 0.01f;
 
-        public float speed = 4;
+        [FormerlySerializedAs("moveAnimationSpeed")] public float speed = 1;
     }
 }

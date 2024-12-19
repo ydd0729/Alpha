@@ -18,10 +18,11 @@ namespace Yd.Gameplay.AbilitySystem
             get => comboCounter;
             set
             {
+                // ReSharper disable once RedundantCheckBeforeAssignment
                 if (comboCounter != value)
                 {
                     comboCounter = value;
-                    Debug.LogWarning($"combo #{ComboCounter}");
+                    // Debug.LogWarning($"combo #{ComboCounter}");
                 }
             }
         }
@@ -43,7 +44,7 @@ namespace Yd.Gameplay.AbilitySystem
             if (ComboCounter == 0)
             {
                 ComboCounter = 1;
-                ComboWaiter.SetResult(ComboCounter < ComboAbilityData.MaxCombo);
+                ComboWaiter.SetResult(ComboCounter <= ComboAbilityData.MaxCombo);
             }
 
             return ComboWaiter.Task;
