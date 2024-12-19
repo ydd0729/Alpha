@@ -23,7 +23,7 @@ public class SetRandomLocationAroundTargetAction : Action
     {
         var randomInCircle = RandomE.RandomInRing(innerRadius, radius);
         var location = Target.Value.transform.position + new Vector3(randomInCircle.x, 0, randomInCircle.y);
-        GameObject.GetComponent<BehaviorGraphAgent>().BlackboardReference.SetVariableValue(name: "RandomLocation", location);
+        GameObject.GetComponent<BehaviorGraphAgent>().BlackboardReference.SetVariableValue(name: "Random Location", location);
 
         return Status.Success;
     }

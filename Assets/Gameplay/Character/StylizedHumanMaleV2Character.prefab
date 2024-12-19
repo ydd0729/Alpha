@@ -4043,7 +4043,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2626293531985394906}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4520,7 +4520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2367144461618649688}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9509,6 +9509,7 @@ GameObject:
   - component: {fileID: 5867759078677299208}
   - component: {fileID: 4810244405030873744}
   - component: {fileID: -6057394745654773304}
+  - component: {fileID: 9186870156546295654}
   - component: {fileID: 2756553926456107148}
   - component: {fileID: 5475324365324373607}
   m_Layer: 0
@@ -9714,6 +9715,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9186870156546295654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8443663713066993562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a5e5196fc035d45abfa0143c1cecd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectsDelayed:
+  - key: {fileID: 11400000, guid: 06fe6a49d45eecf41b5df197761494c8, type: 2}
+    value: 2
+  - key: {fileID: 11400000, guid: 7628da701c506084182497c0217bac49, type: 2}
+    value: 1
+  abilitiesDelayed:
+  - key: {fileID: 11400000, guid: a4978a380f70d2b4d9f0b2b43e3a8a8e, type: 2}
+    value: 0
 --- !u!195 &2756553926456107148
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9750,9 +9771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerPrefab: {fileID: 6749876451545551172, guid: 7e8d6bd33f17ba44594dae25d965d8e8, type: 3}
   data: {fileID: 11400000, guid: b2789f7d104c04141bfc691e7c618ae3, type: 2}
-  healthBar: {fileID: 0}
-  leftFoot: {fileID: 4261760523046411520}
-  rightFoot: {fileID: 4359934514928935806}
+  statsBar: {fileID: 0}
   bodyParts:
     list:
     - key: 0
@@ -9763,6 +9782,8 @@ MonoBehaviour:
       value: {fileID: 8436521508938383471}
     - key: 3
       value: {fileID: 4120126401431002938}
+  gameplayFx:
+    list: []
 --- !u!1 &8497822888192323355
 GameObject:
   m_ObjectHideFlags: 0

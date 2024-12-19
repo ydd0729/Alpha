@@ -65,7 +65,7 @@ namespace Yd.Gameplay.AbilitySystem
 
                 if (!Data.Passive)
                 {
-                    Owner.Deactivate(this);
+                    Owner.DeactivateAbility(this);
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace Yd.Gameplay.AbilitySystem
             Debug.Log("[GameplayAbility::CanExecute] Success");
 
             IsExecuting = true;
-            
+
             if (!await StartExecution())
             {
                 StopExecution();

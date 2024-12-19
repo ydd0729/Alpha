@@ -15,6 +15,12 @@ public class AttackAction : Action
     {
         "Attack"
     };
+
+    private static readonly string[] stunTag =
+    {
+        "Stun"
+    };
+
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<int> numAttacks;
     private Character character;
@@ -43,7 +49,8 @@ public class AttackAction : Action
 
     protected override Status OnUpdate()
     {
-        return character.Controller.AbilitySystem.GetActiveAbilitiesWithTags(attackTag).Count != 0
+        return character.Controller.AbilitySystem.GetActiveAbilitiesWithTags(attackTag).Count != 0 &&
+               character.Controller.AbilitySystem.GetActiveAbilitiesWithTags(stunTag).Count == 0
             ? Status.Running
             : Status.Success;
     }

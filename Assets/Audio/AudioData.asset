@@ -28,6 +28,12 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: 0ae9b0be8f87ce840a14505dc5850dd1, type: 2}
     - key: 6
       value: {fileID: 11400000, guid: 30f5fa80b0c5cdb49801e7dda7f733fd, type: 2}
+    - key: 7
+      value: {fileID: 11400000, guid: 15999a47166f232488b93230a030ebcc, type: 2}
+    - key: 8
+      value: {fileID: 11400000, guid: a1a61bec11a21c046bdda99d65c35c0b, type: 2}
+    - key: 9
+      value: {fileID: 11400000, guid: f63cadc1c820fa64daf0ff6c9a20f1b4, type: 2}
   audioMixerGroups:
     list:
     - key: 1

@@ -26,7 +26,7 @@ namespace Yd.Gameplay.Object
 
         private void Update()
         {
-            // DetectGround();
+            DetectGround();
             Character.Animator.SetValue(AnimatorParameterId.GroundVelocity, Character.Controller.GroundVelocity.magnitude);
 
             CurrentState.OnTick(ref context);
@@ -99,9 +99,17 @@ namespace Yd.Gameplay.Object
             var origin = Character.transform.position + Vector3.up * (radius + 0.01f);
             var layerMask = Physics.DefaultRaycastLayers & ~LayerMaskE.Character;
 
-
             if (PhysicsE.SphereCast
-                (origin, radius, Vector3.down, out var hitInfo, layerMask: layerMask, drawDebug: true, hitColor: Color.red))
+                (
+                    origin,
+                    radius,
+                    Vector3.down,
+                    out var hitInfo,
+                    layerMask: layerMask,
+                    drawDebug: true,
+                    hitColor: Color.gray,
+                    segment: 8
+                ))
             {
                 context.GroundDistance = Character.transform.position.y - hitInfo.point.y;
             }

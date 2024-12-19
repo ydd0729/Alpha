@@ -67,6 +67,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.2949513
+        functionName: GameplayEvent
+        data: BoarAttackSound
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -99,6 +106,13 @@ ModelImporter:
       - time: 0.76793617
         functionName: GameplayEvent
         data: ComboDetectionEnd
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.42426926
+        functionName: GameplayEvent
+        data: BoarAttackSound
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
@@ -334,7 +348,35 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.39238262
+        functionName: GameplayEvent
+        data: BoarStepSound
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.2666076
+        functionName: GameplayEvent
+        data: BoarStepSound
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.7590787
+        functionName: GameplayEvent
+        data: BoarStepSound
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8494242
+        functionName: GameplayEvent
+        data: BoarStepSound
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -351,7 +393,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -425,6 +467,13 @@ ModelImporter:
       - time: 0.94685555
         functionName: GameplayEvent
         data: ComboDetectionEnd
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.66696185
+        functionName: GameplayEvent
+        data: BoarAttackSound
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

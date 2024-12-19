@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: ConcreteFootstep
+  m_EditorClassIdentifier: 
+  volume: 1
+  volumeRandomRange:
+    minInclusive: -0.3
+    maxInclusive: 0
+  pitch: 1
+  pitchRandomRange:
+    minInclusive: 0
+    maxInclusive: 0
+  spatialBlend: 1
+  playbackMode: 2
+  avoidRepeatingLast: 3
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: 9b56c3ca785e7da4887867cdf0eaecb7, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: b50c86ca016f5fd44b477960e86a45e8, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 7c0b87fff398d254299a3bfcb834267a, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 054beacee0165e44bbf2f48249d48c6b, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: b712421809a990f439206d1322e1c115, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: a1c4061560997364481a88970f43e7e6, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 0bffda544b90fcd428c27af0e73a5c22, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 453c5781dd28be3499675187baa73dae, type: 3}
+    volume: 0
+    pitch: 0

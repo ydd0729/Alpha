@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb32187e722d2c4c96c1c0fb9b25d24, type: 3}
+  m_Name: Boar Attack
+  m_EditorClassIdentifier: 
+  volume: 1
+  volumeRandomRange:
+    minInclusive: -0.2
+    maxInclusive: 0
+  pitch: 1
+  pitchRandomRange:
+    minInclusive: 0
+    maxInclusive: 0
+  spatialBlend: 1
+  playbackMode: 2
+  avoidRepeatingLast: 3
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: 073ba7f616ec26c4cb5a7761b20f2131, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: c81b8b2d2db41c341b755de098d4ab2c, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: e15bcf7d7d793f2488272d160fd96595, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 69a9775dbd8380745a1a2a499e75b095, type: 3}
+    volume: 0
+    pitch: 0
+  - audioClip: {fileID: 8300000, guid: 7f7440d90825eac4bac9c19574bf5ca9, type: 3}
+    volume: 0
+    pitch: 0

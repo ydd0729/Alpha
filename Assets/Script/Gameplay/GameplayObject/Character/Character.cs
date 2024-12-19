@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Script.Gameplay.Fx;
 using Script.Gameplay.GameplayObject.Item;
 using Unity.Behavior;
 using UnityEngine;
@@ -21,8 +22,8 @@ namespace Yd.Gameplay.Object
         [SerializeField] private GameObject controllerPrefab;
         [FormerlySerializedAs("characterData")] [SerializeField] protected CharacterData data;
         [FormerlySerializedAs("healthBar")] [SerializeField] private StatsBar statsBar;
-
         [SerializeField] private SDictionary<GameplayBone, GameObject> bodyParts;
+        [SerializeField] private SDictionary<GameplayFx, GameObject> gameplayFx;
 
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
@@ -119,6 +120,14 @@ namespace Yd.Gameplay.Object
             TriggeredObjects.Remove(other.gameObject);
         }
 
+        public void ShowGameplayFx(GameplayFx fx, bool enabled)
+        {
+            if (gameplayFx.ContainsKey(fx))
+            {
+                gameplayFx[fx].gameObject.SetActive(enabled);
+            }
+        }
+
         private void OnGameplayEvent(GameplayEvent obj)
         {
             switch(obj)
@@ -128,6 +137,12 @@ namespace Yd.Gameplay.Object
                     break;
                 case GameplayEvent.KickSound:
                     AudioManager.PlayOneShot(AudioId.Kick, AudioChannel.World);
+                    break;
+                case GameplayEvent.BoarStepSound:
+                    AudioManager.PlayOneShot(AudioId.ConcreteFootstep, AudioChannel.World);
+                    break;
+                case GameplayEvent.BoarAttackSound:
+                    AudioManager.PlayOneShot(AudioId.BoarAttack, AudioChannel.World);
                     break;
             }
         }

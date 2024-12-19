@@ -248,7 +248,7 @@ namespace Yd.Gameplay.AbilitySystem
             return result;
         }
 
-        public void Deactivate(GameplayAbility ability)
+        public void DeactivateAbility(GameplayAbility ability)
         {
             if (ability.Owner != this)
             {
@@ -271,6 +271,20 @@ namespace Yd.Gameplay.AbilitySystem
             }
 
             AbilitiesWaitingForRemoval.Add(ability);
+        }
+
+        public void DeactivateAllOtherAbilities(GameplayAbility ability)
+        {
+            foreach (var activeAbilities in ActiveAbilities.Values)
+            {
+                foreach (var activeAbility in activeAbilities)
+                {
+                    if (ability != activeAbility)
+                    {
+                        DeactivateAbility(activeAbility);
+                    }
+                }
+            }
         }
 
         public void Initialize(Actor owner)

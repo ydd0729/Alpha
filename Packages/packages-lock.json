@@ -25,7 +25,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.behavior": {
-      "version": "1.0.5",
+      "version": "1.0.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -167,7 +167,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.performance.profile-analyzer": {
-      "version": "1.2.2",
+      "version": "1.2.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -382,7 +382,7 @@
         "com.unity.shadergraph": "10.0.0",
         "com.unity.mathematics": "1.0.0"
       },
-      "hash": "39fef1b1ea20cb8518c245af5ca5967c5746a4bd"
+      "hash": "b99d85f0b6d5a20ebc2d5a78158f92f938e8438a"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

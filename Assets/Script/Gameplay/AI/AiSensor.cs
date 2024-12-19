@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using Yd.DebugExtension;
 using Yd.Gameplay.Object;
 using Yd.PhysicsExtension;
 
@@ -77,12 +78,13 @@ public class AiSensor : MonoBehaviour
         //     DebugE.DrawSphere(colliders[i].transform.position, 0.5f, Color.red, 8);
         // }
 
-        Gizmos.color = Color.green;
+        // Gizmos.color = Color.green;
 
         foreach (var obj in objects)
         {
             // Debug.Log(obj.name);
-            Gizmos.DrawSphere(obj.transform.position, 1f);
+            // Gizmos.DrawSphere(obj.transform.position, 0.2f);
+            DebugE.DrawSphere(obj.transform.position, 0.2f, Color.green, 6);
         }
     }
 

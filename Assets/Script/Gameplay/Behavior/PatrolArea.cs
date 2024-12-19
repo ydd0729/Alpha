@@ -24,7 +24,7 @@ namespace Yd.Gameplay.Behavior
                 },
                 Radius,
                 0.6f,
-                DebugColorType.Green
+                DebugColorType.Grey
             );
         }
     }

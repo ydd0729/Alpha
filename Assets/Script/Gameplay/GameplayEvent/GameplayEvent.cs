@@ -16,6 +16,8 @@
         KickSound,
         Attack01,
         Attack02,
-        Attack03
+        Attack03,
+        BoarStepSound,
+        BoarAttackSound
     }
 }

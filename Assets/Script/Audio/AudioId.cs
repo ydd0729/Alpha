@@ -8,6 +8,9 @@ namespace Yd.Audio
         Land,
         Punch,
         Kick,
-        PunchImpactFlesh
+        PunchImpactFlesh,
+        BoarAttack,
+        BoarRoar,
+        ConcreteFootstep,
     }
 }

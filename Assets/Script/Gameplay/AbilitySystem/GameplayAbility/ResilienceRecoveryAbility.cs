@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Script.Gameplay.Fx;
 using UnityEngine;
 using Yd.Animation;
+using Yd.Audio;
 using Yd.Manager;
 
 namespace Yd.Gameplay.AbilitySystem
@@ -50,6 +52,13 @@ namespace Yd.Gameplay.AbilitySystem
                     Data.RecoverDelay
                 );
                 Tags.Add("Stun");
+
+                AllowMovement = false;
+                AllowRotation = false;
+
+                Owner.OwnerCharacter.AudioManager.PlayOneShot(AudioId.BoarRoar, AudioChannel.World);
+                Owner.OwnerCharacter.Controller.AbilitySystem.DeactivateAllOtherAbilities(this);
+                Owner.OwnerCharacter.ShowGameplayFx(GameplayFx.Stun, true);
                 Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, true);
             }
             else if (resilienceRecoveryEffect is { IsCompleted: true } &&
@@ -60,6 +69,13 @@ namespace Yd.Gameplay.AbilitySystem
                 Owner.RemoveGameplayEffect(resilienceRecoveryEffect.Result);
                 resilienceRecoveryEffect = null;
                 recoverTimer = null;
+
+                Tags.Remove("Stun");
+
+                AllowMovement = true;
+                AllowRotation = true;
+
+                Owner.OwnerCharacter.ShowGameplayFx(GameplayFx.Stun, false);
                 Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, false);
             }
         }

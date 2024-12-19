@@ -9,7 +9,7 @@ namespace Yd.Gameplay.Object
 {
     public class GameplayCharacterController : Actor
     {
-        public const float RotationTolerance = 1f;
+        public const float RotationTolerance = 10f;
         private GameplayAttributeSet attributeSet;
         private RotationTask rotationTask;
 
