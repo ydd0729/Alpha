@@ -34,6 +34,18 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: a1a61bec11a21c046bdda99d65c35c0b, type: 2}
     - key: 9
       value: {fileID: 11400000, guid: f63cadc1c820fa64daf0ff6c9a20f1b4, type: 2}
+    - key: 10
+      value: {fileID: 11400000, guid: 24abd1b3685e8b0438680554b6e17730, type: 2}
+    - key: 11
+      value: {fileID: 11400000, guid: 626d737538d23bc469655dffcb1ea85e, type: 2}
+    - key: 12
+      value: {fileID: 11400000, guid: c764f870a59720d4d87e407bc04dd976, type: 2}
+    - key: 13
+      value: {fileID: 11400000, guid: aa4e7c1f3588882408e66e17a27029db, type: 2}
+    - key: 14
+      value: {fileID: 11400000, guid: 6f96df20e1d4b9442a18f44a4ffe0604, type: 2}
+    - key: 16
+      value: {fileID: 11400000, guid: 6f6e7248fa6381f45a89193d17bee86a, type: 2}
   audioMixerGroups:
     list:
     - key: 1
@@ -42,3 +54,7 @@ MonoBehaviour:
       value: {fileID: 24300002, guid: 0d342e66846929c419c334344d2678c2, type: 2}
     - key: 2
       value: {fileID: 5782846966529108490, guid: 379654c3586d0534ba0fd173b9b3f84f, type: 2}
+    - key: 4
+      value: {fileID: 3850689073324659243, guid: 379654c3586d0534ba0fd173b9b3f84f, type: 2}
+    - key: 5
+      value: {fileID: 5828232269826453267, guid: 379654c3586d0534ba0fd173b9b3f84f, type: 2}

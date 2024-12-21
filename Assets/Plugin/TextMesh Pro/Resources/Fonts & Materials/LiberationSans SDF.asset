@@ -28,14 +28,22 @@ Material:
         m_Texture: {fileID: 28684132378477856}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdvancedCat: 1
     - _ColorMask: 15
     - _CullMode: 0
+    - _DirectionalCat: 1
     - _FaceDilate: 0
+    - _FogCat: 1
     - _GradientScale: 10
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
+    - _NoiseCat: 1
     - _OutlineSoftness: 0
     - _OutlineWidth: 0.174
     - _PerspectiveFilter: 0.875
@@ -46,6 +54,7 @@ Material:
     - _ScaleY: 1
     - _ShaderFlags: 0
     - _Sharpness: 0
+    - _SkyboxCat: 1
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -57,12 +66,14 @@ Material:
     - _UnderlayOffsetX: 0
     - _UnderlayOffsetY: 0
     - _UnderlaySoftness: 0
+    - _UseUIAlphaClip: 0
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
     - _WeightNormal: 0
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}

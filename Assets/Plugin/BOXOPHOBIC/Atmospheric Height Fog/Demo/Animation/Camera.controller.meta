@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f5eddefa026b1434493aa203d06b90c6
+timeCreated: 1568786397
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Atmospheric Height Fog/Demo/Animation/Camera.controller
+  uploadId: 710637

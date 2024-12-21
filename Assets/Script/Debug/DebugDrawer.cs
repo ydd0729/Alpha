@@ -3,22 +3,18 @@ using UnityEngine;
 
 namespace Yd.Extension
 {
+    [ExecuteAlways]
     public class DebugDrawer : MonoBehaviour
     {
         public DebugShape Shape;
         public float Radius;
         public float Height;
-        public DebugColorType Color;
+        public Color Color;
         public int Segment;
 
         private Vector3[] wireShape;
 
-        private void OnDrawGizmos()
-        {
-            GizmosE.DrawShape(wireShape, StaticColor.Get(Color));
-        }
-
-        private void OnValidate()
+        private void OnDrawGizmosSelected()
         {
             wireShape = Shape switch
             {
@@ -26,9 +22,11 @@ namespace Yd.Extension
                 DebugShape.WireSphere => WireShape.Sphere(transform.position, Radius, Segment),
                 _ => throw new ArgumentOutOfRangeException()
             };
+            
+            GizmosE.DrawShape(wireShape, Color);
         }
 
-        public void Init(DebugShape shape, float radius, float height, DebugColorType color, int segment = 0)
+        public void Init(DebugShape shape, float radius, float height, Color color, int segment = 0)
         {
             Shape = shape;
             Radius = radius;

@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
+using Unity.AI.Navigation;
 using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.AI;
 using Yd.Algorithm;
 using Action = Unity.Behavior.Action;
 
@@ -23,8 +26,15 @@ public class SetRandomLocationAroundLocationAction : Action
     {
         var randomInCircle = RandomE.RandomInRing(innerRadius, radius);
         var location = Location.Value + new Vector3(randomInCircle.x, 0, randomInCircle.y);
-        GameObject.GetComponent<BehaviorGraphAgent>().BlackboardReference.SetVariableValue(name: "Random Location", location);
 
-        return Status.Success;
+        NavMesh.SamplePosition(location, out var navMeshHit, 20, NavMesh.AllAreas);
+
+        if (navMeshHit.hit)
+        {
+            GameObject.GetComponent<BehaviorGraphAgent>().BlackboardReference.SetVariableValue(name: "Random Location", location);
+            return Status.Success;
+        }
+
+        return Status.Failure;
     }
 }

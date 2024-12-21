@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Bush01
+  m_Shader: {fileID: 4800000, guid: d9d09221179189a449fe37a0ddad2931, type: 3}
+  m_Parent: {fileID: 2100000, guid: 243ee6bfa01a89c4e957dfb3cbb92f75, type: 2}
+  m_ModifiedSerializedProperties: 8
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _BLENDNORMALS_ON
+  - _BUILTIN_ALPHATEST_ON
+  - _BUILTIN_AlphaClip
+  - _HIDESIDES_ON
+  - _USEVERTEXCOLOR_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorID:
+        m_Texture: {fileID: 2800000, guid: 34b7b2ec5fbe56f498a50ab0519e4f2a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorVariationNoise:
+        m_Texture: {fileID: 2800000, guid: 56fc026eb79effe4b85400592e33d639, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8821829e9fe2d2d4291ed537ba980085, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 2e1145ddd4de9254b9dc4c8146fab9eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Occlusion:
+        m_Texture: {fileID: 2800000, guid: a6ad438ba0b54ad42b8636135de7138d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 8821829e9fe2d2d4291ed537ba980085, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlendNormals: 1
+    - _Cutoff: 0.25
+    - _GradientFalloff: 2
+    - _GradientPosition: 1
+    - _LayerThreshold: 1
+    - _NoiseScale: 0.15
+    - _NormalDistortion: 0
+    - _WindMultiplier: 0.5
+    - _WindMultiplier1: 0.5
+    - _WindTrunkPosition: 0
+    - __dirty: 0
+    m_Colors:
+    - _Color0: {r: 0.3235204, g: 0.57547164, b: 0.12486646, a: 0}
+    - _ColorVariation: {r: 0, g: 0.2810894, b: 0.42452827, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GradientColor: {r: 0.2420016, g: 0.5566037, b: 0, a: 0}
+    - _MainColor: {r: 0.59627324, g: 1, b: 0, a: 1}
+    - _TrunkColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

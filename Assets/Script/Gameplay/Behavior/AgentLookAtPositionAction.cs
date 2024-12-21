@@ -32,9 +32,9 @@ public class AgentLookAtPositionAction : Action
 
     protected override Status OnUpdate()
     {
-        return Vector3.Angle
-                   (controller.Character.transform.forward, lookAtDirection) >=
-               GameplayCharacterController.RotationTolerance
+        var angle = Vector3.Angle(controller.Character.transform.forward, lookAtDirection);
+        // Debug.Log($"[Agent Look At Position] Angle = {angle}]");
+        return angle >= GameplayCharacterController.RotationTolerance
             ? Status.Running
             : Status.Success;
     }

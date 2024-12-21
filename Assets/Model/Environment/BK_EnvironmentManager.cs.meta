@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d7c87be04fee6674ab4942ca4762d482
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 188246
+  packageName: Pure Nature
+  packageVersion: 1.2
+  assetPath: Assets/AssetResource/BK/Pure_Common/Scripts/BK_EnvironmentManager.cs
+  uploadId: 671951

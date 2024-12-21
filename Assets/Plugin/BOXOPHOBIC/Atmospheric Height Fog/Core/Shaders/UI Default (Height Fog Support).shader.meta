@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d2c008f025f10e84e840af15703382d8
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Atmospheric Height Fog/Core/Shaders/UI
+    Default (Height Fog Support).shader
+  uploadId: 710637

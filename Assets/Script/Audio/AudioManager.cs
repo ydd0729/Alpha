@@ -27,7 +27,7 @@ namespace Yd.Audio
             audioSourcePool.Clear();
         }
 
-        public void PlayOneShot(AudioId audioId, AudioChannel channel, [CanBeNull] GameObject target = null)
+        public AudioSource Play(AudioId audioId, AudioChannel channel, [CanBeNull] GameObject target, bool loop)
         {
             if (target == null)
             {
@@ -76,20 +76,36 @@ namespace Yd.Audio
             }
 
             audioSource.outputAudioMixerGroup = GlobalData.Instance.Audio.AudioMixerGroups[channel];
+            audioSource.loop = loop;
 
             // Debug.Log($"[AudioManager::PlayOneShot] {audioSource.clip.name}");
             audioSource.Play();
 
-            CoroutineTimer.SetTimer
-            (
-                _ => {
-                    if (!audioSource.isPlaying)
-                    {
-                        audioSourcePool[target].Release(audioSource);
-                    }
-                },
-                audioSource.clip.length + 0.1f
-            );
+            if (!loop)
+            {
+                CoroutineTimer.SetTimer
+                (
+                    _ => {
+                        if (!audioSource.isPlaying)
+                        {
+                            audioSourcePool[target].Release(audioSource);
+                        }
+                    },
+                    audioSource.clip.length + 0.1f
+                );
+            }
+            
+            return audioSource;
+        }
+
+        public AudioSource PlayLoop(AudioId audioId, AudioChannel channel, [CanBeNull] GameObject target = null)
+        {
+            return Play(audioId, channel, target, true);
+        }
+
+        public AudioSource PlayOneShot(AudioId audioId, AudioChannel channel, [CanBeNull] GameObject target = null)
+        {
+            return Play(audioId, channel, target, false);
         }
 
         private static void SetAudioSource(AudioSource audioSource, IEnumerator<AudioItem> enumerator)
@@ -107,17 +123,17 @@ namespace Yd.Audio
             }
         }
 
-        private void OnGetFromPool(AudioSource audioSource)
+        private static void OnGetFromPool(AudioSource audioSource)
         {
             audioSource.enabled = true;
         }
 
-        private void OnReleaseToPool(AudioSource audioSource)
+        private static void OnReleaseToPool(AudioSource audioSource)
         {
             audioSource.enabled = false;
         }
 
-        private void OnDestroyPooled(AudioSource audioSource)
+        private static void OnDestroyPooled(AudioSource audioSource)
         {
             Destroy(audioSource);
         }

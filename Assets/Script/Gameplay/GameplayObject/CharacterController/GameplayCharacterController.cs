@@ -87,11 +87,17 @@ namespace Yd.Gameplay.Object
             FollowCharacterPosition();
         }
 
-        public event Action<GameplayEvent> GameplayEvent;
+        public event Action<GameplayEventType> GameplayEvent;
 
         public bool NavigateTo(Vector3 position, float stoppingDistance = 0.5f)
         {
             targetDirection = (position - Character.transform.position).Ground().normalized;
+
+            if (!NavMeshAgent.isOnNavMesh || !NavMeshAgent.enabled)
+            {
+                return false;
+            }
+            
             if (NavMeshAgent.SetDestination(position))
             {
                 NavMeshAgent.stoppingDistance = stoppingDistance;
@@ -111,11 +117,11 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public void OnGameplayEvent(GameplayEvent obj)
+        public void OnGameplayEvent(GameplayEventType obj)
         {
             switch(obj)
             {
-                case Gameplay.GameplayEvent.Interact:
+                case Gameplay.GameplayEventType.Interact:
                     foreach (var interactive in Character.TriggeredInteractives)
                     {
                         interactive.Interact();
@@ -159,6 +165,9 @@ namespace Yd.Gameplay.Object
                         break;
                     case GameplayAttributeTypeEnum.Resilience:
                         character.OnResilienceChanged(value);
+                        break;
+                    case GameplayAttributeTypeEnum.MaxResilience:
+                        character.OnMaxResilienceChanged(value);
                         break;
                 }
             };
@@ -282,6 +291,12 @@ namespace Yd.Gameplay.Object
             {
                 CharacterRotation = rotationTask.Execute();
             }
+        }
+
+        public void OnDie()
+        {
+            AbilitySystem.DeactivateAllOtherAbilities(null);
+            Destroy(gameObject);
         }
     }
 

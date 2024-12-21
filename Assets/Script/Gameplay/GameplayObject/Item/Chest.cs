@@ -9,12 +9,35 @@ public class Chest : Actor, IInteractive
 
     public Canvas canvas;
     public Animator animator;
+    public ParticleSystem glowVfx;
+    public ParticleSystem openVfx;
 
     private bool opened;
+
+    private bool openable;
+    public bool Openable
+    {
+        get => openable;
+        set
+        {
+            openable = value;
+
+            if (value && !opened)
+            {
+                glowVfx.gameObject.SetActive(true);
+            }
+            else
+            {
+                glowVfx.gameObject.SetActive(false);
+            }
+        }
+    }
 
     private void Awake()
     {
         canvas.enabled = false;
+        Openable = true;
+        openVfx.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,6 +65,9 @@ public class Chest : Actor, IInteractive
             animator.SetTrigger(Open);
             opened = true;
             canvas.enabled = false;
+            Openable = false;
+            openVfx.gameObject.SetActive(true);
+            openVfx.Play();
             AudioManager.PlayOneShot(AudioId.Collect, AudioChannel.SFX);
         }
 

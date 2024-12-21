@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7143fe40663184d40997f88a20403589
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 38222
+  packageName: Action RPG FX
+  packageVersion: 2.02
+  assetPath: Assets/ARPG Effects/Animation/LightFadeOut.controller
+  uploadId: 689779

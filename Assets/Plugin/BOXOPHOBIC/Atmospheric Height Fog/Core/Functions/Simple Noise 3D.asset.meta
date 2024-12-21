@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: af06c8bfeddda644eae2803374c9c63b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Atmospheric Height Fog/Core/Functions/Simple
+    Noise 3D.asset
+  uploadId: 710637

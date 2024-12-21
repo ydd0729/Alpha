@@ -24,6 +24,7 @@ namespace Yd.Gameplay.AbilitySystem
     {
         Health,
         MaxHealth,
-        Resilience
+        Resilience,
+        MaxResilience,
     }
 }

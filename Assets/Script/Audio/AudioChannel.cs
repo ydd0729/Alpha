@@ -5,6 +5,8 @@ namespace Yd.Audio
         Main,
         World,
         Footstep,
-        SFX
+        SFX,
+        Environment,
+        Wind,
     }
 }

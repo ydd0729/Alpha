@@ -15,7 +15,7 @@ namespace Yd.Gameplay.AbilitySystem
         private readonly Dictionary<GEChannel, HashSet<Tuple<TaskCompletionSource<GameplayEffect>, Dictionary<string, float>>>>
             gameplayEffectsToApply = new();
         private readonly HashSet<GameplayAbilityData> grantedAbilities = new();
-        public Action<GameplayEvent, GameplayAbilitySystem> GameplayEvent;
+        public Action<GameplayEventType, GameplayAbilitySystem> GameplayEvent;
 
         private GEChannel MaxChannelToApply;
 
@@ -28,7 +28,7 @@ namespace Yd.Gameplay.AbilitySystem
 
         public Actor Owner { get; protected set; }
         public GameplayCharacterController OnwerController => Owner as GameplayCharacterController;
-        public Character OwnerCharacter => OnwerController.Character;
+        public Character Character => OnwerController.Character;
 
         public bool AllowRotation
         {
@@ -224,7 +224,7 @@ namespace Yd.Gameplay.AbilitySystem
             {
                 Debug.LogWarning
                 (
-                    $"The ability {abilityData} has not been granted to the controller of {OwnerCharacter} before activation!"
+                    $"The ability {abilityData} has not been granted to the controller of {Character} before activation!"
                 );
                 return false;
             }
@@ -270,6 +270,7 @@ namespace Yd.Gameplay.AbilitySystem
                 ability.StopExecution();
             }
 
+            ability.OnDeactivated();
             AbilitiesWaitingForRemoval.Add(ability);
         }
 
@@ -297,12 +298,12 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        private void OnGameplayEvent(GameplayEvent eventType)
+        private void OnGameplayEvent(GameplayEventType eventTypeType)
         {
             foreach (var abilityData in grantedAbilities)
             {
                 // Debug.Log(abilityData);
-                if (!abilityData.Passive && abilityData.BindingEvent == eventType)
+                if (!abilityData.Passive && abilityData.BindingEventType == eventTypeType)
                 {
                     _ = TryActivateAbility(abilityData);
                 }

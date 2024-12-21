@@ -102,6 +102,11 @@ namespace Yd.Collection
         {
             Clear();
 
+            if (list == null)
+            {
+                return;
+            }
+
             foreach (var item in list)
             {
                 if (item.Key == null)

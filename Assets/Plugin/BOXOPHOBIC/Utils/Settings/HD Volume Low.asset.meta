@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f26e4e0ef587d0447975abf9f33ebb65
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Utils/Settings/HD Volume Low.asset
+  uploadId: 710637

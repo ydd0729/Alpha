@@ -12,5 +12,12 @@ namespace Yd.Audio
         BoarAttack,
         BoarRoar,
         ConcreteFootstep,
+        Desert,
+        Wind,
+        Forest,
+        GrassFootstep,
+        SandFootstep,
+        StoneImpact,
+        HeroDie,
     }
 }

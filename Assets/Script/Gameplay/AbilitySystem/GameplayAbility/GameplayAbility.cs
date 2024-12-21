@@ -20,14 +20,14 @@ namespace Yd.Gameplay.AbilitySystem
             Owner = owner;
             Source = source;
 
-            Character = Owner.OwnerCharacter;
+            Character = Owner.Character;
 
             if (Character)
             {
                 Controller = Character.Controller;
                 Animator = Character.GetComponent<Animator>();
                 CharacterMovement = Character.Movement;
-                AnimationEventDispatcher = Character.GetComponent<AnimationEventDispatcher>();
+                AnimationEventListener = Character.GetComponent<AnimationEventListener>();
             }
         }
 
@@ -55,7 +55,7 @@ namespace Yd.Gameplay.AbilitySystem
         protected GameplayCharacterController Controller { get; }
         [CanBeNull] protected PlayerCharacterController PlayerController => Controller as PlayerCharacterController;
         protected CharacterMovement CharacterMovement { get; private set; }
-        protected AnimationEventDispatcher AnimationEventDispatcher { get; private set; }
+        protected AnimationEventListener AnimationEventListener { get; private set; }
 
         public virtual void Tick()
         {
@@ -151,6 +151,11 @@ namespace Yd.Gameplay.AbilitySystem
 
             var gameplayEffect = await Owner.ApplyGameplayEffectAsync(Data.Cost, Owner);
             return gameplayEffect.AllModsValid;
+        }
+
+        public virtual void OnDeactivated()
+        {
+            Tags.Clear();
         }
     }
 }

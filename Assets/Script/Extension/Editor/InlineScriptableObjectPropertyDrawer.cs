@@ -8,22 +8,45 @@ namespace Yd.Extension
     [CustomPropertyDrawer(typeof(ScriptableObject), true)]
     public class InlineScriptableObjectPropertyDrawer : PropertyDrawer
     {
-        private static readonly GUIStyle FoldoutStyle;
+        private static GUIStyle foldoutStyle;
+
+        public GUIStyle FoldoutStyle
+        {
+            get
+            {
+                if (foldoutStyle != null)
+                {
+                    return foldoutStyle;
+                }
+                
+                foldoutStyle = new GUIStyle(EditorStyles.foldout)
+                {
+                    margin = EditorStyles.foldoutHeader.margin,
+                    padding = EditorStyles.foldoutHeader.padding,
+                    fontStyle = EditorStyles.foldoutHeader.fontStyle,
+                    fontSize = EditorStyles.foldoutHeader.fontSize,
+                    fixedHeight = EditorStyles.foldoutHeader.fixedHeight
+                };
+                foldoutStyle.margin.left = 0;
+                
+                return foldoutStyle;
+            }
+        }
 
         private static readonly Dictionary<int, bool> Foldout = new();
 
-        static InlineScriptableObjectPropertyDrawer()
-        {
-            FoldoutStyle = new GUIStyle(EditorStyles.foldout)
-            {
-                margin = EditorStyles.foldoutHeader.margin,
-                padding = EditorStyles.foldoutHeader.padding,
-                fontStyle = EditorStyles.foldoutHeader.fontStyle,
-                fontSize = EditorStyles.foldoutHeader.fontSize,
-                fixedHeight = EditorStyles.foldoutHeader.fixedHeight
-            };
-            FoldoutStyle.margin.left = 0;
-        }
+        // static InlineScriptableObjectPropertyDrawer()
+        // {
+        //     FoldoutStyle = new GUIStyle(EditorStyles.foldout)
+        //     {
+        //         margin = EditorStyles.foldoutHeader.margin,
+        //         padding = EditorStyles.foldoutHeader.padding,
+        //         fontStyle = EditorStyles.foldoutHeader.fontStyle,
+        //         fontSize = EditorStyles.foldoutHeader.fontSize,
+        //         fixedHeight = EditorStyles.foldoutHeader.fixedHeight
+        //     };
+        //     FoldoutStyle.margin.left = 0;
+        // }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Script.Gameplay.Sound;
 using UnityEngine;
 using Yd.Animation;
 using Yd.Audio;
@@ -12,8 +13,9 @@ namespace Yd.Gameplay.AbilitySystem
 {
     public class ComboAttackAbility : ComboAbility
     {
-
+        private const uint NumMaxHits = 50;
         private readonly HashSet<Collider> hitted = new();
+        private readonly Collider[] colliders = new Collider[NumMaxHits];
 
         private bool damageDetection;
 
@@ -38,7 +40,7 @@ namespace Yd.Gameplay.AbilitySystem
             AllowMovement = false;
             AllowRotation = false;
 
-            AnimationEventDispatcher.Event += OnGameplayEvent;
+            AnimationEventListener.GameplayEventDispatcher += OnGameplayEvent;
             if (PlayerController)
             {
                 PlayerController.GameplayEvent += OnGameplayEvent;
@@ -47,7 +49,7 @@ namespace Yd.Gameplay.AbilitySystem
             while (await Combo())
             {
                 Animator.SetValue(AnimatorParameterId.Attack, true);
-                Animator.SetValue(AnimatorParameterId.AttackId, Data.AttackId);
+                // Animator.SetValue(AnimatorParameterId.AttackId, Data.AttackId);
             }
 
             return true;
@@ -57,7 +59,7 @@ namespace Yd.Gameplay.AbilitySystem
         {
             base.StopExecution();
 
-            AnimationEventDispatcher.Event -= OnGameplayEvent;
+            AnimationEventListener.GameplayEventDispatcher -= OnGameplayEvent;
             if (PlayerController)
             {
                 PlayerController.GameplayEvent -= OnGameplayEvent;
@@ -75,11 +77,27 @@ namespace Yd.Gameplay.AbilitySystem
 
             if (damageDetection)
             {
-                var damageData = AttackAbilityData.Damage[ComboCounter - 1];
-                var colliders = PhysicsE.OverlapSphere
+                var index = ComboCounter - 1;
+
+                if (index < 0)
+                {
+                    Debug.LogWarning("[ComboAttackAbility] index < 0 .");
+                    return;
+                }
+
+                if (index >= AttackAbilityData.Damage.Count)
+                {
+                    Debug.LogWarning("[ComboAttackAbility] index >= AttackAbilityData.Damage.Count .");
+                    return;
+                }
+                
+                var damageData = AttackAbilityData.Damage[index];
+                
+                int count = PhysicsE.OverlapSphereNonAlloc
                 (
                     Character.BodyParts[damageData.bindBone].transform.position,
                     damageData.radius,
+                    colliders,
                     LayerMaskE.Character,
                     QueryTriggerInteraction.Ignore,
                     true,
@@ -87,19 +105,24 @@ namespace Yd.Gameplay.AbilitySystem
                     StaticColor.Get(DebugColorType.Blue)
                 );
 
-                foreach (var collider in colliders)
+                for (int i = 0; i < count; i++)
                 {
-                    if (collider.gameObject == Owner.OwnerCharacter.gameObject)
+                    if (colliders[i].gameObject == Owner.Character.gameObject)
                     {
                         continue;
                     }
 
-                    if (!hitted.Contains(collider))
+                    if (colliders[i].gameObject.CompareTag(Owner.Character.gameObject.tag))
                     {
-                        var actor = collider.gameObject.GetComponent<Actor>();
-                        actor?.AudioManager.PlayOneShot(AudioId.PunchImpactFlesh, AudioChannel.World);
+                        continue;
+                    }
 
-                        hitted.Add(collider);
+                    if (!hitted.Contains(colliders[i]))
+                    {
+                        var character = colliders[i].gameObject.GetComponent<Character>();
+                        // actor?.AudioManager.PlayOneShot(AudioId.PunchImpactFlesh, AudioChannel.World);
+                        character.PlayGameplaySound(GameplaySound.BeHit);
+                        hitted.Add(colliders[i]);
                     }
                 }
             }
@@ -109,6 +132,7 @@ namespace Yd.Gameplay.AbilitySystem
         {
             var taggedDamages = new Dictionary<string, float>();
             var damageData = AttackAbilityData.Damage[ComboCounter - 1];
+            
             taggedDamages.Add(key: "Health", -damageData.healthDamage.Random());
             taggedDamages.Add(key: "Resilience", -damageData.resilienceDamage.Random());
 
@@ -121,7 +145,7 @@ namespace Yd.Gameplay.AbilitySystem
                 character?.Controller.NavigateTo
                 (
                     character.transform.position +
-                    (Owner.OwnerCharacter.transform.position - character.transform.position).normalized * 0.01f
+                    (Owner.Character.transform.position - character.transform.position).normalized * 0.01f
                 );
 
                 character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync
@@ -136,13 +160,13 @@ namespace Yd.Gameplay.AbilitySystem
                 return false;
             }
 
-            return Owner.OwnerCharacter.Movement.CurrentState == MovementState.Stand &&
-                   Owner.OwnerCharacter.Weapon == CharacterWeapon.None;
+            return Owner.Character.Movement.CurrentState == MovementState.Stand &&
+                   Owner.Character.Weapon == CharacterWeapon.None;
         }
 
-        private void OnGameplayEvent(GameplayEvent @event)
+        private void OnGameplayEvent(GameplayEventType eventType)
         {
-            if (@event == Data.BindingEvent)
+            if (eventType == Data.BindingEventType)
             {
                 if (!ComboApproved && CanDetectCombo)
                 {
@@ -153,20 +177,20 @@ namespace Yd.Gameplay.AbilitySystem
                 return;
             }
 
-            switch(@event)
+            switch(eventType)
             {
-                case GameplayEvent.DamageDetectionStart:
+                case GameplayEventType.DamageDetectionStart:
                     hitted.Clear();
                     damageDetection = true;
                     break;
-                case GameplayEvent.DamageDetectionEnd:
+                case GameplayEventType.DamageDetectionEnd:
                     damageDetection = false;
                     ApplyDamage();
                     break;
-                case GameplayEvent.ComboDetectionStart:
+                case GameplayEventType.ComboDetectionStart:
                     StartComboDetection();
                     break;
-                case GameplayEvent.ComboDetectionEnd:
+                case GameplayEventType.ComboDetectionEnd:
                     if (!ComboApproved)
                     {
                         StopExecution();

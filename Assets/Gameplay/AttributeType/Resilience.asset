@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range:
     minInclusive: 0
-    maxInclusive: 100
-  maxAttribute: {fileID: 0}
+    maxInclusive: 9999
+  maxAttribute: {fileID: 11400000, guid: cc46e690a2e0fca4e9a3eb4f1e1a99d9, type: 2}
   valueAttribute: {fileID: 0}
   type: 2

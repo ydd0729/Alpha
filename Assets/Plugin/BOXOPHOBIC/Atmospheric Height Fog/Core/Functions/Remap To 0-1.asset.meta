@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e6e209ac370e7e74da13a6a97e315390
+timeCreated: 1522076143
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Atmospheric Height Fog/Core/Functions/Remap
+    To 0-1.asset
+  uploadId: 710637

@@ -15,6 +15,7 @@ public class StatsBar : BillboardBehaviour
     private float health;
     private float maxHealth;
     private float resilience;
+    private float maxResilience;
 
 
     public void SetMaxHealth(float maxHealth)
@@ -38,10 +39,20 @@ public class StatsBar : BillboardBehaviour
         healthBarFill.color = healthBarGradient.Evaluate(healthBarSlider.normalizedValue);
         healthBarText.text = $"{(int)this.health} / {(int)maxHealth}";
     }
+    
+    public void SetMaxResilience(float maxResilience)
+    {
+        this.maxResilience = maxResilience;
+
+        resilienceBarSlider.maxValue = maxResilience;
+        resilienceBarSlider.value = resilience;
+    }
 
     public void SetResilience(float resilience)
     {
         this.resilience = resilience;
+        
+        resilienceBarSlider.maxValue = maxResilience;
         resilienceBarSlider.value = resilience;
     }
 }

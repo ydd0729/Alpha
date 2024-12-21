@@ -69,7 +69,7 @@ namespace Yd.Input
         {
             if (context.performed)
             {
-                GameplayEvent?.Invoke(Gameplay.GameplayEvent.NormalAttack);
+                GameplayEvent?.Invoke(Gameplay.GameplayEventType.NormalAttack);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Yd.Input
         {
             if (context.performed)
             {
-                GameplayEvent?.Invoke(Gameplay.GameplayEvent.Interact);
+                GameplayEvent?.Invoke(Gameplay.GameplayEventType.Interact);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Yd.Input
 
         public event Action<float> Zoom;
 
-        public event Action<GameplayEvent> GameplayEvent;
+        public event Action<GameplayEventType> GameplayEvent;
 
         // 初始化
         public void Initialize(PlayerCharacterController controller)

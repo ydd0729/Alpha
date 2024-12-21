@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bb53538a58209614794a88113c6a4a4b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 38222
+  packageName: Action RPG FX
+  packageVersion: 2.02
+  assetPath: Assets/ARPG Effects/Materials/Misc/sparkle_atlas.mat
+  uploadId: 689779

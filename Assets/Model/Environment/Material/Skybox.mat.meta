@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 6d8d2073385f92643b96552c9e56c090
+timeCreated: 1568788827
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/Model/Grass/Skybox.mat
+  uploadId: 710637

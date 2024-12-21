@@ -1,4 +1,5 @@
 using System;
+using Script.Gameplay.Sound;
 using UnityEngine;
 using Yd.Animation;
 using Yd.Audio;
@@ -9,7 +10,7 @@ namespace Yd.Gameplay.Object
 {
     public class CharacterMovement : MonoBehaviour
     {
-        private AnimationEventDispatcher animationEventDispatcher;
+        private AnimationEventListener animationEventListener;
         public MovementStateContext context;
 
         // public bool IsGrounded => context.IsGrounded;
@@ -40,8 +41,8 @@ namespace Yd.Gameplay.Object
             context.CurrentState = MovementState.Stand;
             context.GroundDistance = 0;
 
-            animationEventDispatcher = gameObject.GetOrAddComponent<AnimationEventDispatcher>();
-            animationEventDispatcher.Event += OnStep;
+            animationEventListener = gameObject.GetOrAddComponent<AnimationEventListener>();
+            animationEventListener.GameplayEventDispatcher += OnStep;
 
             character.AnimatorMoved += OnAnimatorMoved;
 
@@ -111,6 +112,15 @@ namespace Yd.Gameplay.Object
                     segment: 8
                 ))
             {
+                Character.FootstepAudioId = hitInfo.collider.gameObject.tag switch
+                {
+                    "Grass" => AudioId.GrassFootstep,
+                    "Stone" => AudioId.StoneFootstep,
+                    "Sand" => AudioId.SandFootstep,
+                    _ => Character.FootstepAudioId
+                };
+                // Debug.Log(FootstepAudioId);
+                
                 context.GroundDistance = Character.transform.position.y - hitInfo.point.y;
             }
             else
@@ -121,30 +131,28 @@ namespace Yd.Gameplay.Object
             // Debug.Log(GroundDistance);
         }
 
-        private void OnStep(GameplayEvent @event)
+        private void OnStep(GameplayEventType eventType)
         {
             var humanoidCharacter = Character as HumanoidCharacter;
 
-            switch(@event)
+            switch(eventType)
             {
-                case GameplayEvent.StepLeft:
+                case GameplayEventType.StepLeft:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, true);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, false);
 
                     if (humanoidCharacter != null)
                     {
-                        humanoidCharacter.AudioManager.PlayOneShot
-                            (AudioId.StoneFootstep, AudioChannel.Footstep, humanoidCharacter.BodyParts[GameplayBone.LeftFoot]);
+                        humanoidCharacter.PlayGameplaySound(GameplaySound.Step);
                     }
                     break;
-                case GameplayEvent.StepRight:
+                case GameplayEventType.StepRight:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, false);
                     Character.Animator.SetValue(AnimatorParameterId.StepRight, true);
 
                     if (humanoidCharacter != null)
                     {
-                        humanoidCharacter.AudioManager.PlayOneShot
-                            (AudioId.StoneFootstep, AudioChannel.Footstep, humanoidCharacter.BodyParts[GameplayBone.RightFoot]);
+                        humanoidCharacter.PlayGameplaySound(GameplaySound.Step);
                     }
                     break;
             }

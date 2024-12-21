@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 79af97945a2c0a0418e1daafa92552f9
+timeCreated: 1432135336
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 38222
+  packageName: Action RPG FX
+  packageVersion: 2.02
+  assetPath: Assets/ARPG Effects/Materials/Loot/treasure_ray.mat
+  uploadId: 689779

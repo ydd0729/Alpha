@@ -56,14 +56,14 @@ namespace Yd.Gameplay.AbilitySystem
                 AllowMovement = false;
                 AllowRotation = false;
 
-                Owner.OwnerCharacter.AudioManager.PlayOneShot(AudioId.BoarRoar, AudioChannel.World);
-                Owner.OwnerCharacter.Controller.AbilitySystem.DeactivateAllOtherAbilities(this);
-                Owner.OwnerCharacter.ShowGameplayFx(GameplayFx.Stun, true);
-                Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, true);
+                Owner.Character.AudioManager.PlayOneShot(AudioId.BoarRoar, AudioChannel.World);
+                Owner.Character.Controller.AbilitySystem.DeactivateAllOtherAbilities(this);
+                Owner.Character.ShowGameplayFx(GameplayFx.Stun, true);
+                Owner.Character.Animator.SetValue(AnimatorParameterId.Stun, true);
             }
             else if (resilienceRecoveryEffect is { IsCompleted: true } &&
                      resilience.CurrentValue >=
-                     resilience.AttributeDefinition.Range.MaxInclusive) // TODO 这里没有考虑有 Max Attribute 的情况
+                     Owner.AttributeSet.GetAttribute(GameplayAttributeTypeEnum.MaxResilience).CurrentValue)
             {
                 Debug.Log("[ResilienceRecoveryAbility::Tick] resilience = MAX");
                 Owner.RemoveGameplayEffect(resilienceRecoveryEffect.Result);
@@ -75,9 +75,16 @@ namespace Yd.Gameplay.AbilitySystem
                 AllowMovement = true;
                 AllowRotation = true;
 
-                Owner.OwnerCharacter.ShowGameplayFx(GameplayFx.Stun, false);
-                Owner.OwnerCharacter.Animator.SetValue(AnimatorParameterId.Stun, false);
+                Owner.Character.ShowGameplayFx(GameplayFx.Stun, false);
+                Owner.Character.Animator.SetValue(AnimatorParameterId.Stun, false);
             }
+        }
+
+        public override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            Owner.Character.ShowGameplayFx(GameplayFx.Stun, false);
+            Owner.Character.Animator.SetValue(AnimatorParameterId.Stun, false);
         }
     }
 }

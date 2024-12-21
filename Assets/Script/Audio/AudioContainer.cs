@@ -180,12 +180,16 @@ namespace Yd.Audio
             {
                 currentIndex = canPlay.ElementAt(Random.Range(0, canPlay.Count));
 
+                if (audioContainer.avoidRepeatingLast == 0)
+                {
+                    return true;
+                }
+
                 if (played.Count == audioContainer.avoidRepeatingLast)
                 {
                     canPlay.AddLast(played.Dequeue());
-                }
-
-                if (played.Count < audioContainer.avoidRepeatingLast)
+                } 
+                else if (played.Count < audioContainer.avoidRepeatingLast)
                 {
                     played.Enqueue(currentIndex);
                     canPlay.Remove(currentIndex);

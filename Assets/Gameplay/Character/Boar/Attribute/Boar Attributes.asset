@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4da4f0287f842ba8b6dcd50c8e529c5, type: 3}
+  m_Name: Boar Attributes
+  m_EditorClassIdentifier: 
+  Data:
+    list:
+    - key: {fileID: 11400000, guid: f38d43e5052ea47458f3266d0f1c80e5, type: 2}
+      value: 200
+    - key: {fileID: 11400000, guid: 60e10836d3347b445890c4d20fb4e2ba, type: 2}
+      value: 200
+    - key: {fileID: 11400000, guid: 13ff6f50c8d4b834da6c379d9b1dc5a3, type: 2}
+      value: 200
+    - key: {fileID: 11400000, guid: cc46e690a2e0fca4e9a3eb4f1e1a99d9, type: 2}
+      value: 200

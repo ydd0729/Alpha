@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a3a3bc8785681554d9558e2ea68f100e
+timeCreated: 1567415769
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/Model/Grass/Height Fog Preset.shader
+  uploadId: 710637

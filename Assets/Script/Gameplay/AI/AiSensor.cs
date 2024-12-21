@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Yd.DebugExtension;
+using Yd.Extension;
 using Yd.Gameplay.Object;
 using Yd.PhysicsExtension;
 
@@ -10,17 +12,19 @@ using Yd.PhysicsExtension;
 public class AiSensor : MonoBehaviour
 {
 
-    private const float groundTolerance = -1e-1f;
+    // private const float groundTolerance = -1e-1f;
     private const uint maxDetectedObjectsNum = 50;
 
     public Vector3 offset;
     public float distance = 10;
     public float angle = 30;
-    public float height = 1.0f;
-    public Color meshColor = Color.red;
+    [FormerlySerializedAs("height")] public float up = 1.0f;
+    public float down = 0.5f;
+    public Color activeColor = Color.red;
+    [FormerlySerializedAs("meshColor")] public Color inactiveColor = Color.gray;
     public int scanFrequency = 30;
     public LayerMask layers;
-    public LayerMask occlusionLayers;
+    [FormerlySerializedAs("linecastLayers")] [FormerlySerializedAs("occlusionLayers")] public LayerMask linecastOcclusionLayers;
     private readonly Collider[] colliders = new Collider[maxDetectedObjectsNum];
     private readonly List<GameObject> objects = new();
     private Character character;
@@ -63,11 +67,11 @@ public class AiSensor : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (mesh)
         {
-            Gizmos.color = meshColor;
+            Gizmos.color = objects.Count == 0 ? inactiveColor : activeColor;
             Gizmos.DrawMesh(mesh, Origin, transform.rotation);
         }
 
@@ -102,8 +106,10 @@ public class AiSensor : MonoBehaviour
 
     private void Scan()
     {
-        count = PhysicsE.OverlapSphereNonAlloc(Origin, distance, colliders, layers, QueryTriggerInteraction.Collide);
-
+        count = PhysicsE.OverlapSphereNonAlloc(Origin, distance, colliders, layers, QueryTriggerInteraction.Ignore);
+        
+        // Debug.Log($"[{gameObject.name}::Ai Sensor] Found {count} colliders.");
+        
         objects.Clear();
         for (var i = 0; i < count; ++i)
         {
@@ -112,12 +118,23 @@ public class AiSensor : MonoBehaviour
             {
                 continue;
             }
+
+            if (go.CompareTag(gameObject.tag))
+            {
+                continue;
+            }
+            
             if (IsInSight(go))
             {
                 objects.Add(go);
             }
         }
         Target = objects.Count > 0 ? objects[0] : null;
+
+        if (Target)
+        {
+            // Debug.Log($"[{gameObject.name}::Ai Sensor] Target: {Target.gameObject.name}");
+        }
     }
 
     public bool IsInSight(GameObject target)
@@ -125,7 +142,7 @@ public class AiSensor : MonoBehaviour
         var origin = Origin;
         var dest = target.transform.position;
         var dir = dest - origin;
-        if (dir.y < groundTolerance || dir.y > height)
+        if (dir.y < -down || dir.y > up)
         {
             return false;
         }
@@ -137,10 +154,14 @@ public class AiSensor : MonoBehaviour
             return false;
         }
 
-        origin.y += height / 2;
+        origin.y += up / 2;
         dest.y = origin.y;
 
-        return !Physics.Linecast(origin, dest, occlusionLayers);
+        if (linecastOcclusionLayers == 0)
+        {
+            return true;
+        }
+        return !Physics.Linecast(origin, dest, linecastOcclusionLayers);
     }
 
     private Mesh CreateWedgeMesh()
@@ -155,13 +176,13 @@ public class AiSensor : MonoBehaviour
         var triangles = new int[numVertices];
 
 
-        var bottomCenter = Vector3.zero;
-        var bottomLeft = Quaternion.Euler(0.0f, -angle, 0.0f) * Vector3.forward * distance;
-        var bottomRight = Quaternion.Euler(0.0f, angle, 0.0f) * Vector3.forward * distance;
+        var bottomCenter = Vector3.down * down;
+        var bottomLeft = bottomCenter + Quaternion.Euler(0.0f, -angle, 0.0f) * Vector3.forward * distance;
+        var bottomRight = bottomCenter + Quaternion.Euler(0.0f, angle, 0.0f) * Vector3.forward * distance;
 
-        var topCenter = bottomCenter + Vector3.up * height;
-        var topRight = bottomRight + Vector3.up * height;
-        var topLeft = bottomLeft + Vector3.up * height;
+        var topCenter = bottomCenter.Ground() + Vector3.up * up;
+        var topRight = bottomRight.Ground() + Vector3.up * up;
+        var topLeft = bottomLeft.Ground() + Vector3.up * up;
 
         var vert = 0;
 
@@ -190,8 +211,8 @@ public class AiSensor : MonoBehaviour
             bottomLeft = Quaternion.Euler(0.0f, currentAngle, 0.0f) * Vector3.forward * distance;
             bottomRight = Quaternion.Euler(0.0f, currentAngle + deltaAngle, 0.0f) * Vector3.forward * distance;
 
-            topRight = bottomRight + Vector3.up * height;
-            topLeft = bottomLeft + Vector3.up * height;
+            topRight = bottomRight + Vector3.up * up;
+            topLeft = bottomLeft + Vector3.up * up;
 
             // far side
             vertices[vert++] = bottomLeft;

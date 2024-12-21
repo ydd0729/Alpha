@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8dcda7e934503a64d8ec07cc28c53af7
+timeCreated: 1432488543
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 38222
+  packageName: Action RPG FX
+  packageVersion: 2.02
+  assetPath: Assets/ARPG Effects/Prefabs/Loot/Chests/ChestLv4Open.prefab
+  uploadId: 689779

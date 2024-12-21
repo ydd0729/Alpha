@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ea3f7407f69f900468d4b60de570e49d
+timeCreated: 1544998323
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Utils/Editor/StyledInspector/StyledIndentDrawer.cs
+  uploadId: 710637

@@ -2,6 +2,7 @@ using System;
 using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.AI;
 using Yd.Algorithm;
 using Yd.Collection;
 using Yd.Gameplay.Object;
@@ -20,7 +21,7 @@ namespace Yd.Gameplay.Behavior
     public class PatrolWithinAreaAction : Action
     {
         [SerializeReference] public BlackboardVariable<GameObject> Agent;
-        [SerializeReference] public BlackboardVariable<PatrolArea> PatrolArea;
+        [SerializeReference] public BlackboardVariable<GameplayArea> PatrolArea;
         [SerializeReference] public BlackboardVariable<float> WaitTimeMinInclusive;
         [SerializeReference] public BlackboardVariable<float> WaitTimeMaxInclusive;
 
@@ -96,13 +97,23 @@ namespace Yd.Gameplay.Behavior
             switch(PatrolArea.Value.Type)
             {
 
-                case PatrolAreaType.Circle:
+                case GameplayAreaType.Circle:
                 {
                     var randomInCircle = RandomE.RandomInCircle(PatrolArea.Value.Radius);
 
                     var target = PatrolArea.Value.Center;
                     target.x += randomInCircle.x;
                     target.z += randomInCircle.y;
+
+                    if (NavMesh.SamplePosition(target, out var hit, 20.0f, NavMesh.AllAreas) && hit.hit)
+                    {
+                        target = hit.position;
+                        // Debug.Log(target);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Sample position failed.");
+                    }
 
                     return target;
                 }
@@ -112,7 +123,7 @@ namespace Yd.Gameplay.Behavior
         }
     }
 
-    public enum PatrolAreaType
+    public enum GameplayAreaType
     {
         Circle
     }

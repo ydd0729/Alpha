@@ -34,13 +34,13 @@ public class AttackAction : Action
         switch(attackId)
         {
             case 0:
-                controller?.OnGameplayEvent(GameplayEvent.Attack01);
+                controller?.OnGameplayEvent(GameplayEventType.Attack01);
                 break;
             case 1:
-                controller?.OnGameplayEvent(GameplayEvent.Attack02);
+                controller?.OnGameplayEvent(GameplayEventType.Attack02);
                 break;
             case 2:
-                controller?.OnGameplayEvent(GameplayEvent.Attack03);
+                controller?.OnGameplayEvent(GameplayEventType.Attack03);
                 break;
         }
 

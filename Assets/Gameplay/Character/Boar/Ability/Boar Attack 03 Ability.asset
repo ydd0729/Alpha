@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fac250d6e2449b7be49ce070ba54fb4, type: 3}
+  m_Name: Boar Attack 03 Ability
+  m_EditorClassIdentifier: 
+  maxActivation: 1
+  cooldown: 0.5
+  cost: {fileID: 0}
+  effectsToApply: []
+  passive: 0
+  bindingEventType: 14
+  forbiddenTags:
+  - Stun
+  maxCombo: 1
+  damage:
+  - healthDamage:
+      minInclusive: 10
+      maxInclusive: 20
+    resilienceDamage:
+      minInclusive: 30
+      maxInclusive: 60
+    bindBone: 4
+    radius: 1.2
+    maxHit: 1
+  damageEffect: {fileID: 11400000, guid: 6f364d49aca373f4c8028a78f360f154, type: 2}

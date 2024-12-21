@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 825ad574da7360d4e8aea558f272972e
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143825
+  packageName: Atmospheric Height Fog | Optimized Fog for Consoles, Mobile and VR
+  packageVersion: 3.4.0
+  assetPath: Assets/AssetResource/BOXOPHOBIC/Utils/Scripts/Boxophobic.Utils.Scripts.asmdef
+  uploadId: 710637
