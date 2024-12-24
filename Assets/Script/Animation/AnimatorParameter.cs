@@ -28,6 +28,8 @@ namespace Yd.Animation
         // Step
         StepLeft,
         StepRight,
+
+        // obsolete
         StepLeftMiddle,
         StepRightMiddle,
 

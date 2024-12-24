@@ -16,10 +16,6 @@ namespace Yd.Input
         {
             inputActions?.Disable();
             inputActions = new InputActions();
-
-            // 启用 Player Action 并设置回调
-            inputActions.Player.Enable();
-            inputActions.Player.SetCallbacks(this);
         }
 
         private void OnDestroy()
@@ -57,6 +53,22 @@ namespace Yd.Input
             }
         }
 
+        public void OnSwitchWeaponForward(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                GameplayEvent?.Invoke(new GameplayEventArgs { EventType = GameplayEventType.SwitchWeaponForward });
+            }
+        }
+
+        public void OnSwitchWeaponBackward(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                GameplayEvent?.Invoke(new GameplayEventArgs { EventType = GameplayEventType.SwitchWeaponBackward });
+            }
+        }
+
         public void OnLook(InputAction.CallbackContext context)
         {
             var delta = context.ReadValue<Vector2>();
@@ -69,7 +81,19 @@ namespace Yd.Input
         {
             if (context.performed)
             {
-                GameplayEvent?.Invoke(Gameplay.GameplayEventType.NormalAttack);
+                GameplayEvent?.Invoke
+                (
+                    new GameplayAttackEventArgs
+                    {
+                        EventType = GameplayEventType.Attack,
+                        AttackId = controller.Character.Weapon switch
+                        {
+                            Weapon.None => 0,
+                            Weapon.Sword => 1,
+                            _ => throw new ArgumentOutOfRangeException()
+                        }
+                    }
+                );
             }
         }
 
@@ -77,7 +101,7 @@ namespace Yd.Input
         {
             if (context.performed)
             {
-                GameplayEvent?.Invoke(Gameplay.GameplayEventType.Interact);
+                GameplayEvent?.Invoke(new GameplayEventArgs { EventType = GameplayEventType.Interact });
             }
         }
 
@@ -97,6 +121,17 @@ namespace Yd.Input
         {
         }
 
+        public void EnableInput()
+        {
+            inputActions.Player.Enable();
+            inputActions.Player.SetCallbacks(this);
+        }
+
+        public void DisableInput()
+        {
+            inputActions.Player.Disable();
+        }
+
         // 移动
         public event Action<Vector2> Move;
 
@@ -111,7 +146,7 @@ namespace Yd.Input
 
         public event Action<float> Zoom;
 
-        public event Action<GameplayEventType> GameplayEvent;
+        public event Action<GameplayEventArgs> GameplayEvent;
 
         // 初始化
         public void Initialize(PlayerCharacterController controller)

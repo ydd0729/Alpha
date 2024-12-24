@@ -22,39 +22,42 @@ MonoBehaviour:
   maxCombo: 4
   damage:
   - healthDamage:
-      minInclusive: 5
-      maxInclusive: 8
+      minInclusive: 15
+      maxInclusive: 20
     resilienceDamage:
-      minInclusive: 50
-      maxInclusive: 60
+      minInclusive: 25
+      maxInclusive: 35
     bindBone: 3
     radius: 0.5
     maxHit: 1
   - healthDamage:
-      minInclusive: 7
-      maxInclusive: 10
+      minInclusive: 15
+      maxInclusive: 20
     resilienceDamage:
-      minInclusive: 50
-      maxInclusive: 60
+      minInclusive: 25
+      maxInclusive: 35
     bindBone: 2
     radius: 0.5
     maxHit: 1
   - healthDamage:
-      minInclusive: 9
-      maxInclusive: 12
+      minInclusive: 15
+      maxInclusive: 20
     resilienceDamage:
-      minInclusive: 50
-      maxInclusive: 60
+      minInclusive: 25
+      maxInclusive: 35
     bindBone: 3
     radius: 0.5
     maxHit: 1
   - healthDamage:
-      minInclusive: 11
-      maxInclusive: 14
+      minInclusive: 15
+      maxInclusive: 20
     resilienceDamage:
-      minInclusive: 100
-      maxInclusive: 150
+      minInclusive: 25
+      maxInclusive: 35
     bindBone: 1
     radius: 0.5
     maxHit: 1
   damageEffect: {fileID: 11400000, guid: 6f364d49aca373f4c8028a78f360f154, type: 2}
+  alwaysCombo: 0
+  weapon: 0
+  bindingAttackId: 0

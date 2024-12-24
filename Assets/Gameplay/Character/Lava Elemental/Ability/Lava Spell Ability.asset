@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a734b996c42e417b88f106a02b945f32, type: 3}
+  m_Name: Lava Spell Ability
+  m_EditorClassIdentifier: 
+  maxActivation: 1
+  cooldown: 1
+  cost: {fileID: 0}
+  effectsToApply: []
+  passive: 0
+  bindingEventType: 4
+  forbiddenTags: []
+  spellPrepareDuration: 3
+  spellDuration: 6
+  fireballPrefab: {fileID: 760493122640075750, guid: 1f47aeb1466f12042a3a3caf5f913cdd, type: 3}

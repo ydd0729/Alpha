@@ -20,10 +20,11 @@ namespace Yd.Gameplay.Object
         public float GroundDistance => context.GroundDistance;
         public bool IsWalkingOrRunning => CurrentState is WalkState or RunState;
 
-        // private void Start()
-        // {
-        //     // DetectGround();
-        // }
+        private void Start()
+        {
+            TransitTo(MovementState.Stand);
+            DetectGround();
+        }
 
         private void Update()
         {
@@ -38,7 +39,7 @@ namespace Yd.Gameplay.Object
         public void Initialize(Character character)
         {
             context.Character = character;
-            context.CurrentState = MovementState.Stand;
+            context.CurrentState = MovementState.None;
             context.GroundDistance = 0;
 
             animationEventListener = gameObject.GetOrAddComponent<AnimationEventListener>();
@@ -97,8 +98,8 @@ namespace Yd.Gameplay.Object
         public void DetectGround()
         {
             var radius = Character.UnityController.radius;
-            var origin = Character.transform.position + Vector3.up * (radius + 0.01f);
-            var layerMask = Physics.DefaultRaycastLayers & ~LayerMaskE.Character;
+            var origin = Character.transform.position + Vector3.up * (radius * 2f - 0.01f);
+            var layerMask = Physics.DefaultRaycastLayers;
 
             if (PhysicsE.SphereCast
                 (
@@ -120,7 +121,7 @@ namespace Yd.Gameplay.Object
                     _ => Character.FootstepAudioId
                 };
                 // Debug.Log(FootstepAudioId);
-                
+
                 context.GroundDistance = Character.transform.position.y - hitInfo.point.y;
             }
             else
@@ -128,14 +129,16 @@ namespace Yd.Gameplay.Object
                 context.GroundDistance = Mathf.Infinity;
             }
 
+            context.GroundDistance = Mathf.Max(0, GroundDistance);
+
             // Debug.Log(GroundDistance);
         }
 
-        private void OnStep(GameplayEventType eventType)
+        private void OnStep(GameplayEventArgs args)
         {
             var humanoidCharacter = Character as HumanoidCharacter;
 
-            switch(eventType)
+            switch(args.EventType)
             {
                 case GameplayEventType.StepLeft:
                     Character.Animator.SetValue(AnimatorParameterId.StepLeft, true);

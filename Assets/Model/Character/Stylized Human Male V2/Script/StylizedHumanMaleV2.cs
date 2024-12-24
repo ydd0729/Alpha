@@ -6,7 +6,6 @@ using Yd.Collection;
 
 namespace Yd.StylizedHumanMaleV2
 {
-    [RequireComponent(typeof(StylizedHumanMaleV2ConfigureButton))]
     public class StylizedHumanMaleV2 : MonoBehaviour
     {
         [SerializeField] private SDictionary<StylizedHumanMaleV2PartType, SkinnedMeshRenderer[]> renderers;
@@ -39,9 +38,6 @@ namespace Yd.StylizedHumanMaleV2
                 renderers[StylizedHumanMaleV2PartType.Hair],
                 data.hairMeshesMaterials[config.hairMesh].Value.GetValueOrDefault(config.hairMaterial)
             );
-
-            ConfigurePartMaterials
-                (renderers[StylizedHumanMaleV2PartType.Skin], data.skinMaterials.GetValueOrDefault(config.skinMaterial));
 
             ConfigurePartMeshes(renderers[StylizedHumanMaleV2PartType.Torso], data.torsoMeshesMaterials[config.torsoMesh].Key);
             ConfigurePartMaterials
@@ -81,6 +77,9 @@ namespace Yd.StylizedHumanMaleV2
 
             ConfigurePartMaterials
                 (renderers[StylizedHumanMaleV2PartType.Gloves], data.gloveMaterials.GetValueOrDefault(config.gloveMaterial));
+
+            ConfigurePartMaterials
+                (renderers[StylizedHumanMaleV2PartType.Skin], data.skinMaterials.GetValueOrDefault(config.skinMaterial));
         }
 
         private static void ConfigurePartMaterials(
@@ -175,10 +174,7 @@ namespace Yd.StylizedHumanMaleV2
 
             for (var j = 0; j < materials.Count; ++j)
             {
-                if (materials[j] != null)
-                {
-                    sharedMaterials[j] = materials[j];
-                }
+                sharedMaterials[j] = materials[j];
             }
 
             renderer.sharedMaterials = sharedMaterials;

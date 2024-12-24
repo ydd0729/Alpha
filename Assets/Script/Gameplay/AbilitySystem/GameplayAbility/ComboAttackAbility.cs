@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using Script.Gameplay.Sound;
 using UnityEngine;
 using Yd.Animation;
-using Yd.Audio;
 using Yd.Extension;
 using Yd.Gameplay.Object;
 using Yd.PhysicsExtension;
@@ -14,8 +13,8 @@ namespace Yd.Gameplay.AbilitySystem
     public class ComboAttackAbility : ComboAbility
     {
         private const uint NumMaxHits = 50;
-        private readonly HashSet<Collider> hitted = new();
         private readonly Collider[] colliders = new Collider[NumMaxHits];
+        private readonly HashSet<Collider> hit = new();
 
         private bool damageDetection;
 
@@ -26,7 +25,7 @@ namespace Yd.Gameplay.AbilitySystem
             Tags.Add("Attack");
         }
 
-        public ComboAttackAbilityData AttackAbilityData => (ComboAttackAbilityData)Data;
+        private new ComboAttackAbilityData Data => (ComboAttackAbilityData)base.Data;
 
         protected override async Task<bool> StartExecution()
         {
@@ -49,7 +48,7 @@ namespace Yd.Gameplay.AbilitySystem
             while (await Combo())
             {
                 Animator.SetValue(AnimatorParameterId.Attack, true);
-                // Animator.SetValue(AnimatorParameterId.AttackId, Data.AttackId);
+                Animator.SetValue(AnimatorParameterId.AttackId, Data.BindingAttackId);
             }
 
             return true;
@@ -68,75 +67,90 @@ namespace Yd.Gameplay.AbilitySystem
             AllowMovement = true;
             AllowRotation = true;
 
-            // Debug.LogWarning("StopExecution");
+            Debug.Log($"[{Owner.Character}] Combo Attack Ability Stopped");
+            // if (Data.AlwaysCombo)
+            // {
+            //     Animator.SetValue(AnimatorParameterId.Attack, false);
+            // }
         }
 
         public override void Tick()
         {
             base.Tick();
 
+            // if (Data.AlwaysCombo)
+            // {
+            //     Animator.SetValue(AnimatorParameterId.Attack, true);
+            //     Animator.SetValue(AnimatorParameterId.AttackId, Data.BindingAttackId);
+            // }
+
             if (damageDetection)
             {
-                var index = ComboCounter - 1;
-
-                if (index < 0)
+                if (Data.Weapon == Weapon.None)
                 {
-                    Debug.LogWarning("[ComboAttackAbility] index < 0 .");
-                    return;
-                }
+                    var index = ComboCounter - 1;
 
-                if (index >= AttackAbilityData.Damage.Count)
-                {
-                    Debug.LogWarning("[ComboAttackAbility] index >= AttackAbilityData.Damage.Count .");
-                    return;
-                }
-                
-                var damageData = AttackAbilityData.Damage[index];
-                
-                int count = PhysicsE.OverlapSphereNonAlloc
-                (
-                    Character.BodyParts[damageData.bindBone].transform.position,
-                    damageData.radius,
-                    colliders,
-                    LayerMaskE.Character,
-                    QueryTriggerInteraction.Ignore,
-                    true,
-                    StaticColor.Get(DebugColorType.Red),
-                    StaticColor.Get(DebugColorType.Blue)
-                );
-
-                for (int i = 0; i < count; i++)
-                {
-                    if (colliders[i].gameObject == Owner.Character.gameObject)
+                    if (index < 0)
                     {
-                        continue;
+                        Debug.LogWarning("[ComboAttackAbility] index < 0 .");
+                        return;
                     }
 
-                    if (colliders[i].gameObject.CompareTag(Owner.Character.gameObject.tag))
+                    if (index >= Data.Damage.Count)
                     {
-                        continue;
+                        Debug.LogWarning("[ComboAttackAbility] index >= Data.Damage.Count .");
+                        return;
                     }
 
-                    if (!hitted.Contains(colliders[i]))
+                    var damageData = Data.Damage[index];
+
+                    var count = PhysicsE.OverlapSphereNonAlloc
+                    (
+                        Character.BodyParts[damageData.bindBone].transform.position,
+                        damageData.radius,
+                        colliders,
+                        LayerMaskE.Character,
+                        QueryTriggerInteraction.Ignore,
+                        true,
+                        StaticColor.Get(DebugColorType.Red),
+                        StaticColor.Get(DebugColorType.Blue)
+                    );
+
+                    for (var i = 0; i < count; i++)
                     {
-                        var character = colliders[i].gameObject.GetComponent<Character>();
-                        // actor?.AudioManager.PlayOneShot(AudioId.PunchImpactFlesh, AudioChannel.World);
-                        character.PlayGameplaySound(GameplaySound.BeHit);
-                        hitted.Add(colliders[i]);
+                        AddToHit(colliders[i]);
                     }
                 }
+            }
+        }
+        private void AddToHit(Collider collider)
+        {
+            if (collider.gameObject.CompareTag(Owner.Character.gameObject.tag))
+            {
+                return;
+            }
+
+            if (!hit.Contains(collider))
+            {
+                var character = collider.gameObject.GetComponent<Character>();
+                // actor?.AudioManager.PlayOneShot(AudioId.PunchImpactFlesh, AudioChannel.World);
+                if (character != null)
+                {
+                    character.PlayGameplaySound(GameplaySound.BeHit);
+                }
+                hit.Add(collider);
             }
         }
 
         private void ApplyDamage()
         {
             var taggedDamages = new Dictionary<string, float>();
-            var damageData = AttackAbilityData.Damage[ComboCounter - 1];
-            
+            var damageData = Data.Damage[ComboCounter - 1];
+
             taggedDamages.Add(key: "Health", -damageData.healthDamage.Random());
             taggedDamages.Add(key: "Resilience", -damageData.resilienceDamage.Random());
 
-            foreach (var collider in hitted)
+            foreach (var collider in hit)
             {
                 var character = collider.gameObject.GetComponent<Character>();
                 // Debug.Log($"[ComboAttackAbility::ApplyDamage] {character.name}");
@@ -148,8 +162,7 @@ namespace Yd.Gameplay.AbilitySystem
                     (Owner.Character.transform.position - character.transform.position).normalized * 0.01f
                 );
 
-                character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync
-                    (AttackAbilityData.DamageEffect, Owner, taggedDamages);
+                character?.Controller?.AbilitySystem.ApplyGameplayEffectAsync(Data.DamageEffect, Owner, taggedDamages);
             }
         }
 
@@ -160,37 +173,48 @@ namespace Yd.Gameplay.AbilitySystem
                 return false;
             }
 
-            return Owner.Character.Movement.CurrentState == MovementState.Stand &&
-                   Owner.Character.Weapon == CharacterWeapon.None;
+            return Owner.Character.Movement.CurrentState == MovementState.Stand && Owner.Character.Weapon == Data.Weapon;
         }
 
-        private void OnGameplayEvent(GameplayEventType eventType)
+        private void OnGameplayEvent(GameplayEventArgs args)
         {
-            if (eventType == Data.BindingEventType)
+            if (args.EventType == Data.BindingEventType)
             {
-                if (!ComboApproved && CanDetectCombo)
-                {
-                    ComboApproved = true;
-                    ComboCounter += 1;
-                    ComboWaiter.SetResult(true);
-                }
+                TryCombo();
                 return;
             }
 
-            switch(eventType)
+            switch(args.EventType)
             {
                 case GameplayEventType.DamageDetectionStart:
-                    hitted.Clear();
+                    hit.Clear();
                     damageDetection = true;
+                    if (Data.Weapon != Weapon.None)
+                    {
+                        var weapon = Owner.Character.WeaponObjects[Data.Weapon].GetComponent<WeaponBehaviour>();
+                        weapon.Detected += AddToHit;
+                        weapon.StartDetection(LayerMaskE.Character);
+                    }
                     break;
                 case GameplayEventType.DamageDetectionEnd:
                     damageDetection = false;
                     ApplyDamage();
+                    if (Data.Weapon != Weapon.None)
+                    {
+                        var weapon = Owner.Character.WeaponObjects[Data.Weapon].GetComponent<WeaponBehaviour>();
+                        weapon.Detected -= AddToHit;
+                        weapon.EndDetection();
+                    }
                     break;
                 case GameplayEventType.ComboDetectionStart:
                     StartComboDetection();
                     break;
                 case GameplayEventType.ComboDetectionEnd:
+                    if (Data.AlwaysCombo)
+                    {
+                        TryCombo();
+                    }
+
                     if (!ComboApproved)
                     {
                         StopExecution();
@@ -200,6 +224,17 @@ namespace Yd.Gameplay.AbilitySystem
                         StopComboDetection();
                     }
                     break;
+            }
+        }
+
+        private void TryCombo()
+        {
+
+            if (!ComboApproved && CanDetectCombo)
+            {
+                ComboApproved = true;
+                ComboCounter += 1;
+                ComboWaiter.SetResult(true);
             }
         }
     }

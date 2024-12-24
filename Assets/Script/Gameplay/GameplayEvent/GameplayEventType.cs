@@ -4,29 +4,31 @@
     {
         DamageDetectionStart,
         DamageDetectionEnd,
-        
+
         ComboDetectionStart,
         ComboDetectionEnd,
-        
-        NormalAttack,
-        
+
+        Attack,
+
         Interact,
-        
+
         StepLeft,
         StepRight,
-        
-        // obsolete
-        StepLeftMiddle,
-        StepRightMiddle,
-        PunchSound,
-        KickSound,
-        
-        Attack01,
-        Attack02,
-        Attack03,
-        
-        // obsolete
-        BoarStepSound,
-        BoarAttackSound
+
+        None,
+
+        SwitchWeaponForward,
+        SwitchWeaponBackward
+    }
+
+    public class GameplayEventArgs
+    {
+        public static readonly GameplayEventArgs Empty = new();
+        public GameplayEventType EventType = GameplayEventType.None;
+    }
+
+    public class GameplayAttackEventArgs : GameplayEventArgs
+    {
+        public int AttackId;
     }
 }

@@ -22,7 +22,7 @@ namespace Yd.Gameplay.AbilitySystem
                 if (comboCounter != value)
                 {
                     comboCounter = value;
-                    // Debug.LogWarning($"combo #{ComboCounter}");
+                    Debug.LogWarning($"combo #{ComboCounter}");
                 }
             }
         }
@@ -62,14 +62,14 @@ namespace Yd.Gameplay.AbilitySystem
 
         protected virtual void StartComboDetection()
         {
-            // Debug.LogWarning("Combo Detection Starts");
+            Debug.LogWarning("Combo Detection Starts");
             DetectingCombo = true;
             ComboApproved = false;
         }
 
         protected virtual void StopComboDetection()
         {
-            // Debug.LogWarning("Combo Detection Ends");
+            Debug.LogWarning("Combo Detection Ends");
             DetectingCombo = false;
             ComboApproved = false;
         }

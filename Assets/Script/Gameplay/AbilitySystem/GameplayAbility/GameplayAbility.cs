@@ -40,7 +40,10 @@ namespace Yd.Gameplay.AbilitySystem
         public bool AllowRotation { get; protected set; }
         public bool AllowMovement { get; protected set; }
 
-        public List<string> Tags { get; private set; } = new();
+        public List<string> Tags
+        {
+            get;
+        } = new();
 
         public GameplayAbilityData Data { get; }
         public GameplayAbilitySystem Owner { get; }
@@ -87,15 +90,37 @@ namespace Yd.Gameplay.AbilitySystem
                 return false;
             }
 
+            StopExecution();
             return true;
         }
 
         protected virtual async Task<bool> CanExecute()
         {
-            return !IsExecuting &&
-                   !IsCoolingDown &&
-                   await TryApplyCost() &&
-                   Owner.GetActiveAbilitiesWithTags(Data.ForbiddenTags).Count == 0;
+            if (IsExecuting)
+            {
+                Debug.Log("[GameplayAbility::CanExecute] failed because it is executing.");
+                return false;
+            }
+
+            if (IsCoolingDown)
+            {
+                Debug.Log("[GameplayAbility::CanExecute] failed because it is cooling down.");
+                return false;
+            }
+
+            if (!await TryApplyCost())
+            {
+                Debug.Log("[GameplayAbility::CanExecute] failed because it can't apply cost.");
+                return false;
+            }
+
+            if (Owner.GetActiveAbilitiesWithTags(Data.ForbiddenTags).Count != 0)
+            {
+                Debug.Log("[GameplayAbility::CanExecute] failed because it is forbidden.");
+                return false;
+            }
+
+            return true;
         }
 
         private void StartCooldown(float? cooldown = null)
@@ -132,10 +157,13 @@ namespace Yd.Gameplay.AbilitySystem
 
         public virtual void StopExecution()
         {
-            IsExecuting = false;
-            StartCooldown();
+            if (IsExecuting)
+            {
+                IsExecuting = false;
+                StartCooldown();
+            }
 
-            // TODO 感觉放在这里不合适
+            // TODO
             // foreach (var effect in AppliedEffects)
             // {
             //     Owner.RemoveGameplayEffect(effect);

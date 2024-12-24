@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volume: 1
   volumeRandomRange:
-    minInclusive: -0.3
+    minInclusive: 0
     maxInclusive: 0
   pitch: 1
   pitchRandomRange:

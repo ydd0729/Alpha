@@ -125,6 +125,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Switch Weapon Forward"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbc0413e-0083-48d2-825c-fb2a78c5a670"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Weapon Backward"",
+                    ""type"": ""Button"",
+                    ""id"": ""cb675c87-17cc-4889-b8a5-831d11e5fb87"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -556,6 +574,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d35a96a3-310d-4a7a-b64d-a0664762b267"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Weapon Forward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""134b4e66-a6ba-4723-af44-43c8e19de8dd"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Weapon Backward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1152,6 +1192,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_ToggleWalkRun = m_Player.FindAction("ToggleWalkRun", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_SwitchWeaponForward = m_Player.FindAction("Switch Weapon Forward", throwIfNotFound: true);
+        m_Player_SwitchWeaponBackward = m_Player.FindAction("Switch Weapon Backward", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1242,6 +1284,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_ToggleWalkRun;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_SwitchWeaponForward;
+    private readonly InputAction m_Player_SwitchWeaponBackward;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1257,6 +1301,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @ToggleWalkRun => m_Wrapper.m_Player_ToggleWalkRun;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @SwitchWeaponForward => m_Wrapper.m_Player_SwitchWeaponForward;
+        public InputAction @SwitchWeaponBackward => m_Wrapper.m_Player_SwitchWeaponBackward;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1299,6 +1345,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @SwitchWeaponForward.started += instance.OnSwitchWeaponForward;
+            @SwitchWeaponForward.performed += instance.OnSwitchWeaponForward;
+            @SwitchWeaponForward.canceled += instance.OnSwitchWeaponForward;
+            @SwitchWeaponBackward.started += instance.OnSwitchWeaponBackward;
+            @SwitchWeaponBackward.performed += instance.OnSwitchWeaponBackward;
+            @SwitchWeaponBackward.canceled += instance.OnSwitchWeaponBackward;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1336,6 +1388,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @SwitchWeaponForward.started -= instance.OnSwitchWeaponForward;
+            @SwitchWeaponForward.performed -= instance.OnSwitchWeaponForward;
+            @SwitchWeaponForward.canceled -= instance.OnSwitchWeaponForward;
+            @SwitchWeaponBackward.started -= instance.OnSwitchWeaponBackward;
+            @SwitchWeaponBackward.performed -= instance.OnSwitchWeaponBackward;
+            @SwitchWeaponBackward.canceled -= instance.OnSwitchWeaponBackward;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1529,6 +1587,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnToggleWalkRun(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnSwitchWeaponForward(InputAction.CallbackContext context);
+        void OnSwitchWeaponBackward(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

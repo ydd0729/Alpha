@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d9d7059c9ecd44caca20dadc67da92, type: 3}
   m_Name: Stylized Human Male V2 Config
   m_EditorClassIdentifier: 
-  eyeMaterial: 2
+  eyeMaterial: 0
   hairMesh: 2
   hairMaterial: 0
   skinMaterial: 0
@@ -20,14 +20,14 @@ MonoBehaviour:
   torsoMaterial: 1
   pantsMaterial: 6
   bootsMesh: 1
-  bootsMaterial: 1
+  bootsMaterial: 0
   browsMesh: 3
   browsMaterial: 1
   helmetMesh: 0
-  helmetMaterial: 2
-  beardMesh: 3
+  helmetMaterial: 1
+  beardMesh: 2
   beardMaterial: 2
   beltMaterial: 2
   capeMesh: 0
   capeMaterial: 1
-  gloveMaterial: 1
+  gloveMaterial: 0

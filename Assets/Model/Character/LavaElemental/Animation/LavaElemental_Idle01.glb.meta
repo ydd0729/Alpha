@@ -26,7 +26,7 @@ ScriptedImporter:
   _importAnimations: 2
   _mecanimHumanoidFlip: 0
   _addAnimatorComponent: 0
-  _animationLoopTime: 1
+  _animationLoopTime: 0
   _animationLoopPose: 0
   _importMaterials: 1
   _enableGpuInstancing: 0

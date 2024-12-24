@@ -40,6 +40,11 @@ namespace Script.Animation
                 timer = CoroutineTimer.SetTimer
                 (
                     _ => {
+                        if (animator == null)
+                        {
+                            return;
+                        }
+
                         if (layerIndex.HasValue && !animator.IsInTransition(layerIndex.Value))
                         {
                             animator.SetValue(AnimatorParameterId.RandomIndex, randomInt.Next());

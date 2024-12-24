@@ -7,6 +7,12 @@ namespace Yd.Gameplay.Object
 {
     public class PlayerCharacterController : GameplayCharacterController
     {
+        public ThirdPersonFollowCamera FollowCamera
+        {
+            get;
+            private set;
+        }
+
         public PlayerActions PlayerActions
         {
             get;
@@ -28,9 +34,15 @@ namespace Yd.Gameplay.Object
             PlayerActions.Jump += Character.Movement.RequestJump;
             PlayerActions.GameplayEvent += OnGameplayEvent;
 
-            var thirdPersonFollowCamera = Instantiate
+            FollowCamera = Instantiate
                 (Character.PlayerCharacterData.followCameraPrefab, transform.parent).GetComponent<ThirdPersonFollowCamera>();
-            thirdPersonFollowCamera.Initialize(this);
+            FollowCamera.Initialize(this);
+            FollowCamera.gameObject.SetActive(false);
+        }
+
+        public void SetActiveFollowCamera(bool active)
+        {
+            FollowCamera.gameObject.SetActive(active);
         }
 
         private void OnToggleWalkRun()
@@ -60,6 +72,12 @@ namespace Yd.Gameplay.Object
         private void OnMove(Vector2 moveVector)
         {
             LocalMoveDirection = new Vector3(moveVector.x, 0, moveVector.y);
+        }
+
+        public override void OnDie()
+        {
+            base.OnDie();
+            PlayerActions.DisableInput();
         }
     }
 }

@@ -1,6 +1,8 @@
+using System;
 using Script.Gameplay.GameplayObject.Item;
 using UnityEngine;
 using Yd.Audio;
+using Yd.Gameplay.AbilitySystem;
 using Yd.Gameplay.Object;
 
 public class Chest : Actor, IInteractive
@@ -11,24 +13,32 @@ public class Chest : Actor, IInteractive
     public Animator animator;
     public ParticleSystem glowVfx;
     public ParticleSystem openVfx;
-
-    private bool opened;
+    public Weapon weapon;
+    public GameplayEffectData[] effects;
 
     private bool openable;
+
+    private bool opened;
     public bool Openable
     {
         get => openable;
         set
         {
+            if (openable == value)
+            {
+                return;
+            }
             openable = value;
 
             if (value && !opened)
             {
                 glowVfx.gameObject.SetActive(true);
+                AudioManager.PlayOneShot(AudioId.ChestUnlock, AudioChannel.SFX);
             }
             else
             {
                 glowVfx.gameObject.SetActive(false);
+                canvas.enabled = false;
             }
         }
     }
@@ -36,13 +46,12 @@ public class Chest : Actor, IInteractive
     private void Awake()
     {
         canvas.enabled = false;
-        Openable = true;
         openVfx.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!opened && other.gameObject.CompareTag("Player"))
+        if (!opened && Openable && other.gameObject.CompareTag("Player"))
         {
             // Debug.Log(other.gameObject.name + " enter");
             canvas.enabled = true;
@@ -51,26 +60,49 @@ public class Chest : Actor, IInteractive
 
     private void OnTriggerExit(Collider other)
     {
-        if (!opened && other.gameObject.CompareTag("Player"))
+        if (!opened && Openable && other.gameObject.CompareTag("Player"))
         {
             // Debug.Log(other.gameObject.name + " exit");
             canvas.enabled = false;
         }
     }
 
-    public bool Interact()
+    public bool Interact(GameObject other)
     {
-        if (!opened)
+        if (!opened && Openable)
         {
             animator.SetTrigger(Open);
+
             opened = true;
-            canvas.enabled = false;
             Openable = false;
+
             openVfx.gameObject.SetActive(true);
             openVfx.Play();
+
             AudioManager.PlayOneShot(AudioId.Collect, AudioChannel.SFX);
+
+            var controller = other.GetComponent<GameplayCharacterController>();
+            if (controller != null)
+            {
+                if (weapon != Weapon.None)
+                {
+                    controller.Character.GrantWeapon(weapon);
+                    controller.Character.Weapon = weapon;
+                }
+                if (effects.Length != 0 && controller.AbilitySystem != null)
+                {
+                    foreach (var effect in effects)
+                    {
+                        controller.AbilitySystem.ApplyGameplayEffectAsync(effect, null);
+                    }
+                }
+            }
+
+            Opened?.Invoke();
         }
 
         return true;
     }
+
+    public event Action Opened;
 }

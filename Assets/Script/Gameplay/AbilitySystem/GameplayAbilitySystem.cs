@@ -223,14 +223,16 @@ namespace Yd.Gameplay.AbilitySystem
             if (!grantedAbilities.Contains(abilityData))
             {
                 Debug.LogWarning
-                (
-                    $"The ability {abilityData} has not been granted to the controller of {Character} before activation!"
-                );
+                    ($"The ability {abilityData} has not been granted to the controller of {Character} before activation!");
                 return false;
             }
 
             if (ActiveAbilities.GetValueOrAdd(abilityData).Count >= abilityData.MaxActivation)
             {
+                // Debug.Log
+                // (
+                //     $"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, count = {ActiveAbilities.GetValueOrAdd(abilityData).Count}, result = false"
+                // );
                 return false;
             }
 
@@ -239,6 +241,8 @@ namespace Yd.Gameplay.AbilitySystem
             ActiveAbilities[abilityData].Add(ability);
 
             var result = await ability.TryExecute();
+
+            // Debug.Log($"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, result = {result}");
 
             if (!result)
             {
@@ -298,12 +302,11 @@ namespace Yd.Gameplay.AbilitySystem
             }
         }
 
-        private void OnGameplayEvent(GameplayEventType eventTypeType)
+        private void OnGameplayEvent(GameplayEventArgs args)
         {
             foreach (var abilityData in grantedAbilities)
             {
-                // Debug.Log(abilityData);
-                if (!abilityData.Passive && abilityData.BindingEventType == eventTypeType)
+                if (!abilityData.Passive && abilityData.CheckActivationEvent(args))
                 {
                     _ = TryActivateAbility(abilityData);
                 }
@@ -328,6 +331,11 @@ namespace Yd.Gameplay.AbilitySystem
             }
 
             return result;
+        }
+
+        public bool IsAbilityActive(GameplayAbilityData ability)
+        {
+            return ActiveAbilities.ContainsKey(ability);
         }
     }
 }

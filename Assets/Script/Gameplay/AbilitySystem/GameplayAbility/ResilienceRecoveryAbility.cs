@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Script.Gameplay.Fx;
+using Script.Gameplay.Sound;
 using UnityEngine;
 using Yd.Animation;
-using Yd.Audio;
 using Yd.Manager;
 
 namespace Yd.Gameplay.AbilitySystem
@@ -23,16 +23,6 @@ namespace Yd.Gameplay.AbilitySystem
             AllowRotation = true;
         }
         public new ResilienceRecoveryAbilityData Data => (ResilienceRecoveryAbilityData)base.Data;
-
-        protected override Task<bool> StartExecution()
-        {
-            return base.StartExecution();
-        }
-
-        public override void StopExecution()
-        {
-            base.StopExecution();
-        }
 
         public override void Tick()
         {
@@ -56,7 +46,7 @@ namespace Yd.Gameplay.AbilitySystem
                 AllowMovement = false;
                 AllowRotation = false;
 
-                Owner.Character.AudioManager.PlayOneShot(AudioId.BoarRoar, AudioChannel.World);
+                Owner.Character.PlayGameplaySound(GameplaySound.Stun);
                 Owner.Character.Controller.AbilitySystem.DeactivateAllOtherAbilities(this);
                 Owner.Character.ShowGameplayFx(GameplayFx.Stun, true);
                 Owner.Character.Animator.SetValue(AnimatorParameterId.Stun, true);

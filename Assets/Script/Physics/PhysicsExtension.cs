@@ -1,5 +1,6 @@
 using UnityEngine;
 using Yd.DebugExtension;
+using Yd.Manager;
 
 namespace Yd.PhysicsExtension
 {
@@ -59,14 +60,27 @@ namespace Yd.PhysicsExtension
         public static int OverlapSphereNonAlloc(
             Vector3 position, float radius, Collider[] results, int layerMask = Physics.AllLayers,
             QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal, bool drawDebug = false,
-            Color hitColor = default, Color missColor = default, int segment = 0
+            Color hitColor = default, Color missColor = default, int segment = 0, float duration = 0
         )
         {
             var count = Physics.OverlapSphereNonAlloc(position, radius, results, layerMask, queryTriggerInteraction);
 
             if (drawDebug)
             {
-                DebugE.DrawSphere(position, radius, count != 0 ? hitColor : missColor, segment);
+                if (duration == 0)
+                {
+                    DebugE.DrawSphere(position, radius, count != 0 ? hitColor : missColor, segment);
+                }
+                else if (duration > 0)
+                {
+                    CoroutineTimer.SetTimer
+                    (
+                        _ => { DebugE.DrawSphere(position, radius, count != 0 ? hitColor : missColor, segment); },
+                        0.1f,
+                        new CoroutineTimerLoopPolicy
+                            { invokeImmediately = true, isInfiniteLoop = false, loopCount = Mathf.CeilToInt(duration / 0.1f) }
+                    );
+                }
             }
 
             return count;

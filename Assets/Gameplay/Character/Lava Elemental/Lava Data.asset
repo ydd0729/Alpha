@@ -20,4 +20,4 @@ MonoBehaviour:
   useStrafeSet: 0
   GroundToleranceWhenGrounded: 1
   GroundToleranceWhenFalling: 0.1
-  speed: 3
+  speed: 4.5

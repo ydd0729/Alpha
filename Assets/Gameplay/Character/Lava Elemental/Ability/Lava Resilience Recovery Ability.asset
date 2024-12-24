@@ -17,5 +17,7 @@ MonoBehaviour:
   cost: {fileID: 0}
   effectsToApply: []
   passive: 1
-  recoverEffect: {fileID: 11400000, guid: 1738c257da45e9240a1efc4581fb282b, type: 2}
-  recoverDelay: 3
+  bindingEventType: 0
+  forbiddenTags: []
+  recoverEffect: {fileID: 11400000, guid: 40ec9a3461d456542a9b448b2e5b73b4, type: 2}
+  recoverDelay: 0.5

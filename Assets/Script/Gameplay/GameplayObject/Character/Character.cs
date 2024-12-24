@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Animation;
@@ -14,6 +15,7 @@ using Yd.Audio;
 using Yd.Collection;
 using Yd.Extension;
 using Yd.Gameplay.AbilitySystem;
+using Yd.Manager;
 using Action = System.Action;
 
 namespace Yd.Gameplay.Object
@@ -29,7 +31,20 @@ namespace Yd.Gameplay.Object
         [FormerlySerializedAs("gameplayFx")] [SerializeField] private SDictionary<GameplayFx, GameObject> gameplayVfx;
         [SerializeField] private SDictionary<GameplaySound, SKeyValuePair<AudioId, AudioChannel>> gameplaySounds;
 
+        [FormerlySerializedAs("weaponSockets")] [SerializeField] private SDictionary<Weapon, GameObject> weaponObjects;
+        private readonly List<Weapon> availableWeapons = new() { Weapon.None };
+
+        private int? animatorLayerIndex;
+
         private NavMeshAgent navMeshAgent;
+
+        private GameObject target;
+
+        private Weapon weapon;
+
+        public IReadOnlyDictionary<Weapon, GameObject> WeaponObjects => weaponObjects;
+
+        public IReadOnlyList<Weapon> AvailableWeapons => availableWeapons;
 
         public Animator Animator { get; private set; }
         public CharacterController UnityController { get; private set; }
@@ -48,16 +63,33 @@ namespace Yd.Gameplay.Object
         public PlayerCharacterData PlayerCharacterData => (PlayerCharacterData)Data;
 
         public AiSensor AiSensor { get; protected set; }
-        [CanBeNull] public GameObject Target => AiSensor.Objects.Count > 0 ? AiSensor.Objects[0] : null;
+        [CanBeNull] public GameObject Target
+        {
+            get
+            {
+                if (AiSensor)
+                {
+                    target = AiSensor.Objects.Count > 0 ? AiSensor.Objects[0] : null;
+                }
+                return target;
+            }
+
+            set => target = value;
+        }
 
         protected StatsBar StatsBar => statsBar;
 
-        public BehaviorGraphAgent behaviorGraphAgent { get; private set; }
-
-        public CharacterWeapon Weapon
+        public BehaviorGraphAgent BehaviorGraphAgent { get; private set; }
+        public Weapon Weapon
         {
-            get;
-            protected set;
+            get => weapon;
+            set
+            {
+                if (TrySetWeapon(value))
+                {
+                    weapon = value;
+                }
+            }
         }
 
         public bool IsGrounded => Movement.GroundDistance <=
@@ -74,11 +106,12 @@ namespace Yd.Gameplay.Object
             set;
             get;
         }
-        public bool Dead
+        public bool IsDead
         {
             get;
             private set;
         }
+        private int AnimatorSwordLayerIndex => animatorLayerIndex ??= Animator.GetLayerIndex("Sword");
 
         private void Awake()
         {
@@ -106,16 +139,17 @@ namespace Yd.Gameplay.Object
                 AiSensor.Initialize(this);
             }
 
-            behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
-            if (behaviorGraphAgent)
+            BehaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            if (BehaviorGraphAgent)
             {
                 if (AiSensor)
                 {
-                    behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", AiSensor.Target);
+                    BehaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", AiSensor.Target);
+                    AiSensor.TargetChanged += o => {
+                        BehaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", o);
+                    };
                 }
-                behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Speed", Data.speed);
-
-                AiSensor.TargetChanged += o => { behaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Target", o); };
+                BehaviorGraphAgent.BlackboardReference.SetVariableValue(name: "Speed", Data.speed);
             }
 
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -123,6 +157,8 @@ namespace Yd.Gameplay.Object
             {
                 navMeshAgent.speed = Data.speed;
             }
+
+            Weapon = Weapon.None;
         }
 
         private void Update()
@@ -130,7 +166,7 @@ namespace Yd.Gameplay.Object
             var health = Controller.AbilitySystem.AttributeSet.GetAttribute(GameplayAttributeTypeEnum.Health).CurrentValue;
             // Debug.Log(health);
 
-            if (!Dead && health == 0f)
+            if (!IsDead && health == 0f)
             {
                 Die();
             }
@@ -181,7 +217,7 @@ namespace Yd.Gameplay.Object
             AudioManager.PlayOneShot(id, channel);
         }
 
-        private void OnGameplayEvent(GameplayEventType obj)
+        private void OnGameplayEvent(GameplayEventArgs args)
         {
         }
 
@@ -224,22 +260,84 @@ namespace Yd.Gameplay.Object
 
         public event Action AnimatorMoved;
 
-        private void Die()
+        public void Die()
         {
-            Dead = true;
+            IsDead = true;
+
             if (navMeshAgent != null && navMeshAgent.enabled && navMeshAgent.isOnNavMesh)
             {
                 navMeshAgent.isStopped = true;
             }
+
+            if (BehaviorGraphAgent)
+            {
+                BehaviorGraphAgent.enabled = false;
+            }
+
             Controller.OnDie();
             Animator.SetValue(AnimatorParameterId.Die, true);
+
+            CoroutineTimer.SetTimer(_ => statsBar.gameObject.SetActive(false), 0.8f, CoroutineTimerLoopPolicy.Once);
+
+            Dead?.Invoke();
+
+            Destroy(gameObject, 10);
+        }
+
+        public event Action Dead;
+
+        private bool TrySetWeapon(Weapon weapon)
+        {
+            if (weapon != Weapon.None && !availableWeapons.Contains(weapon))
+            {
+                return false;
+            }
+
+            switch(weapon)
+            {
+                case Weapon.None:
+                    if (AnimatorSwordLayerIndex != -1)
+                    {
+                        Animator.SetLayerWeight(AnimatorSwordLayerIndex, 0);
+                    }
+
+                    if (weaponObjects.ContainsKey(Weapon.Sword))
+                    {
+                        weaponObjects[Weapon.Sword].SetActive(false);
+                    }
+                    break;
+                case Weapon.Sword:
+                    if (AnimatorSwordLayerIndex != -1)
+                    {
+                        Animator.SetLayerWeight(AnimatorSwordLayerIndex, 1f);
+                    }
+
+                    if (weaponObjects.ContainsKey(Weapon.Sword))
+                    {
+                        weaponObjects[Weapon.Sword].SetActive(true);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(weapon), weapon, null);
+            }
+
+            return true;
+        }
+
+        public void GrantWeapon(Weapon weapon)
+        {
+            if (!availableWeapons.Contains(weapon))
+            {
+                availableWeapons.Add(weapon);
+            }
         }
     }
 
 
-    public enum CharacterWeapon
+    public enum Weapon
     {
-        None
+        None,
+        Sword
     }
 
     public enum GameplayBone
@@ -248,6 +346,7 @@ namespace Yd.Gameplay.Object
         RightFoot,
         LeftHand,
         RightHand,
-        Head
+        Head,
+        None
     }
 }

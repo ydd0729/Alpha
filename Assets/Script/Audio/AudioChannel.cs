@@ -8,5 +8,7 @@ namespace Yd.Audio
         SFX,
         Environment,
         Wind,
+        Lava,
+        StoneImpact
     }
 }

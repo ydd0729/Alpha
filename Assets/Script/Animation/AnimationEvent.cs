@@ -8,6 +8,8 @@
         public const string Step = "Step";
         public const string BoarRoar = "BoarRoar";
         public const string HeroDie = "HeroDie";
-
+        public const string LavaDie = "LavaDie";
+        public const string LavaAttack = "LavaAttack";
+        public const string SwordSwing = "SwordSwing";
     }
 }

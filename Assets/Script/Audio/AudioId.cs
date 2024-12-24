@@ -19,5 +19,17 @@ namespace Yd.Audio
         SandFootstep,
         StoneImpact,
         HeroDie,
+        ButtonHover,
+        ButtonClick,
+        ChestUnlock,
+        BookPage,
+        HeroBreath,
+        LavaAttack,
+        LavaDie,
+        LavaBreath,
+        LavaGrowls,
+        SwordSwing,
+        FireballExplosion,
+        FireballWhoosh
     }
 }

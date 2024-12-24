@@ -17,18 +17,21 @@ MonoBehaviour:
   cost: {fileID: 0}
   effectsToApply: []
   passive: 0
-  bindingEventType: 13
+  bindingEventType: 4
   forbiddenTags:
   - Stun
   maxCombo: 1
   damage:
   - healthDamage:
-      minInclusive: 10
-      maxInclusive: 20
+      minInclusive: 5
+      maxInclusive: 8
     resilienceDamage:
-      minInclusive: 30
-      maxInclusive: 60
+      minInclusive: 15
+      maxInclusive: 20
     bindBone: 4
     radius: 1.2
     maxHit: 1
   damageEffect: {fileID: 11400000, guid: 6f364d49aca373f4c8028a78f360f154, type: 2}
+  alwaysCombo: 0
+  weapon: 0
+  bindingAttackId: 1

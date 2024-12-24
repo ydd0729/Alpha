@@ -50,6 +50,11 @@ namespace Yd.Manager
             }
         }
 
+        public static void CancelAll()
+        {
+            Instance.StopAllCoroutines();
+        }
+
         private static IEnumerator Coroutine(
             Action<CoroutineTimerCallbackContext> callback, Func<float> timeCallback, bool constTime,
             CoroutineTimerLoopPolicy loopPolicy

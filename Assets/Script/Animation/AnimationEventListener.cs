@@ -10,29 +10,29 @@ namespace Yd.Animation
 {
     public sealed class AnimationEventListener : MonoBehaviour
     {
-        public event Action<GameplayEventType> GameplayEventDispatcher;
-        public event Action<string> AnimationEventDispatcher;
 
         private Character character;
-        
+
         private void Awake()
         {
             character = GetComponent<Character>();
         }
+        public event Action<GameplayEventArgs> GameplayEventDispatcher;
+        public event Action<string> AnimationEventDispatcher;
 
         private void StepLeft()
         {
-            GameplayEventDispatcher?.Invoke(GameplayEventType.StepLeft);
+            GameplayEventDispatcher?.Invoke(new GameplayEventArgs { EventType = GameplayEventType.StepLeft });
         }
 
         private void StepRight()
         {
-            GameplayEventDispatcher?.Invoke(GameplayEventType.StepRight);
+            GameplayEventDispatcher?.Invoke(new GameplayEventArgs { EventType = GameplayEventType.StepRight });
         }
 
         private void GameplayEvent(string @event)
         {
-            GameplayEventDispatcher?.Invoke(@event.GetEnum<GameplayEventType>());
+            GameplayEventDispatcher?.Invoke(new GameplayEventArgs { EventType = @event.GetEnum<GameplayEventType>() });
         }
 
         private void AnimationEvent(string @event)
@@ -54,8 +54,17 @@ namespace Yd.Animation
                 case AnimationEventType.HeroDie:
                     character.AudioManager.PlayOneShot(AudioId.HeroDie, AudioChannel.World);
                     break;
+                case AnimationEventType.LavaAttack:
+                    character.AudioManager.PlayOneShot(AudioId.LavaAttack, AudioChannel.Lava);
+                    break;
+                case AnimationEventType.LavaDie:
+                    character.AudioManager.PlayOneShot(AudioId.LavaDie, AudioChannel.Lava);
+                    break;
+                case AnimationEventType.SwordSwing:
+                    character.AudioManager.PlayOneShot(AudioId.SwordSwing, AudioChannel.World);
+                    break;
             }
-            
+
             AnimationEventDispatcher?.Invoke(@event);
         }
     }

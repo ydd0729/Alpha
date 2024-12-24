@@ -86,6 +86,11 @@ namespace Yd.Audio
                 CoroutineTimer.SetTimer
                 (
                     _ => {
+                        if (audioSource == null)
+                        {
+                            return;
+                        }
+
                         if (!audioSource.isPlaying)
                         {
                             audioSourcePool[target].Release(audioSource);
@@ -94,7 +99,7 @@ namespace Yd.Audio
                     audioSource.clip.length + 0.1f
                 );
             }
-            
+
             return audioSource;
         }
 

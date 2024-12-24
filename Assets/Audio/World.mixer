@@ -1,5 +1,38 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-5550433075093571155
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: d1f3e03e89345fe4ab11ba70b5e5b480
+  m_EffectName: Attenuation
+  m_MixLevel: 59a663fa3f8a26f4fb9f8e8a1c9464f1
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &-2729982142113651407
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lava
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 43ebd6f0ffb8e1440b02905b40813297
+  m_Children: []
+  m_Volume: 773c582df990cda489627fa2b6aa2830
+  m_Pitch: 66acbd4fe3f455445bb339f152260616
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 7936159117261474964}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &-1125931682305172771
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -37,6 +70,8 @@ AudioMixerController:
     - 1c8e4e04d26b9b7408ec631da07789b6
     - 54b32d42519615a4aa5ca75e758b2bd9
     - f28f0d14fb25d5041a2746b7b5ed1901
+    - 43ebd6f0ffb8e1440b02905b40813297
+    - cbf42488af064ff4f87ec454aa740aa1
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -53,6 +88,8 @@ AudioMixerGroupController:
   - {fileID: 5782846966529108490}
   - {fileID: 4387313610158549616}
   - {fileID: 3850689073324659243}
+  - {fileID: -2729982142113651407}
+  - {fileID: 26401965123442968}
   m_Volume: 2801a782f8869524da2c5255dcef870f
   m_Pitch: 19e3c79e8e8834c4faa9e12c6447466b
   m_Send: 00000000000000000000000000000000
@@ -86,10 +123,31 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 20c8b047e42da9b49bcea1c90d8d3b65
   m_FloatValues:
+    62ae4ed409637184ba9214a5c66b9d15: 16.3
     3e76ad25e03a2fc4a9f7b10770b0809d: -6.378994
+    773c582df990cda489627fa2b6aa2830: 11.551772
     84f6962fcb9bc97418bc34370cdbf9d2: 0.020937342
     ab61baef438216a44bcaf98cfdd1946d: -14.419017
   m_TransitionOverrides: {}
+--- !u!243 &26401965123442968
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Stone Impact
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: cbf42488af064ff4f87ec454aa740aa1
+  m_Children: []
+  m_Volume: 62ae4ed409637184ba9214a5c66b9d15
+  m_Pitch: 9c0406bd6a0f02e48852852ce331b2b9
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -5550433075093571155}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &3850689073324659243
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -195,6 +253,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &7936159117261474964
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 61c6e24e54cc89f40bac7f8f2f21def3
+  m_EffectName: Attenuation
+  m_MixLevel: a90b16a3238917d42a3d3e733cc26a9f
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &8569721907598319985
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

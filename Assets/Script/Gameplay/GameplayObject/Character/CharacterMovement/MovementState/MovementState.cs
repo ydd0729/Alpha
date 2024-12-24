@@ -5,6 +5,7 @@ namespace Yd.Gameplay.Object
 {
     public class MovementState
     {
+        public static readonly MovementState None = new();
         public static readonly WalkState Walk = new();
         public static readonly RunState Run = new();
         public static readonly StandState Stand = new();

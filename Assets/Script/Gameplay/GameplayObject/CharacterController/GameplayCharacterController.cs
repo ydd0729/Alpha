@@ -23,6 +23,8 @@ namespace Yd.Gameplay.Object
 
         public EWalkRunToggle WalkRunToggle { get; protected set; }
 
+        public bool RotateToVelocity { get; set; } = true;
+
         public Vector3 Velocity
         {
             get
@@ -87,7 +89,7 @@ namespace Yd.Gameplay.Object
             FollowCharacterPosition();
         }
 
-        public event Action<GameplayEventType> GameplayEvent;
+        public event Action<GameplayEventArgs> GameplayEvent;
 
         public bool NavigateTo(Vector3 position, float stoppingDistance = 0.5f)
         {
@@ -97,7 +99,7 @@ namespace Yd.Gameplay.Object
             {
                 return false;
             }
-            
+
             if (NavMeshAgent.SetDestination(position))
             {
                 NavMeshAgent.stoppingDistance = stoppingDistance;
@@ -117,26 +119,26 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public void OnGameplayEvent(GameplayEventType obj)
+        public void OnGameplayEvent(GameplayEventArgs args)
         {
-            switch(obj)
+            switch(args.EventType)
             {
-                case Gameplay.GameplayEventType.Interact:
+                case GameplayEventType.Interact:
                     foreach (var interactive in Character.TriggeredInteractives)
                     {
-                        interactive.Interact();
+                        interactive.Interact(gameObject);
                     }
                     break;
             }
 
-            GameplayEvent?.Invoke(obj);
+            GameplayEvent?.Invoke(args);
         }
 
         public virtual void Initialize(Character character)
         {
             Character = character;
-
             Character.Movement.MovementStateChanged += OnMovementStateChanged;
+
             NavMeshAgent = Character.GetComponent<NavMeshAgent>();
             // NavMeshAgent.autoBraking = true;
             NavMeshAgent.updateRotation = false;
@@ -173,6 +175,7 @@ namespace Yd.Gameplay.Object
             };
 
             FollowCharacterPosition();
+            transform.forward = Character.transform.forward;
         }
 
         private void OnMovementStateChanged(MovementStateContext context)
@@ -248,7 +251,7 @@ namespace Yd.Gameplay.Object
                     targetDirection = null;
                 }
 
-                if (Velocity.magnitude > 0f)
+                if (RotateToVelocity && Velocity.magnitude > 0f)
                 {
                     LocalMoveDirection = Velocity.normalized;
                 }
@@ -278,6 +281,11 @@ namespace Yd.Gameplay.Object
             targetDirection = dir;
         }
 
+        public void LookAt(Vector3 target)
+        {
+            SetTargetDirection(target - Character.transform.position);
+        }
+
         private void Rotate()
         {
             // Debug.Log($"{Character.name} Rotate");
@@ -293,7 +301,7 @@ namespace Yd.Gameplay.Object
             }
         }
 
-        public void OnDie()
+        public virtual void OnDie()
         {
             AbilitySystem.DeactivateAllOtherAbilities(null);
             Destroy(gameObject);

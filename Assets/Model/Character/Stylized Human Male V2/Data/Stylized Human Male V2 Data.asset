@@ -32,7 +32,6 @@ MonoBehaviour:
         - {fileID: 2100000, guid: 9c0d686ffb5b424097c303685ee3d27e, type: 2}
       - list:
         - {fileID: 2100000, guid: 9c0d686ffb5b424097c303685ee3d27e, type: 2}
-        - {fileID: 2100000, guid: 9c0d686ffb5b424097c303685ee3d27e, type: 2}
       - list:
         - {fileID: 2100000, guid: 9c0d686ffb5b424097c303685ee3d27e, type: 2}
     - key: 1
@@ -583,4 +582,6 @@ MonoBehaviour:
       - {fileID: 0}
       - {fileID: 2100000, guid: 680f63079c6d44aea0a3812af6348723, type: 2}
     - key: 0
-      value: []
+      value:
+      - {fileID: 0}
+      - {fileID: 0}
