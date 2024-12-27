@@ -1,4 +1,4 @@
-const cacheName = "Yang Dong-Arpg Alpha-0.1.0";
+const cacheName = "Yang Dong-ARPG Alpha-0.1.0";
 const contentToCache = [
     "Build/Build.loader.js",
     "Build/Build.framework.js",
