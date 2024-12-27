@@ -18,6 +18,7 @@ namespace Yd.Gameplay.AbilitySystem
         [SerializeField] private GameplayEffectData damageEffect;
         [SerializeField] private bool alwaysCombo;
         [SerializeField] private Weapon weapon;
+        [SerializeField] private bool canMove;
         [FormerlySerializedAs("attackId")] [SerializeField] private int bindingAttackId;
 
         public IReadOnlyList<AttributeDamage> Damage => damage;
@@ -25,6 +26,7 @@ namespace Yd.Gameplay.AbilitySystem
         public bool AlwaysCombo => alwaysCombo;
         public int BindingAttackId => bindingAttackId;
         public Weapon Weapon => weapon;
+        public bool CanMove => canMove;
 
         private void OnValidate()
         {

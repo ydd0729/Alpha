@@ -4,7 +4,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/yangd/Project/ArpgAlpha/Build/Windows;;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/yangd/Desktop/BuildDev;C:/Users/yangd/Desktop/Build;C:/Users/yangd/Desktop/MainBuild;C:/Users/yangd/Desktop/Web;C:/Users/yangd/Project/ArpgAlpha/Build/Web;C:/Users/yangd/Project/ArpgAlpha/Build/Windows;;;;\"}"
             }
         ]
     }

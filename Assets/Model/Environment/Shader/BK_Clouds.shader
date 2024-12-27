@@ -206,9 +206,9 @@ Shader "BK/Clouds"
 				return o;
 			}
 			half4 frag( v2f IN
-			#if !defined( CAN_SKIP_VPOS )
-			, UNITY_VPOS_TYPE vpos : VPOS
-			#endif
+			// #if !defined( CAN_SKIP_VPOS )
+			// , UNITY_VPOS_TYPE vpos : VPOS
+			// #endif
 			) : SV_Target
 			{
 				UNITY_SETUP_INSTANCE_ID( IN );
@@ -225,10 +225,10 @@ Shader "BK/Clouds"
 				UnityGI gi;
 				UNITY_INITIALIZE_OUTPUT( UnityGI, gi );
 				o.Alpha = LightingStandardCustomLighting( o, worldViewDir, gi ).a;
-				#if defined( CAN_SKIP_VPOS )
-				float2 vpos = IN.pos;
-				#endif
-				half alphaRef = tex3D( _DitherMaskLOD, float3( vpos.xy * 0.25, o.Alpha * 0.9375 ) ).a;
+				// #if defined( CAN_SKIP_VPOS )
+				// float2 vpos = IN.pos;
+				// #endif
+				half alphaRef = tex3D( _DitherMaskLOD, float3( IN.pos.xy * 0.25, o.Alpha * 0.9375 ) ).a;
 				clip( alphaRef - 0.01 );
 				SHADOW_CASTER_FRAGMENT( IN )
 			}

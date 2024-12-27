@@ -46,7 +46,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "2.5.2",
+      "version": "2.6.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -157,18 +157,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.probuilder": {
-      "version": "6.0.4",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.shadergraph": "17.0.2",
-        "com.unity.modules.imgui": "1.0.0",
-        "com.unity.modules.physics": "1.0.0",
-        "com.unity.settings-manager": "1.0.3"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.render-pipelines.core": {
       "version": "17.0.3",
       "depth": 0,
@@ -218,11 +206,10 @@
       }
     },
     "com.unity.splines": {
-      "version": "2.6.1",
+      "version": "2.7.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.ugui": "1.0.0",
         "com.unity.mathematics": "1.2.1",
         "com.unity.settings-manager": "1.0.3"
       },
@@ -241,6 +228,16 @@
       "source": "registry",
       "dependencies": {
         "com.unity.sysroot": "2.0.10"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.terrain-tools": {
+      "version": "5.1.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.terrain": "1.0.0",
+        "com.unity.modules.terrainphysics": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

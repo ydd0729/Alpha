@@ -173,7 +173,19 @@ namespace Yd.Gameplay.AbilitySystem
                 return false;
             }
 
-            return Owner.Character.Movement.CurrentState == MovementState.Stand && Owner.Character.Weapon == Data.Weapon;
+            if (!Data.CanMove && Owner.Character.Movement.CurrentState != MovementState.Stand)
+            {
+                Debug.Log("[ComboAttackAbility::CanExecute] failed because MovementState != Stand");
+                return false;
+            }
+            
+            if (Owner.Character.Weapon != Data.Weapon)
+            {
+                Debug.Log($"[ComboAttackAbility::CanExecute] failed because weapon != {Data.Weapon}");
+                return false;
+            }
+
+            return true;
         }
 
         private void OnGameplayEvent(GameplayEventArgs args)

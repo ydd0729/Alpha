@@ -42,4 +42,5 @@ MonoBehaviour:
   damageEffect: {fileID: 11400000, guid: 6f364d49aca373f4c8028a78f360f154, type: 2}
   alwaysCombo: 1
   weapon: 0
+  canMove: 1
   bindingAttackId: 0

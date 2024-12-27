@@ -229,10 +229,10 @@ namespace Yd.Gameplay.AbilitySystem
 
             if (ActiveAbilities.GetValueOrAdd(abilityData).Count >= abilityData.MaxActivation)
             {
-                // Debug.Log
-                // (
-                //     $"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, count = {ActiveAbilities.GetValueOrAdd(abilityData).Count}, result = false"
-                // );
+                Debug.Log
+                (
+                    $"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, count = {ActiveAbilities.GetValueOrAdd(abilityData).Count}, result = false"
+                );
                 return false;
             }
 
@@ -242,7 +242,7 @@ namespace Yd.Gameplay.AbilitySystem
 
             var result = await ability.TryExecute();
 
-            // Debug.Log($"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, result = {result}");
+            Debug.Log($"[GameplayAbilitySystem::TryActivateAbility] Ability = {abilityData}, result = {result}");
 
             if (!result)
             {
