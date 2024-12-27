@@ -1,9 +1,9 @@
 const cacheName = "Yang Dong-ARPG Alpha-0.1.0";
 const contentToCache = [
     "Build/Build.loader.js",
-    "Build/Build.framework.js",
-    "Build/Build.data",
-    "Build/Build.wasm",
+    "Build/Build.framework.js.unityweb",
+    "Build/Build.data.unityweb",
+    "Build/Build.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
